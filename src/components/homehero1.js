@@ -10,7 +10,7 @@ export function homehero1() {
             
             <!-- Tambahkan gambar hero dengan z-index -1 -->
             <div class="hero-image-container">
-                <img src="public/HP.png" alt="Reparasi Handphone" class="hero-image">
+                <img src="HP.png" alt="Reparasi Handphone" class="hero-image">
             </div>
         </div>
     `;
