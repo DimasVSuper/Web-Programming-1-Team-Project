@@ -7,14 +7,14 @@
             
             <!-- Tambahkan gambar hero dengan z-index -1 -->
             <div class="hero-image-container">
-                <img src="public/HP.png" alt="Reparasi Handphone" class="hero-image">
+                <img src="HP.png" alt="Reparasi Handphone" class="hero-image">
             </div>
         </div>
     `}function l(){return`
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../../public/Reparasi HP.png" class="d-block mx-lg-auto img-fluid" alt="Reparasi Handphone" width="700" height="500" loading="lazy">
+                    <img src="ReparasiHP.png" class="d-block mx-lg-auto img-fluid" alt="Reparasi Handphone" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
                     <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Layanan Reparasi Handphone</h1>
