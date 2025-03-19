@@ -1,0 +1,21 @@
+/* Hero 1 */
+
+/* Gaya untuk container gambar */
+.hero-image-container {
+    position: absolute; /* Posisi absolut untuk menempatkan gambar di belakang */
+    top: 0;
+    left: 0;
+    width: 100%; /* Gambar memenuhi lebar container */
+    height: 100%; /* Gambar memenuhi tinggi container */
+
+    overflow: hidden; /* Sembunyikan bagian gambar yang keluar dari container */
+}
+
+/* Gaya untuk gambar */
+.hero-image {
+    width: 100%; /* Gambar memenuhi lebar container */
+    height: auto; /* Pertahankan rasio aspek gambar */
+    object-fit: cover; /* Potong gambar agar sesuai dengan container */
+    opacity: 0.4; /* Tambahkan transparansi untuk efek latar belakang */
+}
+
