@@ -7,7 +7,7 @@
     left: 0;
     width: 100%; /* Gambar memenuhi lebar container */
     height: 100%; /* Gambar memenuhi tinggi container */
-
+    z-index: 1; /* Letakkan gambar di belakang elemen lain */
     overflow: hidden; /* Sembunyikan bagian gambar yang keluar dari container */
 }
 
@@ -16,6 +16,6 @@
     width: 100%; /* Gambar memenuhi lebar container */
     height: auto; /* Pertahankan rasio aspek gambar */
     object-fit: cover; /* Potong gambar agar sesuai dengan container */
-    opacity: 0.4; /* Tambahkan transparansi untuk efek latar belakang */
+    opacity: 0.3; /* Tambahkan transparansi untuk efek latar belakang */
 }
 
