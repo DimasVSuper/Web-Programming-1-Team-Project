@@ -17,5 +17,18 @@
     height: auto; /* Pertahankan rasio aspek gambar */
     object-fit: cover; /* Potong gambar agar sesuai dengan container */
     opacity: 0.3; /* Tambahkan transparansi untuk efek latar belakang */
+    -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
+}
+
+.icon-square {
+    width: 3rem; /* Ukuran lebar dan tinggi ikon */
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem; /* Membuat sudut membulat */
+    background-color: #f8f9fa; /* Warna latar belakang */
+    color: #212529; /* Warna ikon */
+    box-shadow: 0 0 50px rgba(0, 17, 255, 0.5); /* Tambahkan bayangan untuk tampilan lebih rapi */
 }
 
