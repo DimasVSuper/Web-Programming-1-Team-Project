@@ -63,8 +63,7 @@ projectwebpro1/
 - **Siti Jamilah**
 - **Shafyya Putri M**
 
-## Lisensi
-Proyek ini dibuat untuk keperluan akademik dan tidak dimaksudkan untuk penggunaan komersial.
-
-## Kontak
-Jika Anda memiliki pertanyaan atau saran, silakan hubungi kami melalui email: **-**
+## Cara Menjalankan Proyek
+1. Clone repository ini:
+   ```bash
+   git clone https://github.com/DimasVSuper/Web-Programming-1-Team-Project.git
