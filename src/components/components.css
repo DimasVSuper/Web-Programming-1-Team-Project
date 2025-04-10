@@ -14,7 +14,7 @@
 /* Gaya untuk gambar */
 .hero-image {
     width: 100%; /* Gambar memenuhi lebar container */
-    height: auto; /* Pertahankan rasio aspek gambar */
+    height: 100%; /* Pertahankan rasio aspek gambar */
     object-fit: cover; /* Potong gambar agar sesuai dengan container */
     opacity: 0.3; /* Tambahkan transparansi untuk efek latar belakang */
     -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
@@ -30,5 +30,14 @@
     background-color: #f8f9fa; /* Warna latar belakang */
     color: #212529; /* Warna ikon */
     box-shadow: 0 0 50px rgba(0, 17, 255, 0.5); /* Tambahkan bayangan untuk tampilan lebih rapi */
+}
+
+.position-relative {
+    position: relative; /* Pastikan elemen pembungkus memiliki konteks posisi */
+    height: 100vh; /* Tinggi penuh layar */
+    display: flex; /* Gunakan flexbox untuk memusatkan konten */
+    flex-direction: column;
+    justify-content: center; /* Pusatkan secara vertikal */
+    align-items: center; /* Pusatkan secara horizontal */
 }
 
