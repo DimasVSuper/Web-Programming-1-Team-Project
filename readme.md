@@ -14,8 +14,8 @@ Proyek ini adalah sebuah website sederhana yang dibuat sebagai bagian dari tugas
 - **HTML5**: Untuk struktur halaman.
 - **CSS3**: Untuk styling dan efek visual
 - **JavaScript (ES6)**: Untuk logika dan pengelolaan komponen
-- **Bootstrap 5**: Untuk desain responsif dan ikon[BOOTSTRAP](/https://getbootstrap.com/).
-- **Vite.js**: Sebagai bundler untuk pengembangan yang cepat[VITE](/https://vite.dev/).
+- **[BOOTSTRAP5](/https://getbootstrap.com/)**: Untuk desain responsif dan ikon.
+- **[VITE](/https://vite.dev/).js**: Sebagai bundler untuk pengembangan yang cepat.
 - **GitHub Pages**: Untuk hosting proyek.
 
 ## Cara Menjalankan Proyek
