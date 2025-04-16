@@ -12,6 +12,7 @@ export function homehero2(){
                     <p class="lead">Kami menyediakan layanan perbaikan handphone yang cepat dan terpercaya, termasuk penggantian layar, baterai, dan komponen lainnya. Temukan lokasi kami untuk mendapatkan layanan terbaik.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                         <a href="#location-section" class="btn btn-primary btn-lg px-4">Lokasi</a>
+                        <a href="#contact-section" class="btn btn-primary btn-lg px-4">Contact Us</a>
                     </div>
                 </div>
             </div>
