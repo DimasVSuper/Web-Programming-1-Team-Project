@@ -8,6 +8,7 @@ Proyek ini adalah sebuah website sederhana yang dibuat sebagai bagian dari tugas
 - **Desain Responsif**: Menggunakan **Bootstrap 5** untuk memastikan tampilan yang optimal di berbagai perangkat.
 - **Integrasi Google Maps**: Menampilkan lokasi kampus dengan Google Maps, termasuk tombol untuk membuka lokasi di aplikasi Google Maps.
 - **Efek Visual Modern**: Menggunakan efek glow dan ikon Bootstrap untuk meningkatkan estetika.
+- **Navigasi Halus**: Tombol navigasi yang memungkinkan pengguna menggulir ke bagian tertentu pada halaman.
 
 ## Teknologi yang Digunakan
 - **HTML5**: Untuk struktur halaman.
@@ -15,6 +16,7 @@ Proyek ini adalah sebuah website sederhana yang dibuat sebagai bagian dari tugas
 - **JavaScript (ES6)**: Untuk logika dan pengelolaan komponen.
 - **Bootstrap 5**: Untuk desain responsif dan ikon.
 - **Vite.js**: Sebagai bundler untuk pengembangan yang cepat.
+- **GitHub Pages**: Untuk hosting proyek.
 
 ## Cara Menjalankan Proyek
 1. Clone repository ini:
@@ -38,6 +40,20 @@ Proyek ini adalah sebuah website sederhana yang dibuat sebagai bagian dari tugas
    http://localhost:5173
    ```
 
+## Cara Menerbitkan ke GitHub Pages
+1. Bangun proyek untuk produksi:
+   ```bash
+   npm run build
+   ```
+2. Deploy ke GitHub Pages:
+   ```bash
+   npm run deploy
+   ```
+3. Akses website Anda di:
+   ```
+   https://<username>.github.io/<repository-name>
+   ```
+
 ## Struktur Proyek
 ```
 projectwebpro1/
@@ -46,6 +62,7 @@ projectwebpro1/
 │   │   ├── homehero1.js  # Hero section 1
 │   │   ├── homehero2.js  # Hero section 2
 │   │   ├── homehero3.js  # Hero section 3
+│   │   ├── homehero4.js  # Hero section 4
 │   │   ├── location.js   # Komponen lokasi
 │   │   ├── components.css # Styling untuk komponen
 │   ├── home.js           # Halaman utama
@@ -54,6 +71,7 @@ projectwebpro1/
 ├── index.html            # File HTML utama
 ├── package.json          # Konfigurasi npm
 ├── vite.config.js        # Konfigurasi Vite.js
+├── build/                # Folder hasil build untuk produksi
 └── .gitignore            # File yang diabaikan Git
 ```
 
@@ -63,7 +81,5 @@ projectwebpro1/
 - **Siti Jamilah**
 - **Shafyya Putri M**
 
-## Cara Menjalankan Proyek
-1. Clone repository ini:
-   ```bash
-   git clone https://github.com/DimasVSuper/Web-Programming-1-Team-Project.git
+## Lisensi
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
