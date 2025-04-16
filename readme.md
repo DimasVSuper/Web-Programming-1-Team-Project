@@ -12,10 +12,10 @@ Proyek ini adalah sebuah website sederhana yang dibuat sebagai bagian dari tugas
 
 ## Teknologi yang Digunakan
 - **HTML5**: Untuk struktur halaman.
-- **CSS3**: Untuk styling dan efek visual.
-- **JavaScript (ES6)**: Untuk logika dan pengelolaan komponen.
-- **Bootstrap 5**: Untuk desain responsif dan ikon.
-- **Vite.js**: Sebagai bundler untuk pengembangan yang cepat.
+- **CSS3**: Untuk styling dan efek visual
+- **JavaScript (ES6)**: Untuk logika dan pengelolaan komponen
+- **Bootstrap 5**: Untuk desain responsif dan ikon[BOOTSTRAP](/https://getbootstrap.com/).
+- **Vite.js**: Sebagai bundler untuk pengembangan yang cepat[VITE](/https://vite.dev/).
 - **GitHub Pages**: Untuk hosting proyek.
 
 ## Cara Menjalankan Proyek
@@ -82,4 +82,4 @@ projectwebpro1/
 - **Shafyya Putri M**
 
 ## Lisensi
-Proyek ini dilisensikan di bawah [MIT License](https://en.wikipedia.org/wiki/MIT_License). Untuk informasi lebih lanjut tentang MIT License, kunjungi [Wikipedia - MIT License](https://en.wikipedia.org/wiki/MIT_License).
+Proyek ini dilisensikan di bawah [MIT License](https://en.wikipedia.org/wiki/MIT_License)
