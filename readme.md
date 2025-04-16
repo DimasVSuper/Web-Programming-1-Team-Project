@@ -82,4 +82,4 @@ projectwebpro1/
 - **Shafyya Putri M**
 
 ## Lisensi
-Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+Proyek ini dilisensikan di bawah [MIT License](https://en.wikipedia.org/wiki/MIT_License). Untuk informasi lebih lanjut tentang MIT License, kunjungi [Wikipedia - MIT License](https://en.wikipedia.org/wiki/MIT_License).
