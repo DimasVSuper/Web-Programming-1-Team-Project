@@ -1,5 +1,5 @@
 (function(){const nt=document.createElement("link").relList;if(nt&&nt.supports&&nt.supports("modulepreload"))return;for(const D of document.querySelectorAll('link[rel="modulepreload"]'))ce(D);new MutationObserver(D=>{for(const M of D)if(M.type==="childList")for(const Ce of M.addedNodes)Ce.tagName==="LINK"&&Ce.rel==="modulepreload"&&ce(Ce)}).observe(document,{childList:!0,subtree:!0});function Y(D){const M={};return D.integrity&&(M.integrity=D.integrity),D.referrerPolicy&&(M.referrerPolicy=D.referrerPolicy),D.crossOrigin==="use-credentials"?M.credentials="include":D.crossOrigin==="anonymous"?M.credentials="omit":M.credentials="same-origin",M}function ce(D){if(D.ep)return;D.ep=!0;const M=Y(D);fetch(D.href,M)}})();function Cr(){return`
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-white text-dark">
+        <div class="full-section overflow-hidden p-3 p-md-5 m-md-3 text-center bg-white text-dark">
             <div class="col-md-6 p-lg-5 mx-auto my-5">
                 <h1 class="display-3 fw-bold">Layanan Reparasi Handphone di Jakarta Barat</h1>
                 <h3 class="fw-normal text-muted mb-3">Cepat, Terpercaya, dan Profesional</h3>
@@ -11,7 +11,7 @@
             </div>
         </div>
     `}function Or(){return`
-        <div class="container col-xxl-8 px-4 py-5">
+        <div class="full-section container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
                     <img src="ReparasiHP.png" class="d-block mx-lg-auto img-fluid" alt="Reparasi Handphone" width="700" height="500" loading="lazy">
@@ -27,7 +27,7 @@
             </div>
         </div>
     `}function Lr(){return`
-        <div class="container px-4 py-5" id="hanging-icons">
+        <div class=" container px-4 py-5" id="hanging-icons">
             <h2 class="pb-2 border-bottom">Layanan Reparasi Handphone</h2>
             <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <!-- Perbaikan Hardware -->
@@ -66,7 +66,7 @@
         </div>
     `}function Sr(){return`
         <!--Section: Kontak v.2-->
-        <section id="contact-section" class="mb-4">
+        <section id="contact-section" class="full-section mb-4">
             <div class="container">
                 <!--Judul Section-->
                 <h2 class="h1-responsive font-weight-bold text-center my-4">Hubungi Kami</h2>
