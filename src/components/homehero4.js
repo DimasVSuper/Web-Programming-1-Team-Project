@@ -3,7 +3,7 @@ import './components.css'
 export function homehero4() {
     return `
         <!--Section: Kontak v.2-->
-        <section id="contact-section" class="mb-4">
+        <section id="contact-section" class="full-section mb-4">
             <div class="container">
                 <!--Judul Section-->
                 <h2 class="h1-responsive font-weight-bold text-center my-4">Hubungi Kami</h2>

@@ -2,7 +2,7 @@ import './components.css';
 
 export function homehero3() {
     return `
-        <div class="container px-4 py-5" id="hanging-icons">
+        <div class=" container px-4 py-5" id="hanging-icons">
             <h2 class="pb-2 border-bottom">Layanan Reparasi Handphone</h2>
             <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <!-- Perbaikan Hardware -->

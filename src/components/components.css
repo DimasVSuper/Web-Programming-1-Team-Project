@@ -19,7 +19,7 @@
     opacity: 0.3; /* Tambahkan transparansi untuk efek latar belakang */
     -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
 }
-
+/* Gaya untuk 3 ICON */
 .icon-square {
     width: 3rem; /* Ukuran lebar dan tinggi ikon */
     height: 3rem;
@@ -41,3 +41,12 @@
     align-items: center; /* Pusatkan secara horizontal */
 }
 
+
+.full-section{
+    width: 100%; /* Memenuhi lebar layar */
+    height: 100vh; /* Memenuhi tinggi layar */
+    display: flex; /* Gunakan Flexbox untuk tata letak */
+    flex-direction: column; /* Tata letak vertikal */
+    justify-content: center; /* Pusatkan konten secara vertikal */
+    align-items: center; /* Pusatkan konten secara horizontal */
+}

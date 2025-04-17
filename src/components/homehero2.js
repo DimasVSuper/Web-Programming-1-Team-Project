@@ -2,7 +2,7 @@ import './components.css';
 
 export function homehero2(){
     return`
-        <div class="container col-xxl-8 px-4 py-5">
+        <div class="full-section container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
                     <img src="ReparasiHP.png" class="d-block mx-lg-auto img-fluid" alt="Reparasi Handphone" width="700" height="500" loading="lazy">
