@@ -43,7 +43,7 @@
 
 
 .full-section{
-    width: 100%; /* Memenuhi lebar layar */
+    width: 100vw; /* Memenuhi lebar layar */
     height: 100vh; /* Memenuhi tinggi layar */
     display: flex; /* Gunakan Flexbox untuk tata letak */
     flex-direction: column; /* Tata letak vertikal */
