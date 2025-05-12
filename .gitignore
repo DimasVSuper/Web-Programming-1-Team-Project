@@ -1,0 +1,16 @@
+/vendor/
+/node_modules/
+.env
+*.log
+*.tmp
+*.cache
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.bak
+*.swp
+*.swo
+composer.lock
+npm-debug.log
+/public/uploads/

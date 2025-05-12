@@ -18,6 +18,19 @@ $email = $_POST['email'] ?? '';
 $subject = $_POST['subject'] ?? '';
 $message = $_POST['message'] ?? '';
 
+// Generate UUID v4
+function generate_uuid() {
+    return sprintf(
+        '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+}
+$id = generate_uuid();
+
 // Validasi input
 if (empty($name) || empty($email) || empty($subject) || empty($message)) {
     $_SESSION['status'] = 'error';
@@ -25,8 +38,8 @@ if (empty($name) || empty($email) || empty($subject) || empty($message)) {
     exit();
 }
 
-// Query untuk menyimpan data
-$sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+// Query untuk menyimpan data (tambahkan uuid)
+$sql = "INSERT INTO contact_messages (id, name, email, subject, message) VALUES (?, ?, ?, ?, ?)";
 $stmt = $mysqli->prepare($sql);
 
 if (!$stmt) {
@@ -35,7 +48,7 @@ if (!$stmt) {
     exit();
 }
 
-$stmt->bind_param("ssss", $name, $email, $subject, $message);
+$stmt->bind_param("sssss", $id, $name, $email, $subject, $message);
 
 if ($stmt->execute()) {
     $_SESSION['status'] = 'success';

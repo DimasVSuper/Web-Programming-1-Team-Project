@@ -6,7 +6,7 @@ function route() {
 
     // Daftar route yang tersedia
     $routes = [
-        '/' => './view/src/home.view.php',
+        'home' => './view/src/home.view.php',
         'contact' => './view/src/contact.view.php',
         // Tambahkan route baru di sini
     ];

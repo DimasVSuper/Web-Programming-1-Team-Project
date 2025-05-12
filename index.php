@@ -1,5 +1,5 @@
 <?php
-session_start(); // Mulai session // Include file route.php
+session_start(); // Mulai session 
 ?>
 <!doctype html>
 <html lang="en">
