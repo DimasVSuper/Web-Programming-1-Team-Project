@@ -35,15 +35,15 @@
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg">Kirim</button>
                     </div>
+                    <div id="back-home-btn" style="display:flex;justify-content:center;margin-top:20px;">
+                        <a href="?page=home" class="btn btn-outline-secondary">Balik ke Beranda</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
 <div id="notif-alert" style="display:none;position:fixed;top:30px;right:30px;z-index:9999;min-width:250px;"></div>
-<div id="back-home-btn" style="display:flex;justify-content:center;margin-top:20px;">
-    <a href="?page=home" class="btn btn-outline-secondary">Balik ke Beranda</a>
-</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var notif = document.getElementById('notif-alert');
