@@ -1,10 +1,21 @@
 <section id="contact-section" class="full-section mb-4">
     <div class="container">
         <h2 class="h1-responsive font-weight-bold text-center my-4">Hubungi Kami</h2>
-        <p class="text-center w-responsive mx-auto mb-5">
-            Ada pertanyaan atau butuh bantuan? Jangan ragu untuk menghubungi kami secara langsung. Tim kami akan segera menghubungi Anda dalam beberapa jam untuk membantu Anda.
-        </p>
-
+        <!-- Hero Section Start -->
+        <div class="hero-contact mb-5" style="position:relative;overflow:hidden;border-radius:18px;">
+            <img src="https://plus.unsplash.com/premium_vector-1711987589978-171fa8d26254?q=80&w=1152&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                alt="Contact Hero" 
+                style="width:100%;height:260px;object-fit:cover;filter:brightness(0.7);border-radius:18px;">
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <h1 style="color:#fff;font-weight:bold;font-size:2.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.3);margin-bottom:0.5rem;">
+                    Hubungi Kami
+                </h1>
+                <p style="color:#fff;font-size:1.2rem;text-shadow:0 1px 6px rgba(0,0,0,0.2);max-width:600px;">
+                    Kami siap membantu Anda! Silakan isi form di bawah ini untuk menghubungi tim kami secara langsung.
+                </p>
+            </div>
+        </div>
+        <!-- Hero Section End -->
         <div class="row">
             <div class="col-md-8 mb-md-0 mb-5 mx-auto">
                 <form id="contact-form" name="contact-form" action="?page=contact" method="POST">
