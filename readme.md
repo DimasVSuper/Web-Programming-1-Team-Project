@@ -48,6 +48,12 @@ Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone, khusu
 
 - File `.gitignore` sudah disiapkan untuk menghindari file sensitif dan folder yang tidak perlu diupload ke repository.
 - Untuk menambah halaman baru, edit file `routing/route.php` dan tambahkan view baru di `view/src/`.
+- **Routing menggunakan query string:**  
+  Navigasi antar halaman dilakukan dengan parameter `page` pada URL, misalnya:  
+  - `?page=home` untuk halaman utama  
+  - `?page=contact` untuk halaman kontak  
+  Jika parameter tidak sesuai, maka akan diarahkan ke halaman 404.  
+  Untuk menambah halaman baru, cukup tambahkan pada array `$routes` di file `routing/route.php` dan buat file view-nya di `view/src/`.
 
 ---
 
