@@ -4,10 +4,10 @@ Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone, khusu
 
 ## Anggota Kelompok
 
-- Dimas Bayu Nugroho
-- Alexa Cindy Safara Anasrullah
-- Shafyya Putri Meyranti
-- Siti Jamilah Safitri
+- Dimas Bayu Nugroho — Developer utama (coding, development, research)
+- Alexa Cindy Safara Anasrullah — Service Concept Designer & UI/UX
+- Shafyya Putri Meyranti — UI/UX
+- Siti Jamilah Safitri — UI/UX 
 
 ## Fitur Utama
 
