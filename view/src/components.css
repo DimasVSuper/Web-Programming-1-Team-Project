@@ -1,0 +1,71 @@
+/* Hero 1 */
+
+/* Gaya untuk container gambar */
+.hero-image-container {
+    position: absolute; /* Posisi absolut untuk menempatkan gambar di belakang */
+    top: 0;
+    left: 0;
+    width: 100%; /* Gambar memenuhi lebar container */
+    height: 100%; /* Gambar memenuhi tinggi container */
+    z-index: 1; /* Letakkan gambar di belakang elemen lain */
+    overflow: hidden; /* Sembunyikan bagian gambar yang keluar dari container */
+    pointer-events: none; /* Agar tidak menutupi header dan tombol bisa diklik */
+}
+
+/* Gaya untuk gambar */
+.hero-image {
+    width: 100%; /* Gambar memenuhi lebar container */
+    height: 100%; /* Pertahankan rasio aspek gambar */
+    object-fit: cover; /* Potong gambar agar sesuai dengan container */
+    opacity: 0.3; /* Tambahkan transparansi untuk efek latar belakang */
+    -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
+}
+/* Gaya untuk 3 ICON */
+.icon-square {
+    width: 3rem; /* Ukuran lebar dan tinggi ikon */
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem; /* Membuat sudut membulat */
+    background-color: #f8f9fa; /* Warna latar belakang */
+    color: #212529; /* Warna ikon */
+    box-shadow: 0 0 50px rgba(0, 17, 255, 0.5); /* Tambahkan bayangan untuk tampilan lebih rapi */
+}
+
+.position-relative {
+    position: relative; /* Pastikan elemen pembungkus memiliki konteks posisi */
+    height: 100vh; /* Tinggi penuh layar */
+    display: flex; /* Gunakan flexbox untuk memusatkan konten */
+    flex-direction: column;
+    justify-content: center; /* Pusatkan secara vertikal */
+    align-items: center; /* Pusatkan secara horizontal */
+}
+
+header {
+    position: relative;
+    z-index: 10;
+}
+
+.full-section{
+    width: 100vw; /* Memenuhi lebar layar */
+    height: 100vh; /* Memenuhi tinggi layar */
+    display: flex; /* Gunakan Flexbox untuk tata letak */
+    flex-direction: column; /* Tata letak vertikal */
+    justify-content: center; /* Pusatkan konten secara vertikal */
+    align-items: center; /* Pusatkan konten secara horizontal */
+}
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
