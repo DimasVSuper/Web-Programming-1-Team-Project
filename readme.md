@@ -1,6 +1,6 @@
 # RISSCELL - Layanan Reparasi Handphone
 
-Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone, khususnya di wilayah Jakarta Barat. Dibangun menggunakan PHP native, Bootstrap, dan MySQL.
+Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibangun menggunakan PHP native, Bootstrap, dan MySQL.
 
 ## Anggota Kelompok
 
@@ -23,16 +23,16 @@ Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone, khusu
 1. Salin folder proyek ke dalam `htdocs` XAMPP.
 2. Buat database MySQL dengan nama `risscell` dan tabel `contact_messages`:
    ```sql
-   CREATE TABLE contact_messages (
-     id CHAR(36) NOT NULL,
-     name VARCHAR(255) NOT NULL,
-     email VARCHAR(255) NOT NULL,
-     subject TEXT NOT NULL,
-     message TEXT NOT NULL,
-     created_at TIMESTAMP NOT NULL DEFAULT current_timestamp(),
-     PRIMARY KEY (id)
+   CREATE TABLE `contact_messages` (
+     `id` char(36) NOT NULL,
+     `name` varchar(255) NOT NULL,
+     `email` varchar(255) NOT NULL, 
+     `subject` text NOT NULL,
+     `message` text NOT NULL,
+     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+     PRIMARY KEY (`id`)
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-   ;```
+   ```
 3. Pastikan konfigurasi database di database/contactDB.php sudah sesuai.
 4. Jalankan XAMPP dan akses melalui browser:
 
