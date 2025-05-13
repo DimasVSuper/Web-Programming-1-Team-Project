@@ -13,7 +13,7 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<??>" style="transition: color 0.2s;">Beranda</a>
+          <a class="nav-link active" aria-current="page" href="?page=home" style="transition: color 0.2s;">Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#location-section" style="transition: color 0.2s;">Lokasi</a>
