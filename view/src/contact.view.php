@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var notif = document.getElementById('notif-alert');
     var status = null;
     <?php if(isset($_SESSION['status'])): ?>
-        status = "<?=$_SESSION['status']?>";
+        status = "<?php echo $_SESSION['status']; ?>";
     <?php endif; ?>
     if(status) {
         var msg = status==='success' ? 'Pesan berhasil dikirim!' : 'Gagal mengirim pesan. Silakan coba lagi.';

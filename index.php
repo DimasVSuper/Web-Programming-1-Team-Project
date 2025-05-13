@@ -1,5 +1,5 @@
 <?php
-session_start(); // Mulai session 
+session_start(); // Mulai session
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,8 +15,8 @@ session_start(); // Mulai session
   </head>
   <body>
     <?php
-      include './routing/route.php';
-      route(); // Panggil fungsi route
+      include './controller/route.php';
+      handleRoute(); // Panggil fungsi route
     ?>
   </body>
 </html>
