@@ -55,6 +55,5 @@ Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone di Jak
   Jika parameter tidak sesuai, maka akan diarahkan ke halaman 404.  
   Untuk menambah halaman baru, cukup tambahkan pada array `$routes` di file `routing/route.php` dan buat file view-nya di `view/src/`.
 
----
 
 **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.

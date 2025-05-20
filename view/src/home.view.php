@@ -60,21 +60,21 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
           <div class="carousel-inner">
             <div class="carousel-item active">
               <img src="https://images.unsplash.com/photo-1617299516258-eb06985065ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Reparasi Handphone 1" style="max-height:450px;object-fit:cover;">
-              <div class="carousel-caption d-none d-md-block">
+              <div class="carousel-caption  d-md-block">
                 <h5>Reparasi Handphone Cepat</h5>
                 <p>Layanan perbaikan handphone tercepat di Jakarta Barat.</p>
               </div>
             </div>
             <div class="carousel-item">
               <img src="https://images.unsplash.com/photo-1576613109753-27804de2cba8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Reparasi Handphone 2" style="max-height:450px;object-fit:cover;">
-              <div class="carousel-caption d-none d-md-block">
+              <div class="carousel-caption  d-md-block">
                 <h5>Teknisi Profesional</h5>
                 <p>Teknisi berpengalaman dan profesional siap membantu Anda.</p>
               </div>
             </div>
             <div class="carousel-item">
               <img src="https://images.unsplash.com/photo-1658212662417-a2a76efe25df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Service Center" style="max-height:450px;object-fit:cover;">
-              <div class="carousel-caption d-none d-md-block">
+              <div class="carousel-caption  d-md-block">
                 <h5>Lokasi Strategis</h5>
                 <p>Mudah dijangkau dan dekat dengan landmark utama.</p>
               </div>
