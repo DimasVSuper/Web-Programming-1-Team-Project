@@ -1,4 +1,5 @@
 <?php
+// Menampilkan URI yang diminta untuk keperluan debugging
 echo "Request URI: " . $_SERVER['REQUEST_URI'];
 ?>
 <!DOCTYPE html>
@@ -7,8 +8,10 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Halaman Tidak Ditemukan</title>
+    <!-- Mengimpor Bootstrap CSS dari CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Mengatur tampilan background dengan gradient */
         body {
             background: linear-gradient(135deg, #007bff, #00c6ff);
             color: #fff;
@@ -18,6 +21,7 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
             justify-content: center;
             text-align: center;
         }
+        /* Kontainer untuk pesan error dengan efek blur */
         .error-container {
             max-width: 600px;
             padding: 20px;
@@ -25,14 +29,17 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
             border-radius: 10px;
             backdrop-filter: blur(10px);
         }
+        /* Styling untuk kode error 404 */
         .error-code {
             font-size: 6rem;
             font-weight: bold;
         }
+        /* Styling untuk pesan error */
         .error-message {
             font-size: 1.5rem;
             margin: 20px 0;
         }
+        /* Styling untuk tombol kembali ke beranda */
         .btn-home {
             margin-top: 20px;
             padding: 10px 30px;
