@@ -58,7 +58,7 @@
                     </div>
                     <!-- Tombol kembali ke beranda -->
                     <div id="back-home-btn" style="display:flex;justify-content:center;margin-top:20px;">
-                        <a href="?page=home" class="btn btn-outline-secondary">Balik ke Beranda</a>
+                        <a href="/projek" class="btn btn-outline-secondary">Balik ke Beranda</a>
                     </div>
                 </form>
             </div>

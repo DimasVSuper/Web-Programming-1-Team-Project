@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!validateContactInput($name, $email, $subject, $message)) {
         $_SESSION['status'] = 'error'; // Menyimpan status error di sesi jika validasi gagal
-        header('Location: ?page=contact'); // Redirect ke halaman kontak
+        header('Location: /projek/contact'); // Redirect ke halaman kontak
         exit();
     }
 
@@ -55,12 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $_SESSION['status'] = 'error'; // Menyimpan status error di sesi jika penyimpanan gagal
     }
-    header('Location: ?page=contact'); // Redirect ke halaman kontak
+    header('Location: /projek/contact'); // Redirect ke halaman kontak
     exit();
 } else {
     // Jika bukan POST, redirect ke contact
     $_SESSION['status'] = 'error'; // Menyimpan status error di sesi
-    header('Location: ?page=contact'); // Redirect ke halaman kontak
+    header('Location: /projek/contact'); // Redirect ke halaman kontak
     exit();
 }
 ?>

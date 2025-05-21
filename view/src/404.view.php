@@ -53,7 +53,7 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
         <div class="error-code">404</div>
         <div class="error-message">Oops! Halaman yang Anda cari tidak ditemukan.</div>
         <p>Mungkin halaman tersebut telah dihapus atau alamat URL yang Anda masukkan salah.</p>
-        <a href="?page=home" class="btn btn-light btn-home">Kembali ke Beranda</a>
+        <a href="/projek" class="btn btn-light btn-home">Kembali ke Beranda</a>
     </div>
 </body>
 </html>

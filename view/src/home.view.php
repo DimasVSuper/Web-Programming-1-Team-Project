@@ -24,7 +24,7 @@ echo "Request URI: " . $_SERVER['REQUEST_URI'];
           <a class="nav-link" href="#location-section" style="transition: color 0.2s;">Lokasi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="?page=contact" style="transition: color 0.2s;">Kontak</a>
+          <a class="nav-link" href="/projek/contact" style="transition: color 0.2s;">Kontak</a>
         </li>
       </ul>
     </div>
