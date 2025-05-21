@@ -5,20 +5,25 @@
  * @return mysqli Koneksi database aktif
  * @throws Exception Jika koneksi gagal
  */
-function getDBConnection() {
-    $host = 'localhost'; // Host database
-    $user = 'root';      // Username database
-    $pass = '';          // Password database (kosong untuk XAMPP default)
-    $dbname = 'risscell'; // Nama database Anda
 
-    // Membuat koneksi
-    $mysqli = new mysqli($host, $user, $pass, $dbname);
+// var_dump($_ENV); // Debugging: menampilkan semua variabel lingkungan
+class Database{
+    private $host = 'localhost';
+    private $user = 'root';
+    private $pass = '';
+    private $name = 'risscell';
+    public $conn;
 
-    // Periksa koneksi
-    if ($mysqli->connect_error) {
-        // Bisa juga menggunakan Exception untuk error handling yang lebih baik
-        die("Koneksi gagal: " . $mysqli->connect_error);
+    public function __construct() {
+        $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->name);
+        if ($this->conn->connect_error) {
+            die("Koneksi gagal: " . $this->conn->connect_error);
+        }
     }
-    return $mysqli;
+
+    public function getConnection() {
+        return $this->conn;
+    }
+
 }
-?>
+

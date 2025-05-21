@@ -19,7 +19,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 - **Landing Page** — Informasi layanan, carousel, dan lokasi.
 - **Form Kontak** — Pengunjung dapat mengirim pesan, data tersimpan ke database.
-- **Routing Sederhana** — Navigasi antar halaman dengan parameter `page`.
+- **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
 - **Halaman 404** — Pesan jika halaman tidak ditemukan.
 - **Desain Responsif** — Bootstrap & custom CSS.
 - **Lokasi Google Maps** — Menampilkan lokasi toko/service center.
@@ -30,18 +30,17 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 1. **Salin** folder proyek ke dalam `htdocs` XAMPP.
 2. **Buat database** MySQL dengan nama `risscell` dan tabel `contact_messages`:
-   ```sql
-   CREATE TABLE `contact_messages` (
-     `id` char(36) NOT NULL,
-     `name` varchar(255) NOT NULL,
-     `email` varchar(255) NOT NULL, 
-     `subject` text NOT NULL,
-     `message` text NOT NULL,
-     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-     PRIMARY KEY (`id`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-   ```
-3. **Cek konfigurasi database** di `database/contactDB.php`.
+  ```sql
+    CREATE TABLE `contact_messages` (
+    `id` CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+    `name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `subject` TEXT NOT NULL,
+    `message` TEXT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  ```
+3. **Cek konfigurasi database** di `config/DB.php`.
 4. **Jalankan XAMPP** dan akses melalui browser:  
    `http://localhost/projek/`
 
@@ -59,13 +58,13 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 ## 🗺️ Routing & Penambahan Halaman
 
-- **Routing menggunakan query string:**  
-  Navigasi antar halaman dengan parameter `page` pada URL, misal:
-  - `?page=home` untuk halaman utama  
-  - `?page=contact` untuk halaman kontak  
-- Jika parameter tidak sesuai, akan diarahkan ke halaman 404.
+- **Routing menggunakan pretty URL:**  
+  Navigasi antar halaman cukup dengan path, misal:
+  - `/projek` untuk halaman utama  
+  - `/projek/contact` untuk halaman kontak  
+- Jika path tidak sesuai, akan diarahkan ke halaman 404.
 - Untuk menambah halaman baru:
-  1. Tambahkan pada array `$routes` di `routing/route.php`.
+  1. Tambahkan pada function `getRoutes()` di `controller/route.php`.
   2. Buat file view-nya di `view/src/`.
 
 ---

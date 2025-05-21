@@ -18,7 +18,7 @@ function getRoutes() {
 function processContactForm() {
     include './model/contact_processing.php'; // Memasukkan file pemrosesan kontak
     // Setelah proses, redirect kembali ke halaman contact untuk menghindari resubmit
-    header('Location: ?page=contact');
+    header('Location: /projek/contact'); // Redirect ke halaman kontak
     exit;
 }
 
