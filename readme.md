@@ -1,27 +1,35 @@
-# RISSCELL - Layanan Reparasi Handphone
+# 📱 RISSCELL — Layanan Reparasi Handphone Jakarta Barat
 
-Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibangun menggunakan PHP native, Bootstrap, dan MySQL.
+![PHP](https://img.shields.io/badge/PHP-7%2B-blue?logo=php) ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-blueviolet?logo=bootstrap) ![MySQL](https://img.shields.io/badge/MySQL-Database-orange?logo=mysql)
 
-## Anggota Kelompok
+Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibangun dengan **PHP Native**, **Bootstrap**, dan **MySQL**.
 
-- Dimas Bayu Nugroho — Developer utama (coding, development, research)
-- Alexa Cindy Safara Anasrullah — Service Concept Designer & UI/UX
-- Shafyya Putri Meyranti — UI/UX
-- Siti Jamilah Safitri — UI/UX 
+---
 
-## Fitur Utama
+## 👥 Anggota Kelompok
 
-- **Landing Page**: Menampilkan informasi layanan, carousel, dan lokasi.
-- **Form Kontak**: Pengunjung dapat mengirim pesan melalui form, data tersimpan ke database.
-- **Routing Sederhana**: Menggunakan parameter `page` untuk navigasi antar halaman.
-- **Halaman 404**: Menampilkan pesan jika halaman tidak ditemukan.
-- **Desain Responsif**: Menggunakan Bootstrap dan custom CSS.
-- **Lokasi Google Maps**: Menampilkan lokasi toko/service center.
+- **Dimas Bayu Nugroho** — Developer utama (coding, development, research)
+- **Alexa Cindy Safara Anasrullah** — Service Concept Designer & UI/UX
+- **Shafyya Putri Meyranti** — UI/UX
+- **Siti Jamilah Safitri** — UI/UX
 
-## Cara Menjalankan
+---
 
-1. Salin folder proyek ke dalam `htdocs` XAMPP.
-2. Buat database MySQL dengan nama `risscell` dan tabel `contact_messages`:
+## ✨ Fitur Utama
+
+- **Landing Page** — Informasi layanan, carousel, dan lokasi.
+- **Form Kontak** — Pengunjung dapat mengirim pesan, data tersimpan ke database.
+- **Routing Sederhana** — Navigasi antar halaman dengan parameter `page`.
+- **Halaman 404** — Pesan jika halaman tidak ditemukan.
+- **Desain Responsif** — Bootstrap & custom CSS.
+- **Lokasi Google Maps** — Menampilkan lokasi toko/service center.
+
+---
+
+## 🚀 Cara Menjalankan
+
+1. **Salin** folder proyek ke dalam `htdocs` XAMPP.
+2. **Buat database** MySQL dengan nama `risscell` dan tabel `contact_messages`:
    ```sql
    CREATE TABLE `contact_messages` (
      `id` char(36) NOT NULL,
@@ -33,28 +41,38 @@ Proyek ini adalah aplikasi web sederhana untuk layanan reparasi handphone di Jak
      PRIMARY KEY (`id`)
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
    ```
-3. Pastikan konfigurasi database di database/contactDB.php sudah sesuai.
-4. Jalankan XAMPP dan akses melalui browser:
+3. **Cek konfigurasi database** di `database/contactDB.php`.
+4. **Jalankan XAMPP** dan akses melalui browser:  
+   `http://localhost/projek/`
 
-## Dependensi
+---
+
+## 📦 Dependensi
 
 - PHP >= 7.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
-- Bootstrap 5 (CDN)
-- Bootstrap Icons (CDN)
-
-## Catatan
-
-- File `.gitignore` sudah disiapkan untuk menghindari file sensitif dan folder yang tidak perlu diupload ke repository.
-- Untuk menambah halaman baru, edit file `routing/route.php` dan tambahkan view baru di `view/src/`.
-- **Routing menggunakan query string:**  
-  Navigasi antar halaman dilakukan dengan parameter `page` pada URL, misalnya:  
-  - `?page=home` untuk halaman utama  
-  - `?page=contact` untuk halaman kontak  
-  Jika parameter tidak sesuai, maka akan diarahkan ke halaman 404.  
-  Untuk menambah halaman baru, cukup tambahkan pada array `$routes` di file `routing/route.php` dan buat file view-nya di `view/src/`.
+- [Bootstrap 5](https://getbootstrap.com/) (CDN)
+- [Bootstrap Icons](https://icons.getbootstrap.com/) (CDN)
 
 ---
 
-**Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
+## 🗺️ Routing & Penambahan Halaman
+
+- **Routing menggunakan query string:**  
+  Navigasi antar halaman dengan parameter `page` pada URL, misal:
+  - `?page=home` untuk halaman utama  
+  - `?page=contact` untuk halaman kontak  
+- Jika parameter tidak sesuai, akan diarahkan ke halaman 404.
+- Untuk menambah halaman baru:
+  1. Tambahkan pada array `$routes` di `routing/route.php`.
+  2. Buat file view-nya di `view/src/`.
+
+---
+
+## 📝 Catatan
+
+- File `.gitignore` sudah disiapkan untuk menghindari file sensitif dan folder yang tidak perlu diupload ke repository.
+- **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
+
+---
