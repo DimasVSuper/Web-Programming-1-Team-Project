@@ -70,7 +70,37 @@ input:focus, textarea:focus {
     border-color: #007bff;
 }
 
+/* CAROUSEL */
+/* Buat caption selalu tampil dan responsif */
+.carousel-caption {
+    display: block !important; /* override d-none */
+    background: rgba(0, 0, 0, 0.5); /* semi transparan hitam supaya teks terbaca */
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    max-width: 90%;
+    margin: 0 auto;
+  }
 
+  /* Ukuran font caption yang responsif */
+  .carousel-caption h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .carousel-caption p {
+    font-size: 1rem;
+  }
+
+  /* Atur agar teks lebih kecil dan tidak terlalu makan tempat di layar kecil */
+  @media (max-width: 576px) {
+    .carousel-caption h5 {
+      font-size: 1rem;
+    }
+    .carousel-caption p {
+      font-size: 0.875rem;
+    }
+  }
+  
 /* Responsif untuk Google Maps iframe */
 .responsive-map {
     position: relative;

@@ -1,5 +1,21 @@
 <?php
-session_start(); // Mulai session
+session_start();
+
+require_once __DIR__ . '/controller/HomeController.php';
+require_once __DIR__ . '/controller/ContactController.php';
+require_once __DIR__ . '/core/Router.php';
+ // misal router class ini di folder core
+
+$router = new Router();
+
+// Daftarkan route
+$router->get('/', [HomeController::class, 'index']);
+$router->get('/home', [HomeController::class, 'index']);
+$router->get('/contact', [ContactController::class, 'showForm']);
+$router->post('/contact', [ContactController::class, 'submit']);
+
+// Jalankan router
+$router->dispatch();
 ?>
 <!doctype html>
 <html lang="en">
@@ -13,9 +29,6 @@ session_start(); // Mulai session
     <link rel="stylesheet" href="./view/src/components.css">
   </head>
   <body>
-    <?php
-      include './controller/route.php';
-      handleRoute(); // Panggil fungsi route
-    ?>
+
   </body>
 </html>

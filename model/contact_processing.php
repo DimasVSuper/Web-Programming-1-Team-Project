@@ -1,68 +1,16 @@
 <?php
-// Hapus session_start() karena sudah dimulai di index.php
-include __DIR__ . '/../config/DB.php'; // Memasukkan file konfigurasi database
-$db = new Database();
+require_once __DIR__ . '/../config/DB.php';
 
-$mysqli = $db->getConnection(); // Mendapatkan koneksi ke database
-
-// Fungsi untuk menyimpan pesan kontak ke database
-function saveContactMessage($mysqli, $name, $email, $subject, $message) {
+function saveContactMessage($conn, $name, $email, $subject, $message) {
     $sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql); // Mempersiapkan statement SQL
-
-    if (!$stmt) {
-        return false; // Kembali false jika statement gagal dipersiapkan
-    }
-
-    $stmt->bind_param("ssss" , $name, $email, $subject, $message); // Mengikat parameter ke statement
-    $result = $stmt->execute(); // Menjalankan statement
-    $stmt->close(); // Menutup statement
-
-    return $result; // Mengembalikan hasil eksekusi
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) return false;
+    $stmt->bind_param('ssss', $name, $email, $subject, $message);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
 }
 
-// Fungsi untuk generate UUID v4
-// function generate_uuid() {
-//     return sprintf(
-//         '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-//         mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-//         mt_rand(0, 0xffff),
-//         mt_rand(0, 0x0fff) | 0x4000,
-//         mt_rand(0, 0x3fff) | 0x8000,
-//         mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-//     ); // Menghasilkan UUID v4
-// } UUID sudah di generate di MySQL langsung
-
-// Fungsi validasi input
 function validateContactInput($name, $email, $subject, $message) {
-    return !(empty($name) || empty($email) || empty($subject) || empty($message)); // Memastikan semua input tidak kosong
+    return !(empty($name) || empty($email) || empty($subject) || empty($message));
 }
-
-// Proses hanya jika POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'] ?? ''; // Mendapatkan nama dari input POST
-    $email = $_POST['email'] ?? ''; // Mendapatkan email dari input POST
-    $subject = $_POST['subject'] ?? ''; // Mendapatkan subjek dari input POST
-    $message = $_POST['message'] ?? ''; // Mendapatkan pesan dari input POST
-    // $id = generate_uuid(); // Menghasilkan UUID untuk pesan
-
-    if (!validateContactInput($name, $email, $subject, $message)) {
-        $_SESSION['status'] = 'error'; // Menyimpan status error di sesi jika validasi gagal
-        header('Location: /projek/contact'); // Redirect ke halaman kontak
-        exit();
-    }
-
-    if (saveContactMessage($mysqli, $name, $email, $subject, $message)) {
-        $_SESSION['status'] = 'success'; // Menyimpan status sukses di sesi jika penyimpanan berhasil
-    } else {
-        $_SESSION['status'] = 'error'; // Menyimpan status error di sesi jika penyimpanan gagal
-    }
-    header('Location: /projek/contact'); // Redirect ke halaman kontak
-    exit();
-} else {
-    // Jika bukan POST, redirect ke contact
-    $_SESSION['status'] = 'error'; // Menyimpan status error di sesi
-    header('Location: /projek/contact'); // Redirect ke halaman kontak
-    exit();
-}
-?>
