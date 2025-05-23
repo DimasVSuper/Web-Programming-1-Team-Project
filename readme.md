@@ -48,7 +48,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 ## 📦 Dependensi
 
-- PHP >= 7.x
+- PHP >= 8.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
 - [Bootstrap 5](https://getbootstrap.com/) (CDN)
