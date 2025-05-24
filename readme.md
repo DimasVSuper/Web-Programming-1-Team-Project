@@ -24,6 +24,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 - **Desain Responsif** — Bootstrap & custom CSS.
 - **Lokasi Google Maps** — Menampilkan lokasi toko/service center.
 
+
 ---
 
 ## 🚀 Cara Menjalankan
@@ -56,6 +57,14 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 ---
 
+## 🛠️ Teknologi yang Digunakan
+- PHP Native: Backend logic dan routing sederhana.
+- Bootstrap 5: Framework CSS untuk desain responsif.
+- MySQL: Database penyimpanan data kontak.
+- XAMPP: Server lokal untuk pengembangan.
+
+---
+
 ## 🗺️ Routing & Penambahan Halaman
 
 - **Routing menggunakan pretty URL:**  
@@ -64,7 +73,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
   - `/projek/contact` untuk halaman kontak  
 - Jika path tidak sesuai, akan diarahkan ke halaman 404.
 - Untuk menambah halaman baru:
-  1. Tambahkan pada function `getRoutes()` di `controller/route.php`.
+  1. Tambahkan route baru menggunakan metode `get()` atau `post()` pada instance `Router` di `index.php`.
   2. Buat file view-nya di `view/src/`.
 
 ---
