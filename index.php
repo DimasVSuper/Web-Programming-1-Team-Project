@@ -7,8 +7,10 @@ require_once __DIR__ . '/controller/serviceController.php';
 require_once __DIR__ . '/controller/invoiceController.php';
 
 require_once __DIR__ . '/core/Router.php';
- // misal router class ini di folder core
 
+/**
+ * Inisialisasi router dan daftarkan route.
+ */
 $router = new Router();
 
 // Daftarkan route
@@ -20,7 +22,10 @@ $router->get('/service', [ServiceController::class, 'showForm']);
 $router->post('/service', [ServiceController::class, 'submit']);
 $router->get('/invoice', [InvoiceController::class, 'showInvoice']);      // Tampilkan invoice
 $router->post('/invoice/pay', [InvoiceController::class, 'payInvoice']);  // Proses pembayaran invoice
-// Jalankan router
+
+/**
+ * Jalankan router.
+ */
 $router->dispatch();
 ?>
 <!doctype html>

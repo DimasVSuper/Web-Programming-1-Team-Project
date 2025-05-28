@@ -2,8 +2,16 @@
 
 require_once __DIR__ . '/../config/DB.php';
 
+/**
+ * Class ServiceController
+ * Mengelola operasi CRUD dan form untuk layanan service.
+ */
 class ServiceController
 {
+    /**
+     * Ambil semua data service.
+     * @return array
+     */
     public static function getAllServices()
     {
         $db = new DB();
@@ -21,6 +29,11 @@ class ServiceController
         return $services;
     }
 
+    /**
+     * Ambil data service berdasarkan ID.
+     * @param int $id
+     * @return array|null
+     */
     public static function getServiceById($id)
     {
         $db = new DB();
@@ -37,6 +50,13 @@ class ServiceController
         return $service;
     }
 
+    /**
+     * Tambah data service baru.
+     * @param string $name
+     * @param string $description
+     * @param float $price
+     * @return bool
+     */
     public static function addService($name, $description, $price)
     {
         $db = new DB();
@@ -51,6 +71,14 @@ class ServiceController
         return $result;
     }
 
+    /**
+     * Update data service.
+     * @param int $id
+     * @param string $name
+     * @param string $description
+     * @param float $price
+     * @return bool
+     */
     public static function updateService($id, $name, $description, $price)
     {
         $db = new DB();
@@ -65,6 +93,11 @@ class ServiceController
         return $result;
     }
 
+    /**
+     * Hapus data service.
+     * @param int $id
+     * @return bool
+     */
     public static function deleteService($id)
     {
         $db = new DB();
@@ -79,12 +112,19 @@ class ServiceController
         return $result;
     }
 
-    // Untuk menampilkan halaman service (view)
+    /**
+     * Tampilkan halaman form service.
+     * @return void
+     */
     public static function showForm()
     {
         include __DIR__ . '/../view/src/service.view.php';
     }
 
+    /**
+     * Proses submit form service.
+     * @return void
+     */
     public static function submit()
     {
     require_once __DIR__ . '/../model/serviceProcessing.php';

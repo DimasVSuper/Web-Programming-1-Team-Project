@@ -1,45 +1,70 @@
 <?php
+/**
+ * Class Router
+ * Router sederhana untuk menangani route GET dan POST.
+ */
 class Router {
-    private $routes = []; // Array untuk menyimpan semua route yang terdaftar
+    /**
+     * @var array $routes Menyimpan semua route yang terdaftar
+     */
+    private $routes = [];
 
-    // Daftarkan route baru
-    public function add(string $method, string $path,  $handler) {
+    /**
+     * Daftarkan route baru.
+     * @param string $method HTTP method (GET, POST, dll)
+     * @param string $path Path/URI
+     * @param callable $handler Handler untuk route
+     */
+    public function add(string $method, string $path, $handler) {
         $method = strtoupper($method);
         $this->routes[$method][$path] = $handler;
     }
 
-    // Shortcut untuk GET route
-    public function get(string $path,  $handler) {
+    /**
+     * Shortcut untuk route GET.
+     * @param string $path
+     * @param callable $handler
+     */
+    public function get(string $path, $handler) {
         $this->add('GET', $path, $handler);
     }
 
-    // Shortcut untuk POST route
-    public function post(string $path,  $handler) {
+    /**
+     * Shortcut untuk route POST.
+     * @param string $path
+     * @param callable $handler
+     */
+    public function post(string $path, $handler) {
         $this->add('POST', $path, $handler);
     }
 
-    // Render halaman 404 dari file view yang sudah dibuat
+    /**
+     * Render halaman 404.
+     * @return void
+     */
     private function render404() {
-        http_response_code(404); // Set kode respon HTTP ke 404
-        include __DIR__ . '/../view/src/404.view.php';  // Sertakan file view untuk halaman 404
+        http_response_code(404);
+        include __DIR__ . '/../view/src/404.view.php';
     }
 
-    // Jalankan router, cocokkan path & method, lalu panggil handler
+    /**
+     * Jalankan router, cocokkan path & method, lalu panggil handler.
+     * @return void
+     */
     public function dispatch() {
-        $method = $_SERVER['REQUEST_METHOD']; // Dapatkan method HTTP dari request
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // Dapatkan path URI dari request
+        $method = $_SERVER['REQUEST_METHOD'];
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        // Base folder aplikasi kamu, misal: /projek
-        $basePath = '/projek';  // Ubah sesuai nama folder atau '' jika di root
+        $basePath = '/projek';
         if ($basePath !== '' && strpos($uri, $basePath) === 0) {
-            $uri = substr($uri, strlen($basePath)); // Hilangkan base path dari URI
+            $uri = substr($uri, strlen($basePath));
         }
-        if ($uri === '') $uri = '/'; // Set URI ke root jika kosong
+        if ($uri === '') $uri = '/';
 
         if (isset($this->routes[$method][$uri])) {
-            call_user_func($this->routes[$method][$uri]); // Panggil handler jika route ditemukan
+            call_user_func($this->routes[$method][$uri]);
         } else {
-            $this->render404(); // Tampilkan halaman 404 jika route tidak ditemukan
+            $this->render404();
         }
     }
 }

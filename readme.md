@@ -19,6 +19,10 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 - **Landing Page** — Informasi layanan, carousel, dan lokasi.
 - **Form Kontak** — Pengunjung dapat mengirim pesan, data tersimpan ke database.
+- **Form Service Request** — Pelanggan dapat mengisi form permintaan service.
+- **Invoice System** — Pembuatan invoice, pencarian berdasarkan nama/email, dan pembayaran.
+- **Payment Status** — Indikator status pembayaran (pending/paid).
+- **Notifikasi Pembayaran** — Pesan sukses setelah pembayaran.
 - **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
 - **Halaman 404** — Pesan jika halaman tidak ditemukan.
 - **Desain Responsif** — Bootstrap & custom CSS.
@@ -30,20 +34,38 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 ## 🚀 Cara Menjalankan
 
 1. **Salin** folder proyek ke dalam `htdocs` XAMPP.
-2. **Buat database** MySQL dengan nama `risscell` dan tabel `contact_messages`:
-  ```sql
-    CREATE TABLE `contact_messages` (
-    `id` CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
-    `name` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
-    `subject` TEXT NOT NULL,
-    `message` TEXT NOT NULL,
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
+2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari file `risscell.sql`.
 3. **Cek konfigurasi database** di `config/DB.php`.
 4. **Jalankan XAMPP** dan akses melalui browser:  
    `http://localhost/projek/`
+
+---
+
+## 🗄️ Struktur Database
+
+Berikut adalah tabel-tabel utama dalam database:
+
+- `contact_messages`: Menyimpan pesan dari form kontak.
+- `service_requests`: Menyimpan data permintaan service dari pelanggan.
+- `invoice`: Menyimpan data invoice, terkait dengan service request.
+  - `id` (CHAR(36), PRIMARY KEY, UUID)
+  - `service_request_id` (CHAR(36), FOREIGN KEY references `service_requests`.`id`)
+  - `biaya_awal` (INT)
+  - `created_at` (TIMESTAMP)
+- `payments`: Menyimpan data pembayaran, terkait dengan invoice.
+  - `id` (CHAR(36), PRIMARY KEY, UUID)
+  - `invoice_id` (CHAR(36), FOREIGN KEY references `invoice`.`id`)
+  - `status` (ENUM('pending', 'paid'))
+  - `paid_at` (TIMESTAMP)
+
+Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan benar.
+
+---
+
+## ⚙️ Konfigurasi
+
+- **`config/DB.php`**: Konfigurasi koneksi database MySQL.
+- **`.env` (Jika ada)**: File untuk menyimpan variabel environment (misal: API key).
 
 ---
 
@@ -58,10 +80,10 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 ---
 
 ## 🛠️ Teknologi yang Digunakan
+
 - PHP Native: Backend logic dan routing sederhana.
 - Bootstrap 5: Framework CSS untuk desain responsif.
-- MySQL: Database penyimpanan data kontak.
-- XAMPP: Server lokal untuk pengembangan.
+- MySQL: Database penyimpanan data.
 
 ---
 
@@ -69,12 +91,14 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 - **Routing menggunakan pretty URL:**  
   Navigasi antar halaman cukup dengan path, misal:
-  - `/projek` untuk halaman utama  
-  - `/projek/contact` untuk halaman kontak  
+  - `/projek` untuk halaman utama
+  - `/projek/contact` untuk halaman kontak
+  - `/projek/service` untuk form service request
+  - `/projek/invoice` untuk menampilkan invoice
 - Jika path tidak sesuai, akan diarahkan ke halaman 404.
 - Untuk menambah halaman baru:
   1. Tambahkan route baru menggunakan metode `get()` atau `post()` pada instance `Router` di `index.php`.
-  2. Buat file view-nya di `view/src/`.
+  2. Buat file controller dan view-nya.
 
 ---
 
