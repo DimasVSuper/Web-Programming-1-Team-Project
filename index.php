@@ -1,8 +1,11 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/controller/HomeController.php';
-require_once __DIR__ . '/controller/ContactController.php';
+require_once __DIR__ . '/controller/homeController.php';
+require_once __DIR__ . '/controller/contactController.php';
+require_once __DIR__ . '/controller/serviceController.php';
+require_once __DIR__ . '/controller/invoiceController.php';
+
 require_once __DIR__ . '/core/Router.php';
  // misal router class ini di folder core
 
@@ -13,7 +16,10 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/home', [HomeController::class, 'index']);
 $router->get('/contact', [ContactController::class, 'showForm']);
 $router->post('/contact', [ContactController::class, 'submit']);
-
+$router->get('/service', [ServiceController::class, 'showForm']);
+$router->post('/service', [ServiceController::class, 'submit']);
+$router->get('/invoice', [InvoiceController::class, 'showInvoice']);      // Tampilkan invoice
+$router->post('/invoice/pay', [InvoiceController::class, 'payInvoice']);  // Proses pembayaran invoice
 // Jalankan router
 $router->dispatch();
 ?>

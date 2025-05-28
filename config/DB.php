@@ -7,7 +7,7 @@
  */
 
 // var_dump($_ENV); // Debugging: menampilkan semua variabel lingkungan
-class Database{
+class DB{
     private $host = 'localhost';
     private $user = 'root';
     private $pass = '';

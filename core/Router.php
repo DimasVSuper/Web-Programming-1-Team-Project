@@ -3,18 +3,18 @@ class Router {
     private $routes = [];
 
     // Daftarkan route baru
-    public function add(string $method, string $path, callable $handler) {
+    public function add(string $method, string $path,  $handler) {
         $method = strtoupper($method);
         $this->routes[$method][$path] = $handler;
     }
 
     // Shortcut untuk GET route
-    public function get(string $path, callable $handler) {
+    public function get(string $path,  $handler) {
         $this->add('GET', $path, $handler);
     }
 
     // Shortcut untuk POST route
-    public function post(string $path, callable $handler) {
+    public function post(string $path,  $handler) {
         $this->add('POST', $path, $handler);
     }
 
