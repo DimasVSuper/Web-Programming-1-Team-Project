@@ -81,7 +81,7 @@ if ($baseUrl === '') {
     <!-- Form Kontak -->
     <div class="row">
       <div class="col-md-8 mb-md-0 mb-5 mx-auto">
-        <form id="contact-form" name="contact-form" action="?page=contact" method="POST" novalidate>
+        <form id="contact-form" name="contact-form" action="/projek/contact" method="POST" novalidate>
           <div class="row mb-3">
             <div class="col-md-12">
               <label for="name" class="form-label">Nama Anda</label>

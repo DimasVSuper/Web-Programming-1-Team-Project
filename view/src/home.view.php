@@ -63,6 +63,9 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <li class="nav-item">
           <a class="nav-link" href="/projek/contact" style="transition: color 0.2s;">Kontak</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/projek/service">Service</a>
+        </li>
       </ul>
     </div>
   </div>
