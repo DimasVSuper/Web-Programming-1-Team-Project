@@ -3,21 +3,6 @@ class Router {
     private $routes = []; // Array untuk menyimpan semua route yang terdaftar
 
     // Daftarkan route baru
-<<<<<<< HEAD
-    public function add(string $method, string $path, callable $handler) {
-        $method = strtoupper($method); // Ubah method menjadi huruf besar untuk konsistensi
-        $this->routes[$method][$path] = $handler; // Simpan handler berdasarkan method dan path
-    }
-
-    // Shortcut untuk GET route
-    public function get(string $path, callable $handler) {
-        $this->add('GET', $path, $handler); // Daftarkan route dengan method GET
-    }
-
-    // Shortcut untuk POST route
-    public function post(string $path, callable $handler) {
-        $this->add('POST', $path, $handler); // Daftarkan route dengan method POST
-=======
     public function add(string $method, string $path,  $handler) {
         $method = strtoupper($method);
         $this->routes[$method][$path] = $handler;
@@ -31,7 +16,6 @@ class Router {
     // Shortcut untuk POST route
     public function post(string $path,  $handler) {
         $this->add('POST', $path, $handler);
->>>>>>> development
     }
 
     // Render halaman 404 dari file view yang sudah dibuat
