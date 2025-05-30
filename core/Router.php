@@ -53,13 +53,8 @@ class Router {
      */
     public function dispatch() {
         $method = $_SERVER['REQUEST_METHOD'];
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-        $basePath = '/projek';
-        if ($basePath !== '' && strpos($uri, $basePath) === 0) {
-            $uri = substr($uri, strlen($basePath));
-        }
-        if ($uri === '') $uri = '/';
+        // Ambil path dari parameter page jika ada (karena .htaccess rewrite)
+        $uri = isset($_GET['page']) ? '/' . trim($_GET['page'], '/') : '/';
 
         if (isset($this->routes[$method][$uri])) {
             call_user_func($this->routes[$method][$uri]);

@@ -18,7 +18,7 @@
                         <h3 class="mb-0">Form Service HP</h3>
                     </div>
                     <div class="card-body">
-                        <form action="/service" method="POST">
+                        <form action="/projek/service" method="POST">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama:</label>
                                 <input type="text" id="nama" name="nama" class="form-control" required>
@@ -36,13 +36,13 @@
                                 <textarea id="kerusakan" name="kerusakan" rows="4" class="form-control" required></textarea>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="/" class="btn btn-outline-secondary">
+                                <a href="/projek" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> Kembali ke Beranda
                                 </a>
                                 <button type="submit" class="btn btn-primary">
                                     Kirim
                                 </button>
-                                <a href="/invoice" class="btn btn-success">
+                                <a href="/projek/invoice" class="btn btn-success">
                                     <i class="bi bi-receipt"></i> Lihat Invoice
                                 </a>
                             </div>

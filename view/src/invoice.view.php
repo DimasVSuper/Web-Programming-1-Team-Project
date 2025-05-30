@@ -44,16 +44,32 @@
                                     <strong>Sudah Bayar</strong>
                                 </div>
                             <?php else: ?>
-                                <form method="POST" action="/invoice/pay" class="mt-3">
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id']) ?>">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-cash-coin"></i> Bayar Sekarang
-                                    </button>
-                                </form>
+                                <!-- Gimmick Bayar: Tidak submit form, hanya tampilkan alert -->
+                                <button type="button" class="btn btn-primary mt-3" id="gimmick-bayar">
+                                    <i class="bi bi-cash-coin"></i> Bayar Sekarang
+                                </button>
+                                <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var btn = document.getElementById('gimmick-bayar');
+                                    if (btn) {
+                                        btn.addEventListener('click', function() {
+                                            btn.disabled = true;
+                                            btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Pembayaran Berhasil!';
+                                            btn.classList.remove('btn-primary');
+                                            btn.classList.add('btn-success');
+                                            // Optional: tampilkan alert bootstrap
+                                            var alert = document.createElement('div');
+                                            alert.className = 'alert alert-success mt-3';
+                                            alert.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Terima kasih, pembayaran berhasil!';
+                                            btn.parentNode.insertBefore(alert, btn.nextSibling);
+                                        });
+                                    }
+                                });
+                                </script>
                             <?php endif; ?>
                         <?php else: ?>
                             <div class="alert alert-warning">Data invoice tidak ditemukan.</div>
-                            <form method="GET" action="/invoice" class="mt-4">
+                            <form method="GET" action="/projek/invoice" class="mt-4">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>
                                     <input type="text" class="form-control" id="nama" name="nama" required>
@@ -68,7 +84,7 @@
                             </form>
                         <?php endif; ?>
                         <div class="mt-4 d-flex justify-content-end">
-                            <a href="/service" class="btn btn-outline-primary">
+                            <a href="/projek/service" class="btn btn-outline-primary">
                                 <i class="bi bi-arrow-left"></i> Kembali ke Form Service
                             </a>
                         </div>
@@ -85,7 +101,7 @@
         </div>
         <script>
             setTimeout(function() {
-                window.location.href = '/service';
+                window.location.href = '/projek/service';
             }, 2500); // 2.5 detik
         </script>
     <?php unset($_SESSION['success']); endif; ?>
