@@ -66,6 +66,19 @@
                                         ?>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Biaya + PPN 12%</th>
+                                    <td>
+                                        <?php
+                                        if ($biaya_belum_input) {
+                                            echo '<span class="text-danger">-</span>';
+                                        } else {
+                                            $biaya_ppn = $invoice['biaya_awal'] * 1.12;
+                                            echo 'Rp ' . number_format($biaya_ppn, 0, ',', '.');
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
                             </table>
                             <?php if (isset($invoice['status']) && $invoice['status'] === 'paid'): ?>
                                 <div class="alert alert-success d-flex align-items-center mt-3" role="alert">

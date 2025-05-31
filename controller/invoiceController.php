@@ -31,7 +31,15 @@ class InvoiceController
             }
         }
 
-        include __DIR__ . '/../view/src/invoice.view.php';
+        // Hitung biaya + PPN 12% (jika biaya_awal sudah ada)
+        if (isset($invoice['biaya_awal']) && $invoice['biaya_awal'] > 0) {
+            $invoice['biaya_awal_ppn'] = $invoice['biaya_awal'] * 1.12;
+        } else {
+            $invoice['biaya_awal_ppn'] = null;
+        }
+
+        // Kirim $invoice ke view
+        require __DIR__ . '/../view/src/invoice.view.php';
     }
 
     /**
