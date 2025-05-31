@@ -47,4 +47,14 @@ CREATE TABLE payments (
   FOREIGN KEY (invoice_id) REFERENCES invoice(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Membuat tabel contact_messages
+CREATE TABLE contact_messages (
+  id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  subject VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 show tables;
