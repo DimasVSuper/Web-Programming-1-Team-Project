@@ -51,15 +51,34 @@ class Router {
      * Jalankan router, cocokkan path & method, lalu panggil handler.
      * @return void
      */
-    public function dispatch() {
-        $method = $_SERVER['REQUEST_METHOD'];
-        // Ambil path dari parameter page jika ada (karena .htaccess rewrite)
-        $uri = isset($_GET['page']) ? '/' . trim($_GET['page'], '/') : '/';
 
-        if (isset($this->routes[$method][$uri])) {
-            call_user_func($this->routes[$method][$uri]);
-        } else {
-            $this->render404();
-        }
+public function dispatch() {
+    $method = $_SERVER['REQUEST_METHOD'];
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    // Potong base path (misalnya '/projek')
+    $basePath = '/projek'; // GANTI jika nama folder kamu berbeda
+    if (strpos($uri, $basePath) === 0) {
+        $uri = substr($uri, strlen($basePath));
+    }
+
+    // Normalisasi path
+    if ($uri === '' || $uri === false) {
+        $uri = '/';
+    } elseif ($uri[0] !== '/') {
+        $uri = '/' . $uri;
+    }
+
+    // Hilangkan debug di production
+    // echo "METHOD: $method<br>URI: $uri<br>";
+
+    if (isset($this->routes[$method][$uri])) {
+        call_user_func($this->routes[$method][$uri]);
+    } else {
+        $this->render404();
     }
 }
+
+}
+
+

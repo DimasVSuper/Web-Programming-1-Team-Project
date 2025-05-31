@@ -127,18 +127,28 @@ class ServiceController
      */
     public static function submit()
     {
-    require_once __DIR__ . '/../model/serviceProcessing.php';
-    $nama = $_POST['nama'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $nama_hp = $_POST['nama_hp'] ?? '';
-    $kerusakan = $_POST['kerusakan'] ?? '';
+        require_once __DIR__ . '/../model/serviceProcessing.php';
+        require_once __DIR__ . '/../model/invoiceProcessing.php';
 
-    if (saveServiceRequest($nama, $email, $nama_hp, $kerusakan)) {
-        $_SESSION['status'] = 'success';
-    } else {
-        $_SESSION['status'] = 'error';
-    }
-    header('Location: /service');
-    exit();
+        $nama = $_POST['nama'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $nama_hp = $_POST['nama_hp'] ?? '';
+        $kerusakan = $_POST['kerusakan'] ?? '';
+
+        // Simpan service request, pastikan return ID
+        $service_request_id = saveServiceRequest($nama, $email, $nama_hp, $kerusakan);
+
+        if ($service_request_id) {
+            // Buat invoice (misal biaya_awal = 0)
+            $biaya_awal = 0;
+            $invoice_id = InvoiceProcessing::saveInvoice($service_request_id, $biaya_awal);
+
+            // Tidak perlu createPayment lagi!
+            $_SESSION['status'] = 'success';
+        } else {
+            $_SESSION['status'] = 'error';
+        }
+        header('Location: /projek/service');
+        exit();
     }
 }

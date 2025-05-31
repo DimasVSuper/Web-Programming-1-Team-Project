@@ -12,21 +12,23 @@ class InvoiceController
     public static function showInvoice()
     {
         require_once __DIR__ . '/../model/invoiceProcessing.php';
-        require_once __DIR__ . '/../model/paymentProcessing.php';
         $id = $_GET['id'] ?? null;
         $invoice = null;
-        $payment = null;
+        $not_found = false;
 
-        // Jika cari berdasarkan nama & email
+        // Jika user melakukan pencarian
         if (!$id && isset($_GET['nama'], $_GET['email'])) {
             $invoice = InvoiceProcessing::findInvoiceByNamaEmail($_GET['nama'], $_GET['email']);
             if ($invoice) {
                 $id = $invoice['id'];
-                $payment = PaymentProcessing::getPaymentByInvoiceId($id);
+            } else {
+                $not_found = true;
             }
         } elseif ($id) {
             $invoice = InvoiceProcessing::getInvoiceById($id);
-            $payment = PaymentProcessing::getPaymentByInvoiceId($id);
+            if (!$invoice) {
+                $not_found = true;
+            }
         }
 
         include __DIR__ . '/../view/src/invoice.view.php';
@@ -38,15 +40,24 @@ class InvoiceController
      */
     public static function payInvoice()
     {
-        require_once __DIR__ . '/../model/paymentProcessing.php';
         session_start();
         $id = $_POST['id'] ?? null;
         if ($id) {
-            PaymentProcessing::setPaid($id);
-            $_SESSION['success'] = 'Anda berhasil membayar!';
+            require_once __DIR__ . '/../model/invoiceProcessing.php';
+            InvoiceProcessing::setPaid($id);
+            $_SESSION['success'] = 'Pembayaran berhasil!';
         }
-        // Tampilkan kembali halaman invoice (dengan notifikasi)
-        header("Location: /invoice?id=" . $id . "&paid=1");
+        header("Location: /projek/invoice?id=" . urlencode($id));
         exit();
+    }
+
+    /**
+     * Simpan invoice baru ke database.
+     * @return void
+     */
+    public static function saveNewInvoice($service_request_id, $biaya_awal)
+    {
+        require_once __DIR__ . '/../model/invoiceProcessing.php';
+        InvoiceProcessing::saveInvoice($service_request_id, $biaya_awal);
     }
 }

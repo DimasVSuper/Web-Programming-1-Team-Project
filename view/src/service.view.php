@@ -1,5 +1,10 @@
+<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
 <?php
-
+$showSuccess = false;
+if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
+    $showSuccess = true;
+    unset($_SESSION['status']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -8,6 +13,19 @@
     <title>Form Service HP</title>
     <link rel="stylesheet" href="components.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Animasi fade-in untuk modal */
+        .modal.fade .modal-dialog {
+            -webkit-transform: translate(0,50px);
+            transform: translate(0,50px);
+            transition: transform 0.3s ease-out;
+        }
+        .modal.fade.show .modal-dialog {
+            -webkit-transform: translate(0,0);
+            transform: translate(0,0);
+        }
+    </style>
 </head>
 <body class="bg-light">
     <div class="container py-5">
@@ -52,6 +70,34 @@
             </div>
         </div>
     </div>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Modal Sukses -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-success">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="successModalLabel"><i class="bi bi-check-circle-fill me-2"></i>Data Terkirim!</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-0">Data service Anda sudah berhasil dikirim.<br>Terima kasih!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <?php if ($showSuccess): ?>
+    <script>
+        // Tampilkan modal sukses dengan animasi
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        window.addEventListener('DOMContentLoaded', function() {
+            successModal.show();
+            setTimeout(function() {
+                successModal.hide();
+            }, 2500); // Modal otomatis hilang setelah 2.5 detik
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

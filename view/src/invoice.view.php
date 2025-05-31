@@ -1,3 +1,12 @@
+<?php
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    $showSuccess = false;
+    if (isset($_SESSION['success'])) {
+        $showSuccess = true;
+        $successMessage = $_SESSION['success'];
+        unset($_SESSION['success']);
+    }
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,6 +14,17 @@
     <title>Invoice Service HP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .modal.fade .modal-dialog {
+            -webkit-transform: translate(0,50px);
+            transform: translate(0,50px);
+            transition: transform 0.3s ease-out;
+        }
+        .modal.fade.show .modal-dialog {
+            -webkit-transform: translate(0,0);
+            transform: translate(0,0);
+        }
+    </style>
 </head>
 <body class="bg-light">
     <div class="container py-5">
@@ -35,40 +55,51 @@
                                 </tr>
                                 <tr>
                                     <th>Biaya Awal</th>
-                                    <td>Rp <?= isset($invoice['biaya_awal']) ? number_format($invoice['biaya_awal'], 0, ',', '.') : '0' ?></td>
+                                    <td>
+                                        <?php
+                                        $biaya_belum_input = !isset($invoice['biaya_awal']) || $invoice['biaya_awal'] === null || $invoice['biaya_awal'] === '' || $invoice['biaya_awal'] <= 0;
+                                        if ($biaya_belum_input) {
+                                            echo '<span class="text-danger">Biaya belum di input</span>';
+                                        } else {
+                                            echo 'Rp ' . number_format($invoice['biaya_awal'], 0, ',', '.');
+                                        }
+                                        ?>
+                                    </td>
                                 </tr>
                             </table>
-                            <?php if (isset($payment) && $payment['status'] === 'paid'): ?>
+                            <?php if (isset($invoice['status']) && $invoice['status'] === 'paid'): ?>
                                 <div class="alert alert-success d-flex align-items-center mt-3" role="alert">
                                     <i class="bi bi-check-circle-fill me-2"></i>
                                     <strong>Sudah Bayar</strong>
+                                    <?php if (!empty($invoice['paid_at'])): ?>
+                                        <span class="ms-3">(<?= htmlspecialchars($invoice['paid_at']) ?>)</span>
+                                    <?php endif; ?>
                                 </div>
-                            <?php else: ?>
-                                <!-- Gimmick Bayar: Tidak submit form, hanya tampilkan alert -->
-                                <button type="button" class="btn btn-primary mt-3" id="gimmick-bayar">
-                                    <i class="bi bi-cash-coin"></i> Bayar Sekarang
-                                </button>
-                                <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    var btn = document.getElementById('gimmick-bayar');
-                                    if (btn) {
-                                        btn.addEventListener('click', function() {
-                                            btn.disabled = true;
-                                            btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Pembayaran Berhasil!';
-                                            btn.classList.remove('btn-primary');
-                                            btn.classList.add('btn-success');
-                                            // Optional: tampilkan alert bootstrap
-                                            var alert = document.createElement('div');
-                                            alert.className = 'alert alert-success mt-3';
-                                            alert.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Terima kasih, pembayaran berhasil!';
-                                            btn.parentNode.insertBefore(alert, btn.nextSibling);
-                                        });
-                                    }
-                                });
-                                </script>
+                            <?php elseif (!$biaya_belum_input): ?>
+                                <!-- Form bayar ke backend -->
+                                <form method="POST" action="/projek/invoice/pay" class="mt-3">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id']) ?>">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-cash-coin"></i> Bayar Sekarang
+                                    </button>
+                                </form>
                             <?php endif; ?>
                         <?php else: ?>
-                            <div class="alert alert-warning">Data invoice tidak ditemukan.</div>
+                            <?php if (!empty($not_found)): ?>
+                                <div id="notfound-alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    Data invoice tidak ditemukan.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <script>
+                                    setTimeout(function() {
+                                        var alertEl = document.getElementById('notfound-alert');
+                                        if (alertEl) {
+                                            var bsAlert = new bootstrap.Alert(alertEl);
+                                            bsAlert.close();
+                                        }
+                                    }, 7000);
+                                </script>
+                            <?php endif; ?>
                             <form method="GET" action="/projek/invoice" class="mt-4">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>
@@ -93,17 +124,34 @@
             </div>
         </div>
     </div>
-    <?php
-    session_start();
-    if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            <?= $_SESSION['success']; ?>
+
+    <!-- Modal Sukses -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-success">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="successModalLabel"><i class="bi bi-check-circle-fill me-2"></i>Berhasil!</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-0"><?= isset($successMessage) ? htmlspecialchars($successMessage) : 'Transaksi berhasil.' ?></p>
+          </div>
         </div>
-        <script>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <?php if ($showSuccess): ?>
+    <script>
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        window.addEventListener('DOMContentLoaded', function() {
+            successModal.show();
             setTimeout(function() {
+                successModal.hide();
                 window.location.href = '/projek/service';
-            }, 2500); // 2.5 detik
-        </script>
-    <?php unset($_SESSION['success']); endif; ?>
+            }, 2500); // Modal otomatis hilang setelah 2.5 detik lalu redirect
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

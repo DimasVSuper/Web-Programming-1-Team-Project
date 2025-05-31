@@ -3,6 +3,13 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseUrl === '') {
     $baseUrl = '/';
 }
+$showModal = false;
+$modalStatus = '';
+if (isset($_SESSION['status'])) {
+    $showModal = true;
+    $modalStatus = $_SESSION['status'];
+    unset($_SESSION['status']);
+}
 ?>
 
 
@@ -125,33 +132,40 @@ if ($baseUrl === '') {
 
 <div id="notif-alert"></div>
 
+<!-- Modal Notifikasi -->
+<div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-<?= $modalStatus === 'success' ? 'success' : 'danger' ?>">
+      <div class="modal-header bg-<?= $modalStatus === 'success' ? 'success' : 'danger' ?> text-white">
+        <h5 class="modal-title" id="notifModalLabel">
+          <?php if ($modalStatus === 'success'): ?>
+            <i class="bi bi-check-circle-fill me-2"></i>Pesan Terkirim!
+          <?php else: ?>
+            <i class="bi bi-x-circle-fill me-2"></i>Gagal Mengirim
+          <?php endif; ?>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <?php if ($modalStatus === 'success'): ?>
+          Pesan Anda berhasil dikirim ke tim kami. Terima kasih!
+        <?php else: ?>
+          Gagal mengirim pesan. Silakan coba lagi.
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var notif = document.getElementById('notif-alert');
-  var status = <?php echo isset($_SESSION['status']) ? json_encode($_SESSION['status']) : 'null'; ?>;
-
-  if(status) {
-    var msg = status === 'success' ? 'Pesan berhasil dikirim!' : 'Gagal mengirim pesan. Silakan coba lagi.';
-    var alertClass = status === 'success' ? 'alert-success' : 'alert-danger';
-    notif.innerHTML = '<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
-                      msg +
-                      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                      '</div>';
-    notif.style.display = 'block';
-
+  <?php if ($showModal): ?>
+    var notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+    notifModal.show();
     setTimeout(function() {
-      notif.style.display = 'none';
-    }, 4000);
-
-    notif.querySelector('.btn-close').onclick = function() {
-      notif.style.display = 'none';
-    };
-  }
+      notifModal.hide();
+    }, 2500);
+  <?php endif; ?>
 });
 </script>
-
-<?php
-if (isset($_SESSION['status'])) {
-  unset($_SESSION['status']);
-}
-?>

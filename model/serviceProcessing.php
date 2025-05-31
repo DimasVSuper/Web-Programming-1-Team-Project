@@ -29,10 +29,17 @@ function saveServiceRequest($nama, $email, $nama_hp, $kerusakan)
     if (!$result) {
         error_log("Gagal execute statement: " . $stmt->error);
         $stmt->close();
+        $conn->close();
         return false;
     }
 
+    // Ambil ID UUID yang baru dibuat (karena pakai UUID, insert_id tidak bisa dipakai)
+    $query = $conn->query("SELECT id FROM service_requests WHERE email='" . $conn->real_escape_string($email) . "' ORDER BY created_at DESC LIMIT 1");
+    $row = $query->fetch_assoc();
+    $id = $row['id'] ?? false;
+
     $stmt->close();
     $conn->close();
-    return $result;
+
+    return $id;
 }

@@ -34,6 +34,33 @@ $currentPage = $_GET['page'] ?? 'home';
       border: 0;
       border-radius: 0.5rem;
     }
+    .gradient-text {
+      background: linear-gradient(90deg, #fff 0%, #00c6ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+    .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff !important;
+    }
+    #mainHeader {
+      background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+    #mainHeader.glass-header {
+      background: rgba(255,255,255,0.15) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0,123,255,0.08);
+    }
   </style>
 </head>
 <body>
@@ -44,10 +71,11 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
 ?>
 
 <!-- Header Navigasi -->
-<header class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-lg" style="background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);">
+<header class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-lg" id="mainHeader">
   <div class="container">
     <a class="navbar-brand fw-bold d-flex align-items-center" href="?page=home" style="font-size: 1.7rem;">
-      <i class="bi bi-phone-vibrate-fill me-2" style="font-size:2rem;"></i> Riss Cell
+      <i class="bi bi-phone-vibrate-fill me-2" style="font-size:2rem;"></i>
+      <span class="gradient-text">Riss Cell</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -55,13 +83,13 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link <?= $currentPage === 'home' ? 'active' : '' ?>" aria-current="page" href="?page=home" style="transition: color 0.2s;">Beranda</a>
+          <a class="nav-link <?= $currentPage === 'home' ? 'active' : '' ?>" aria-current="page" href="?page=home">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#location-section" style="transition: color 0.2s;">Lokasi</a>
+          <a class="nav-link" href="#location-section">Lokasi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/projek/contact" style="transition: color 0.2s;">Kontak</a>
+          <a class="nav-link" href="/projek/contact">Kontak</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/projek/service">Service</a>
@@ -204,15 +232,35 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
 </div>
 
 <!-- Footer -->
-<footer class="bg-primary text-white text-center py-3 mt-5">
+<footer class="bg-primary text-white text-center py-4 mt-5" style="background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%); box-shadow: 0 -2px 24px rgba(0,123,255,0.08);">
   <div class="container">
-    <p class="mb-0">© 2025 Ris Cell. Semua hak dilindungi.</p>
+    <div class="mb-2">
+      <a href="https://wa.me/6281234567890" class="text-white me-3" target="_blank" title="WhatsApp"><i class="bi bi-whatsapp" style="font-size:1.5rem;"></i></a>
+      <a href="https://instagram.com/ris_cell" class="text-white me-3" target="_blank" title="Instagram"><i class="bi bi-instagram" style="font-size:1.5rem;"></i></a>
+      <a href="mailto:info@riscell.com" class="text-white" title="Email"><i class="bi bi-envelope-fill" style="font-size:1.5rem;"></i></a>
+    </div>
+    <p class="mb-0 small">© 2025 <span class="fw-bold">Ris Cell</span>. Semua hak dilindungi.</p>
   </div>
 </footer>
 
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var header = document.getElementById('mainHeader');
+  var scrollTimeout = null;
 
+  function setGlassHeader() {
+    header.classList.add('glass-header');
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      header.classList.remove('glass-header');
+    }, 700); // 700ms setelah scroll berhenti, header kembali normal
+  }
+
+  window.addEventListener('scroll', setGlassHeader);
+});
+</script>
 </body>
 </html>
 

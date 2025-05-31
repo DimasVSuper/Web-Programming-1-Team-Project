@@ -13,17 +13,17 @@ class InvoiceProcessing
      * @param string $service_request_id ID dari service request.
      * @param int    $biaya             Biaya invoice.
      *
-     * @return bool True jika berhasil, false jika gagal.
+     * @return string|false ID invoice jika berhasil, false jika gagal.
      */
     public static function saveInvoice($service_request_id, $biaya)
     {
         $db   = new DB();
         $conn = $db->getConnection();
-        $sql  = "INSERT INTO invoice (service_request_id, biaya_awal) VALUES (?, ?)"; // Perbaikan: Gunakan biaya_awal
+        $sql  = "INSERT INTO invoice (service_request_id, biaya_awal) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            error_log("Gagal prepare statement: " . $conn->error); // Log error
+            error_log("Gagal prepare statement: " . $conn->error);
             return false;
         }
 
@@ -31,15 +31,21 @@ class InvoiceProcessing
         $result = $stmt->execute();
 
         if (!$result) {
-            error_log("Gagal execute statement: " . $stmt->error); // Log error
+            error_log("Gagal execute statement: " . $stmt->error);
             $stmt->close();
+            $conn->close();
             return false;
         }
+
+        // Ambil ID UUID yang baru dibuat
+        $query = $conn->query("SELECT id FROM invoice WHERE service_request_id='$service_request_id' ORDER BY created_at DESC LIMIT 1");
+        $row = $query->fetch_assoc();
+        $id = $row['id'] ?? false;
 
         $stmt->close();
         $conn->close();
 
-        return $result;
+        return $id;
     }
 
     /**
@@ -108,5 +114,24 @@ class InvoiceProcessing
         $conn->close();
 
         return $invoice;
+    }
+
+    /**
+     * Set status pembayaran menjadi "paid".
+     *
+     * @param string $invoice_id
+     * @return bool
+     */
+    public static function setPaid($invoice_id)
+    {
+        $db = new DB();
+        $conn = $db->getConnection();
+        $stmt = $conn->prepare("UPDATE invoice SET status = 'paid', paid_at = NOW() WHERE id = ?");
+        if (!$stmt) return false;
+        $stmt->bind_param("s", $invoice_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $result;
     }
 }
