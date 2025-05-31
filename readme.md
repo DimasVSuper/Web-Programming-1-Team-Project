@@ -18,16 +18,17 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 ## ✨ Fitur Utama
 
 - **Landing Page** — Informasi layanan, carousel, dan lokasi.
+- **Header Transparan (Glass) dengan Animasi** — Header berubah efek kaca saat scroll dan kembali normal saat berhenti.
+- **Notifikasi Modal (Popup) Interaktif** — Feedback sukses/gagal menggunakan modal Bootstrap animatif, bukan alert biasa.
 - **Form Kontak** — Pengunjung dapat mengirim pesan, data tersimpan ke database.
 - **Form Service Request** — Pelanggan dapat mengisi form permintaan service.
 - **Invoice System** — Pembuatan invoice, pencarian berdasarkan nama/email, dan pembayaran.
-- **Payment Status** — Indikator status pembayaran (pending/paid).
-- **Notifikasi Pembayaran** — Pesan sukses setelah pembayaran.
+- **Status Pembayaran** — Indikator status pembayaran (pending/paid) langsung di invoice.
+- **Query SQL Fleksibel** — Admin dapat cek, update, dan hapus data dengan query yang mudah.
 - **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
 - **Halaman 404** — Pesan jika halaman tidak ditemukan.
-- **Desain Responsif** — Bootstrap & custom CSS.
+- **Desain UI/UX Modern & Responsif** — Bootstrap, custom CSS, dan animasi smooth.
 - **Lokasi Google Maps** — Menampilkan lokasi toko/service center.
-
 
 ---
 
@@ -52,9 +53,6 @@ Berikut adalah tabel-tabel utama dalam database:
   - `service_request_id` (CHAR(36), FOREIGN KEY references `service_requests`.`id`)
   - `biaya_awal` (INT)
   - `created_at` (TIMESTAMP)
-- `payments`: Menyimpan data pembayaran, terkait dengan invoice.
-  - `id` (CHAR(36), PRIMARY KEY, UUID)
-  - `invoice_id` (CHAR(36), FOREIGN KEY references `invoice`.`id`)
   - `status` (ENUM('pending', 'paid'))
   - `paid_at` (TIMESTAMP)
 
@@ -82,8 +80,11 @@ Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan b
 ## 🛠️ Teknologi yang Digunakan
 
 - PHP Native: Backend logic dan routing sederhana.
-- Bootstrap 5: Framework CSS untuk desain responsif.
+- Bootstrap 5: Framework CSS untuk desain responsif dan modal interaktif.
+- Bootstrap Icons: Icon modern.
 - MySQL: Database penyimpanan data.
+- JavaScript Custom: Efek header kaca dan modal animasi.
+- Bootstrap Modal & Animasi: Untuk notifikasi interaktif dan feedback user.
 
 ---
 
