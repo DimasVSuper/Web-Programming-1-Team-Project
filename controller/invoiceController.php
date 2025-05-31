@@ -37,6 +37,10 @@ class InvoiceController
         }
 
         // Kirim $invoice ke view
+        $showNotFound = false;
+        if (!$invoice) {
+            $_SESSION['not_found'] = true;
+        }
         require __DIR__ . '/../view/src/invoice.view.php';
     }
 

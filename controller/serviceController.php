@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/DB.php';
+require_once __DIR__ . '/../model/serviceProcessing.php';
 
 /**
  * Class ServiceController
@@ -127,12 +128,13 @@ class ServiceController
      */
     public static function submit()
     {
+        session_start();
         require_once __DIR__ . '/../model/serviceProcessing.php';
         require_once __DIR__ . '/../model/invoiceProcessing.php';
 
-        $nama = $_POST['nama'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $nama_hp = $_POST['nama_hp'] ?? '';
+        $nama     = $_POST['nama'] ?? '';
+        $email    = $_POST['email'] ?? '';
+        $nama_hp  = $_POST['nama_hp'] ?? '';
         $kerusakan = $_POST['kerusakan'] ?? '';
 
         // Simpan service request, pastikan return ID
@@ -143,7 +145,6 @@ class ServiceController
             $biaya_awal = 0;
             $invoice_id = InvoiceProcessing::saveInvoice($service_request_id, $biaya_awal);
 
-            // Tidak perlu createPayment lagi!
             $_SESSION['status'] = 'success';
         } else {
             $_SESSION['status'] = 'error';

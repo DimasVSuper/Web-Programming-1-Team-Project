@@ -1,29 +1,21 @@
 <?php
 
-/**
- * Membuat dan mengembalikan koneksi ke database MySQL.
- * @return mysqli Koneksi database aktif
- * @throws Exception Jika koneksi gagal
- */
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-// var_dump($_ENV); // Debugging: menampilkan semua variabel lingkungan
-class DB{
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $name = 'risscell';
-    public $conn;
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
-    public function __construct() {
-        $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->name);
-        if ($this->conn->connect_error) {
-            die("Koneksi gagal: " . $this->conn->connect_error);
-        }
-    }
-
+class DB {
     public function getConnection() {
-        return $this->conn;
+        $host = $_ENV['DB_HOST'] ?? 'localhost';
+        $db   = $_ENV['DB_NAME'] ?? 'risscell';
+        $user = $_ENV['DB_USER'] ?? 'root';
+        $pass = $_ENV['DB_PASS'] ?? '';
+        $conn = new mysqli($host, $user, $pass, $db);
+        if ($conn->connect_error) {
+            die("Koneksi database gagal: " . $conn->connect_error);
+        }
+        return $conn;
     }
-
 }
 

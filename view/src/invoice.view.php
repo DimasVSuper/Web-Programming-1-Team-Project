@@ -1,10 +1,15 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 $showSuccess = false;
+$showNotFound = false;
 if (isset($_SESSION['success'])) {
     $showSuccess = true;
     $successMessage = $_SESSION['success'];
     unset($_SESSION['success']);
+}
+if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
+    $showNotFound = true;
+    unset($_SESSION['not_found']);
 }
 ?>
 <!DOCTYPE html>
@@ -101,7 +106,7 @@ if (isset($_SESSION['success'])) {
                                 </form>
                             <?php endif; ?>
                         <?php else: ?>
-                            <div class="alert alert-warning">Data invoice tidak ditemukan.</div>
+                            <!-- JANGAN tampilkan alert di sini -->
                             <form method="GET" action="/projek/invoice" class="mt-4">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>
@@ -142,6 +147,21 @@ if (isset($_SESSION['success'])) {
       </div>
     </div>
 
+    <!-- Modal Data Tidak Ditemukan -->
+    <div class="modal fade" id="notFoundModal" tabindex="-1" aria-labelledby="notFoundModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-warning">
+          <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title" id="notFoundModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Data Tidak Ditemukan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-0">Invoice tidak ditemukan. Silakan cek kembali nama dan email Anda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <?php if ($showSuccess): ?>
     <script>
@@ -152,6 +172,14 @@ if (isset($_SESSION['success'])) {
                 successModal.hide();
                 window.location.href = '/projek/service';
             }, 2500); // Modal otomatis hilang setelah 2.5 detik lalu redirect
+        });
+    </script>
+    <?php endif; ?>
+    <?php if ($showNotFound): ?>
+    <script>
+        var notFoundModal = new bootstrap.Modal(document.getElementById('notFoundModal'));
+        window.addEventListener('DOMContentLoaded', function() {
+            notFoundModal.show();
         });
     </script>
     <?php endif; ?>

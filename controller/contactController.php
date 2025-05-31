@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../model/contact_processing.php'; // Perbaikan: Sesuaikan nama file model
 require_once __DIR__ . '/../config/DB.php';
+require_once __DIR__ . '/../model/contactProcessing.php';
 
 /**
  * Class ContactController
@@ -26,9 +26,11 @@ class ContactController
      */
     public static function submit()
     {
+        session_start();
+
         // Pastikan request adalah POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /projek/contact'); // Perbaikan: Gunakan path yang lebih sederhana
+            header('Location: /projek/contact');
             exit;
         }
 
@@ -42,7 +44,7 @@ class ContactController
         if (!validateContactInput($name, $email, $subject, $message)) {
             $_SESSION['status']  = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
-            header('Location: /projek/contact'); // <-- perbaiki di sini
+            header('Location: /projek/contact');
             exit;
         }
 
@@ -53,14 +55,12 @@ class ContactController
         if (saveContactMessage($conn, $name, $email, $subject, $message)) {
             $_SESSION['status']  = 'success';
             $_SESSION['message'] = 'Pesan berhasil dikirim!';
-            header('Location: /projek/contact'); // <-- perbaiki di sini
-            exit;
         } else {
             $_SESSION['status']  = 'error';
-            $_SESSION['message'] = 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi nanti.'; // Pesan error lebih informatif
+            $_SESSION['message'] = 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi nanti.';
         }
 
-        header('Location: /contact');
+        header('Location: /projek/contact');
         exit;
     }
 }

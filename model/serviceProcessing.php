@@ -2,14 +2,13 @@
 require_once __DIR__ . '/../config/DB.php';
 
 /**
- * Fungsi untuk menyimpan data service request ke database.
+ * Menyimpan data service request ke database.
  *
  * @param string $nama Nama pelanggan.
  * @param string $email Email pelanggan.
  * @param string $nama_hp Nama HP pelanggan.
  * @param string $kerusakan Deskripsi kerusakan HP.
- *
- * @return bool True jika berhasil disimpan, false jika gagal.
+ * @return string|false ID service request jika berhasil, false jika gagal
  */
 function saveServiceRequest($nama, $email, $nama_hp, $kerusakan)
 {

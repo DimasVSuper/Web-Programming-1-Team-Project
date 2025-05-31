@@ -12,5 +12,6 @@ Thumbs.db
 *.swp
 *.swo
 composer.lock
+composer.json
 npm-debug.log
 /public/uploads/

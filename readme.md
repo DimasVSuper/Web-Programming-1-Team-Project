@@ -36,7 +36,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 1. **Salin** folder proyek ke dalam `htdocs` XAMPP.
 2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari file `risscell.sql`.
-3. **Cek konfigurasi database** di `config/DB.php`.
+3. **Copy file `.env.example` ke `.env`** dan sesuaikan konfigurasi database.
 4. **Jalankan XAMPP** dan akses melalui browser:  
    `http://localhost/projek/`
 
@@ -44,7 +44,7 @@ Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat. Dibang
 
 ## 🗄️ Struktur Database
 
-Berikut adalah tabel-tabel utama dalam database:
+Tabel-tabel utama dalam database:
 
 - `contact_messages`: Menyimpan pesan dari form kontak.
 - `service_requests`: Menyimpan data permintaan service dari pelanggan.
@@ -56,14 +56,15 @@ Berikut adalah tabel-tabel utama dalam database:
   - `status` (ENUM('pending', 'paid'))
   - `paid_at` (TIMESTAMP)
 
-Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan benar.
+> **Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan benar.**
 
 ---
 
 ## ⚙️ Konfigurasi
 
-- **`config/DB.php`**: Konfigurasi koneksi database MySQL.
-- **`.env` (Jika ada)**: File untuk menyimpan variabel environment (misal: API key).
+- **`config/DB.php`**: Koneksi database MySQL, sudah otomatis membaca variabel dari `.env`.
+- **`.env`**: File untuk menyimpan variabel environment (misal: DB_HOST, DB_NAME, DB_USER, DB_PASS).
+- **`composer.json`**: Untuk dependency management (phpdotenv, dsb).
 
 ---
 
@@ -72,6 +73,8 @@ Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan b
 - PHP >= 8.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
+- [Composer](https://getcomposer.org/) (untuk dependency management)
+- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) (untuk load .env)
 - [Bootstrap 5](https://getbootstrap.com/) (CDN)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (CDN)
 
@@ -85,6 +88,7 @@ Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan b
 - MySQL: Database penyimpanan data.
 - JavaScript Custom: Efek header kaca dan modal animasi.
 - Bootstrap Modal & Animasi: Untuk notifikasi interaktif dan feedback user.
+- Composer & phpdotenv: Untuk manajemen environment variable.
 
 ---
 
@@ -106,6 +110,7 @@ Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan b
 ## 📝 Catatan
 
 - File `.gitignore` sudah disiapkan untuk menghindari file sensitif dan folder yang tidak perlu diupload ke repository.
+- **.env** jangan pernah diupload ke repository publik.
 - **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
 
 ---
