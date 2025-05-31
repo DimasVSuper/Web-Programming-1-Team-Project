@@ -19,15 +19,13 @@ class InvoiceController
         // Jika user melakukan pencarian
         if (!$id && isset($_GET['nama'], $_GET['email'])) {
             $invoice = InvoiceProcessing::findInvoiceByNamaEmail($_GET['nama'], $_GET['email']);
-            if ($invoice) {
-                $id = $invoice['id'];
-            } else {
-                $not_found = true;
+            if (!$invoice) {
+                $_SESSION['not_found'] = true;
             }
         } elseif ($id) {
             $invoice = InvoiceProcessing::getInvoiceById($id);
             if (!$invoice) {
-                $not_found = true;
+                $_SESSION['not_found'] = true;
             }
         }
 
@@ -36,11 +34,6 @@ class InvoiceController
             $invoice['biaya_awal_ppn'] = $invoice['biaya_awal'] * 1.12;
         }
 
-        // Kirim $invoice ke view
-        $showNotFound = false;
-        if (!$invoice) {
-            $_SESSION['not_found'] = true;
-        }
         require __DIR__ . '/../view/src/invoice.view.php';
     }
 
