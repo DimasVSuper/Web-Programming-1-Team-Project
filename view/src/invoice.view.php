@@ -1,11 +1,11 @@
 <?php
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    $showSuccess = false;
-    if (isset($_SESSION['success'])) {
-        $showSuccess = true;
-        $successMessage = $_SESSION['success'];
-        unset($_SESSION['success']);
-    }
+if (session_status() === PHP_SESSION_NONE) session_start();
+$showSuccess = false;
+if (isset($_SESSION['success'])) {
+    $showSuccess = true;
+    $successMessage = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -35,23 +35,23 @@
                         <h3 class="mb-0"><i class="bi bi-receipt"></i> Invoice Service HP</h3>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($invoice) && $invoice): ?>
+                        <?php if (isset($invoice) && is_array($invoice) && !empty($invoice)): ?>
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Nama</th>
-                                    <td><?= htmlspecialchars($invoice['nama']) ?></td>
+                                    <td><?= htmlspecialchars($invoice['nama'] ?? '-') ?></td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
-                                    <td><?= htmlspecialchars($invoice['email']) ?></td>
+                                    <td><?= htmlspecialchars($invoice['email'] ?? '-') ?></td>
                                 </tr>
                                 <tr>
                                     <th>Nama HP</th>
-                                    <td><?= htmlspecialchars($invoice['nama_hp']) ?></td>
+                                    <td><?= htmlspecialchars($invoice['nama_hp'] ?? '-') ?></td>
                                 </tr>
                                 <tr>
                                     <th>Kerusakan</th>
-                                    <td><?= htmlspecialchars($invoice['kerusakan']) ?></td>
+                                    <td><?= htmlspecialchars($invoice['kerusakan'] ?? '-') ?></td>
                                 </tr>
                                 <tr>
                                     <th>Biaya Awal</th>
@@ -73,7 +73,10 @@
                                         if ($biaya_belum_input) {
                                             echo '<span class="text-danger">-</span>';
                                         } else {
-                                            $biaya_ppn = $invoice['biaya_awal'] * 1.12;
+                                            // Gunakan hasil dari controller jika ada, jika tidak hitung di sini
+                                            $biaya_ppn = isset($invoice['biaya_awal_ppn'])
+                                                ? $invoice['biaya_awal_ppn']
+                                                : ($invoice['biaya_awal'] * 1.12);
                                             echo 'Rp ' . number_format($biaya_ppn, 0, ',', '.');
                                         }
                                         ?>
@@ -91,28 +94,14 @@
                             <?php elseif (!$biaya_belum_input): ?>
                                 <!-- Form bayar ke backend -->
                                 <form method="POST" action="/projek/invoice/pay" class="mt-3">
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id']) ?>">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id'] ?? '') ?>">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-cash-coin"></i> Bayar Sekarang
                                     </button>
                                 </form>
                             <?php endif; ?>
                         <?php else: ?>
-                            <?php if (!empty($not_found)): ?>
-                                <div id="notfound-alert" class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    Data invoice tidak ditemukan.
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                                <script>
-                                    setTimeout(function() {
-                                        var alertEl = document.getElementById('notfound-alert');
-                                        if (alertEl) {
-                                            var bsAlert = new bootstrap.Alert(alertEl);
-                                            bsAlert.close();
-                                        }
-                                    }, 7000);
-                                </script>
-                            <?php endif; ?>
+                            <div class="alert alert-warning">Data invoice tidak ditemukan.</div>
                             <form method="GET" action="/projek/invoice" class="mt-4">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>

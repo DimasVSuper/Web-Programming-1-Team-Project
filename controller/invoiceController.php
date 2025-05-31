@@ -32,10 +32,8 @@ class InvoiceController
         }
 
         // Hitung biaya + PPN 12% (jika biaya_awal sudah ada)
-        if (isset($invoice['biaya_awal']) && $invoice['biaya_awal'] > 0) {
+        if ($invoice && isset($invoice['biaya_awal']) && $invoice['biaya_awal'] > 0) {
             $invoice['biaya_awal_ppn'] = $invoice['biaya_awal'] * 1.12;
-        } else {
-            $invoice['biaya_awal_ppn'] = null;
         }
 
         // Kirim $invoice ke view
