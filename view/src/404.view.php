@@ -1,13 +1,13 @@
 <?php
 // 404.view.php
 
-// Tentukan base URL dinamis, misal berdasarkan script folder
+// Mendapatkan base URL secara dinamis dari lokasi script
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseUrl === '') {
     $baseUrl = '/';
 }
 
-// Untuk keamanan tampilkan URI yang diminta dengan htmlspecialchars
+// Mengamankan dan menampilkan URI yang diminta user
 $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
 ?>
 <!DOCTYPE html>

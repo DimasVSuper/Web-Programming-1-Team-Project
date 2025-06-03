@@ -1,12 +1,20 @@
 <?php
+// Mulai session jika belum aktif
 if (session_status() === PHP_SESSION_NONE) session_start();
+
+// Untuk modal notifikasi sukses
 $showSuccess = false;
+// Untuk modal data tidak ditemukan
 $showNotFound = false;
+
+// Cek session sukses pembayaran
 if (isset($_SESSION['success'])) {
     $showSuccess = true;
     $successMessage = $_SESSION['success'];
     unset($_SESSION['success']);
 }
+
+// Cek session data invoice tidak ditemukan
 if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
     $showNotFound = true;
     unset($_SESSION['not_found']);
@@ -41,6 +49,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                     </div>
                     <div class="card-body">
                         <?php if (isset($invoice) && is_array($invoice) && !empty($invoice)): ?>
+                            <!-- Tabel detail invoice -->
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Nama</th>
@@ -89,6 +98,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                 </tr>
                             </table>
                             <?php if (isset($invoice['status']) && $invoice['status'] === 'paid'): ?>
+                                <!-- Notifikasi sudah bayar -->
                                 <div class="alert alert-success d-flex align-items-center mt-3" role="alert">
                                     <i class="bi bi-check-circle-fill me-2"></i>
                                     <strong>Sudah Bayar</strong>
@@ -97,8 +107,8 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                     <?php endif; ?>
                                 </div>
                             <?php elseif (!$biaya_belum_input): ?>
-                                <!-- Form bayar ke backend -->
-                                <form method="POST" action="/projek/invoice/pay" class="mt-3">
+                                <!-- Form bayar jika belum bayar -->
+                                <form method="POST" action="/projek/invoice" class="mt-3">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id'] ?? '') ?>">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-cash-coin"></i> Bayar Sekarang
@@ -106,7 +116,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                 </form>
                             <?php endif; ?>
                         <?php else: ?>
-                            <!-- JANGAN tampilkan alert di sini -->
+                            <!-- Form pencarian invoice jika belum ada data -->
                             <form method="GET" action="/projek/invoice" class="mt-4">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>
@@ -121,6 +131,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                 </button>
                             </form>
                         <?php endif; ?>
+                        <!-- Tombol kembali ke form service -->
                         <div class="mt-4 d-flex justify-content-end">
                             <a href="/projek/service" class="btn btn-outline-primary">
                                 <i class="bi bi-arrow-left"></i> Kembali ke Form Service
@@ -132,7 +143,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
         </div>
     </div>
 
-    <!-- Modal Sukses -->
+    <!-- Modal Sukses Pembayaran -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-success">

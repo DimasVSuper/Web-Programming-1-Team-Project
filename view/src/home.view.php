@@ -1,9 +1,11 @@
 <?php
+// Mendapatkan halaman aktif dari query string (untuk highlight menu navbar)
 $currentPage = $_GET['page'] ?? 'home';
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Meta tag SEO dan responsif -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Layanan Reparasi Handphone terpercaya di Jakarta Barat. Cepat, profesional, dan berkualitas." />
@@ -11,29 +13,130 @@ $currentPage = $_GET['page'] ?? 'home';
   <meta name="author" content="Ris Cell" />
   <title>Ris Cell - Layanan Reparasi Handphone Jakarta Barat</title>
   <link rel="icon" href="/view/public/favicon.ico" type="image/x-icon" />
-  <!-- Bootstrap CSS -->
+  <!-- Bootstrap CSS dan Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
+    /* =========================
+       HERO SECTION & IMAGE
+    ========================= */
     .hero-image-container {
-      max-width: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
       overflow: hidden;
+      pointer-events: none;
+      max-width: 100%;
     }
     .hero-image {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
+      opacity: 0.3;
+      -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
+    }
+
+    /* =========================
+       ICON SQUARE (3 layanan)
+    ========================= */
+    .icon-square {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      background-color: #f8f9fa;
+      color: #212529;
+      box-shadow: 0 0 50px rgba(0, 17, 255, 0.5);
+    }
+
+    /* =========================
+       SECTION & LAYOUT
+    ========================= */
+    .position-relative {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .full-section {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* =========================
+       FORM INPUT
+    ========================= */
+    input, textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    /* =========================
+       CAROUSEL
+    ========================= */
+    .carousel-caption {
+      display: block !important;
+      /* background: rgba(0, 0, 0, 0.5); */
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    .carousel-caption h5 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .carousel-caption p {
+      font-size: 1rem;
+    }
+    @media (max-width: 576px) {
+      .carousel-caption h5 { font-size: 1rem; }
+      .carousel-caption p { font-size: 0.875rem; }
+    }
+
+    /* =========================
+       RESPONSIVE GOOGLE MAPS
+    ========================= */
+    .responsive-map {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
     }
     .responsive-map iframe {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%;
-      height: 450px;
+      height: 100%;
       border: 0;
       border-radius: 0.5rem;
     }
+    @media (max-width: 576px) {
+      .responsive-map { padding-bottom: 75%; }
+    }
+
+    /* =========================
+       NAVBAR & HEADER
+    ========================= */
     .gradient-text {
       background: linear-gradient(90deg, #fff 0%, #00c6ff 100%);
       -webkit-background-clip: text;
@@ -47,7 +150,8 @@ $currentPage = $_GET['page'] ?? 'home';
       border-radius: 0.5rem;
       padding: 0.5rem 1rem;
     }
-    .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    .navbar-nav .nav-link.active,
+    .navbar-nav .nav-link:hover {
       background: rgba(255,255,255,0.15);
       color: #fff !important;
     }
@@ -61,6 +165,11 @@ $currentPage = $_GET['page'] ?? 'home';
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 4px 24px rgba(0,123,255,0.08);
     }
+
+    /* =========================
+       GENERAL
+    ========================= */
+    html { scroll-behavior: smooth; }
   </style>
 </head>
 <body>
@@ -73,13 +182,16 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
 <!-- Header Navigasi -->
 <header class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-lg" id="mainHeader">
   <div class="container">
+    <!-- Logo dan nama brand -->
     <a class="navbar-brand fw-bold d-flex align-items-center" href="?page=home" style="font-size: 1.7rem;">
       <i class="bi bi-phone-vibrate-fill me-2" style="font-size:2rem;"></i>
       <span class="gradient-text">Riss Cell</span>
     </a>
+    <!-- Tombol hamburger untuk mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <!-- Menu navigasi -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
@@ -99,7 +211,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
   </div>
 </header>
 
-<!-- Bagian Hero -->
+<!-- Bagian Hero: Judul besar dan gambar utama -->
 <div class="full-section overflow-hidden p-3 p-md-5 m-md-3 text-center bg-white text-dark">
   <div class="col-md-6 p-lg-5 mx-auto my-5">
     <h1 class="display-3 fw-bold">Layanan Reparasi Handphone di Jakarta Barat</h1>
@@ -110,7 +222,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
   </div>
 </div>
 
-<!-- Bagian Layanan Utama -->
+<!-- Bagian Layanan Utama: Penjelasan singkat dan tombol lokasi -->
 <div class="full-section container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
@@ -126,6 +238,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
   </div>
 </div>
 
+<!-- Carousel Bootstrap: Menampilkan gambar dan caption layanan -->
 <div id="mainCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -133,6 +246,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
     <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner" style="height: 350px;">
+    <!-- Slide 1 -->
     <div class="carousel-item active" style="height: 100%;">
       <img src="https://images.unsplash.com/photo-1617299516258-eb06985065ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
            class="d-block w-100 h-100" alt="Reparasi Handphone 1" style="object-fit: cover;" loading="lazy" />
@@ -141,6 +255,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <p>Layanan perbaikan handphone tercepat di Jakarta Barat.</p>
       </div>
     </div>
+    <!-- Slide 2 -->
     <div class="carousel-item" style="height: 100%;">
       <img src="https://images.unsplash.com/photo-1576613109753-27804de2cba8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
            class="d-block w-100 h-100" alt="Reparasi Handphone 2" style="object-fit: cover;" loading="lazy" />
@@ -149,6 +264,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <p>Teknisi berpengalaman dan profesional siap membantu Anda.</p>
       </div>
     </div>
+    <!-- Slide 3 -->
     <div class="carousel-item" style="height: 100%;">
       <img src="https://images.unsplash.com/photo-1658212662417-a2a76efe25df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
            class="d-block w-100 h-100" alt="Service Center" style="object-fit: cover;" loading="lazy" />
@@ -158,6 +274,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
       </div>
     </div>
   </div>
+  <!-- Tombol navigasi carousel -->
   <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -168,11 +285,11 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
   </button>
 </div>
 
-
-<!-- Bagian Layanan Detail -->
+<!-- Bagian Layanan Detail: 3 kolom layanan utama -->
 <div class="container px-4 py-5" id="hanging-icons">
   <h2 class="pb-2 border-bottom">Layanan Reparasi Handphone</h2>
   <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <!-- Kolom 1: Perbaikan Hardware -->
     <div class="col d-flex align-items-start">
       <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-tools"></i>
@@ -182,6 +299,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <p>Kami menyediakan layanan perbaikan hardware seperti penggantian layar, baterai, kamera, dan komponen lainnya.</p>
       </div>
     </div>
+    <!-- Kolom 2: Optimasi Performa -->
     <div class="col d-flex align-items-start">
       <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-speedometer2"></i>
@@ -191,6 +309,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <p>Layanan optimasi performa mencakup upgrade software, pembersihan sistem, dan penghapusan file yang tidak diperlukan.</p>
       </div>
     </div>
+    <!-- Kolom 3: Keamanan Data -->
     <div class="col d-flex align-items-start">
       <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
         <i class="bi bi-shield-lock"></i>

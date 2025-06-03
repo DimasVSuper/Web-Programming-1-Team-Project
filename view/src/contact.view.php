@@ -1,13 +1,16 @@
 <?php
+// Mendapatkan base URL untuk tombol "Balik ke Beranda"
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseUrl === '') {
     $baseUrl = '/';
 }
+
+// Cek apakah perlu menampilkan modal notifikasi (sukses/gagal)
 $showModal = false;
 $modalStatus = '';
 if (isset($_SESSION['status'])) {
     $showModal = true;
-    $modalStatus = $_SESSION['status'];
+    $modalStatus = $_SESSION['status']; // 'success' atau 'error'
     unset($_SESSION['status']);
 }
 ?>

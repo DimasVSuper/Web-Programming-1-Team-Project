@@ -37,22 +37,27 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
                     </div>
                     <div class="card-body">
                         <form action="/projek/service" method="POST">
+                            <!-- Input Nama -->
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama:</label>
                                 <input type="text" id="nama" name="nama" class="form-control" required>
                             </div>
+                            <!-- Input Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email:</label>
                                 <input type="email" id="email" name="email" class="form-control" required>
                             </div>
+                            <!-- Input Nama HP -->
                             <div class="mb-3">
                                 <label for="nama_hp" class="form-label">Nama HP:</label>
                                 <input type="text" id="nama_hp" name="nama_hp" class="form-control" required>
                             </div>
+                            <!-- Input Kerusakan -->
                             <div class="mb-3">
                                 <label for="kerusakan" class="form-label">Kerusakan pada HP:</label>
                                 <textarea id="kerusakan" name="kerusakan" rows="4" class="form-control" required></textarea>
                             </div>
+                            <!-- Tombol Navigasi -->
                             <div class="d-flex justify-content-between">
                                 <a href="/projek" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> Kembali ke Beranda
@@ -88,16 +93,16 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <?php if ($showSuccess): ?>
-    <script>
-        // Tampilkan modal sukses dengan animasi
-        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        window.addEventListener('DOMContentLoaded', function() {
-            successModal.show();
-            setTimeout(function() {
-                successModal.hide();
-            }, 2500); // Modal otomatis hilang setelah 2.5 detik
-        });
-    </script>
-    <?php endif; ?>
+<script>
+    // Tampilkan modal sukses dengan animasi
+    var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+    window.addEventListener('DOMContentLoaded', function() {
+        successModal.show();
+        setTimeout(function() {
+            successModal.hide();
+        }, 2500); // Modal otomatis hilang setelah 2.5 detik
+    });
+</script>
+<?php endif; ?>
 </body>
 </html>
