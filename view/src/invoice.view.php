@@ -28,14 +28,169 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        .modal.fade .modal-dialog {
-            -webkit-transform: translate(0,50px);
-            transform: translate(0,50px);
-            transition: transform 0.3s ease-out;
+        body {
+            background: #f8fafc;
         }
-        .modal.fade.show .modal-dialog {
-            -webkit-transform: translate(0,0);
-            transform: translate(0,0);
+        .card {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 6px 32px rgba(0,123,255,0.07), 0 1.5px 4px rgba(0,0,0,0.03);
+            margin-top: 2.5rem;
+        }
+        .card-header {
+            background: linear-gradient(90deg, #f8fafc 60%, #e3f0ff 100%);
+            border-bottom: 1px solid #eaeaea;
+            border-radius: 1.5rem 1.5rem 0 0;
+            padding: 2rem 2rem 1.2rem 2rem;
+            text-align: center;
+        }
+        .card-header h3 {
+            color: #007bff;
+            font-weight: 700;
+            font-size: 2.1rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+        }
+        .card-header .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        .table {
+            background: #fff;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .table th {
+            background: #f8fafc;
+            color: #222;
+            font-weight: 500;
+            width: 35%;
+            border: none;
+            vertical-align: middle;
+        }
+        .table td {
+            color: #444;
+            border: none;
+            vertical-align: middle;
+        }
+        .badge-status {
+            font-size: 1rem;
+            border-radius: 1rem;
+            padding: 0.4em 1.2em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .badge-paid {
+            background: #e6f7ee;
+            color: #28a745;
+        }
+        .badge-unpaid,
+        .badge-status.badge-unpaid {
+            background: #fffbe6;
+            color: #111 !important;
+            font-weight: 900;
+            font-size: 1.08rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 0 #fff, 0 0.5px 0 #fff;
+        }
+        .alert-success {
+            border-radius: 0.7rem;
+            font-size: 1.1rem;
+            background: #e6f7ee;
+            color: #28a745;
+            border: none;
+        }
+        .btn-primary, .btn-outline-primary, .btn-success, .btn-warning {
+            border-radius: 25px;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+            border: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+            color: #fff;
+        }
+        .btn-outline-primary {
+            background: #fff;
+            color: #007bff;
+            border: 1.5px solid #007bff;
+        }
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #222;
+        }
+        .form-control {
+            border-radius: 0.7rem;
+            border: 1.5px solid #eaeaea;
+            font-size: 1.05rem;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.15rem rgba(0,123,255,0.08);
+        }
+        /* Modal Neve-like */
+        .modal-content {
+            border-radius: 1.2rem;
+            box-shadow: 0 4px 32px rgba(0,123,255,0.08);
+            border: none;
+        }
+        .modal-body {
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        .modal-success-icon {
+            display: inline-block;
+            background: #e6f7ee;
+            border-radius: 50%;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .modal-success-icon i {
+            font-size: 2.5rem;
+            color: #28a745;
+        }
+        .modal-warning-icon {
+            display: inline-block;
+            background: #fffbe6;
+            border-radius: 50%;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .modal-warning-icon i {
+            font-size: 2.5rem;
+            color: #ffc107;
+        }
+        .modal-title {
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 0.5rem;
+        }
+        .modal-success-title {
+            color: #28a745;
+        }
+        .modal-warning-title {
+            color: #ffc107;
+        }
+        .modal-footer {
+            border: none;
+            justify-content: center;
+            padding-bottom: 2rem;
+        }
+        @media (max-width: 576px) {
+            .card-header h3 { font-size: 1.3rem; }
+            .btn { font-size: 0.95rem; }
+            .modal-body { padding: 2rem 1rem 1.5rem 1rem; }
         }
     </style>
 </head>
@@ -44,13 +199,14 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header bg-success text-white">
-                        <h3 class="mb-0"><i class="bi bi-receipt"></i> Invoice Service HP</h3>
+                    <div class="card-header">
+                        <h3 class="mb-1"><i class="bi bi-receipt"></i> Invoice Service HP</h3>
+                        <div class="subtitle">Detail transaksi dan status pembayaran service HP Anda</div>
                     </div>
                     <div class="card-body">
                         <?php if (isset($invoice) && is_array($invoice) && !empty($invoice)): ?>
                             <!-- Tabel detail invoice -->
-                            <table class="table table-bordered">
+                            <table class="table table-bordered mb-4">
                                 <tr>
                                     <th>Nama</th>
                                     <td><?= htmlspecialchars($invoice['nama'] ?? '-') ?></td>
@@ -73,9 +229,9 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                         <?php
                                         $biaya_belum_input = !isset($invoice['biaya_awal']) || $invoice['biaya_awal'] === null || $invoice['biaya_awal'] === '' || $invoice['biaya_awal'] <= 0;
                                         if ($biaya_belum_input) {
-                                            echo '<span class="text-danger">Biaya belum di input</span>';
+                                            echo '<span class="badge badge-unpaid">Belum diinput</span>';
                                         } else {
-                                            echo 'Rp ' . number_format($invoice['biaya_awal'], 0, ',', '.');
+                                            echo '<span class="fw-bold text-success">Rp ' . number_format($invoice['biaya_awal'], 0, ',', '.') . '</span>';
                                         }
                                         ?>
                                     </td>
@@ -85,15 +241,27 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                     <td>
                                         <?php
                                         if ($biaya_belum_input) {
-                                            echo '<span class="text-danger">-</span>';
+                                            echo '<span class="badge badge-unpaid">-</span>';
                                         } else {
-                                            // Gunakan hasil dari controller jika ada, jika tidak hitung di sini
                                             $biaya_ppn = isset($invoice['biaya_awal_ppn'])
                                                 ? $invoice['biaya_awal_ppn']
                                                 : ($invoice['biaya_awal'] * 1.12);
-                                            echo 'Rp ' . number_format($biaya_ppn, 0, ',', '.');
+                                            echo '<span class="fw-bold text-primary">Rp ' . number_format($biaya_ppn, 0, ',', '.') . '</span>';
                                         }
                                         ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        <?php if (isset($invoice['status']) && $invoice['status'] === 'paid'): ?>
+                                            <span class="badge badge-status badge-paid"><i class="bi bi-check-circle-fill me-1"></i>Sudah Bayar</span>
+                                            <?php if (!empty($invoice['paid_at'])): ?>
+                                                <span class="ms-2 text-muted" style="font-size:0.95rem;">(<?= htmlspecialchars($invoice['paid_at']) ?>)</span>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <span class="badge badge-status badge-unpaid"><i class="bi bi-clock-history me-1"></i>Belum Bayar</span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             </table>
@@ -102,9 +270,6 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                 <div class="alert alert-success d-flex align-items-center mt-3" role="alert">
                                     <i class="bi bi-check-circle-fill me-2"></i>
                                     <strong>Sudah Bayar</strong>
-                                    <?php if (!empty($invoice['paid_at'])): ?>
-                                        <span class="ms-3">(<?= htmlspecialchars($invoice['paid_at']) ?>)</span>
-                                    <?php endif; ?>
                                 </div>
                             <?php elseif (!$biaya_belum_input): ?>
                                 <!-- Form bayar jika belum bayar -->
@@ -117,7 +282,11 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                             <?php endif; ?>
                         <?php else: ?>
                             <!-- Form pencarian invoice jika belum ada data -->
-                            <form method="GET" action="/projek/invoice" class="mt-4">
+                            <div class="mb-4 text-center">
+                                <i class="bi bi-search" style="font-size:2.5rem;color:#007bff;"></i>
+                                <h5 class="mt-2 mb-3" style="color:#007bff;font-weight:600;">Cari Invoice Service HP Anda</h5>
+                            </div>
+                            <form method="GET" action="/projek/invoice" class="mx-auto" style="max-width:400px;">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama:</label>
                                     <input type="text" class="form-control" id="nama" name="nama" required>
@@ -126,7 +295,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                     <label for="email" class="form-label">Email:</label>
                                     <input type="email" class="form-control" id="email" name="email" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary w-100">
                                     <i class="bi bi-search"></i> Cari Invoice
                                 </button>
                             </form>
@@ -143,31 +312,37 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
         </div>
     </div>
 
-    <!-- Modal Sukses Pembayaran -->
+    <!-- Modal Sukses Pembayaran Neve-like -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-success">
-          <div class="modal-header bg-success text-white">
-            <h5 class="modal-title" id="successModalLabel"><i class="bi bi-check-circle-fill me-2"></i>Berhasil!</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+        <div class="modal-content">
           <div class="modal-body text-center">
+            <div class="modal-success-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h4 class="modal-title modal-success-title mb-2" id="successModalLabel">Berhasil!</h4>
             <p class="mb-0"><?= isset($successMessage) ? htmlspecialchars($successMessage) : 'Transaksi berhasil.' ?></p>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" style="border-radius:25px;">Tutup</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal Data Tidak Ditemukan -->
+    <!-- Modal Data Tidak Ditemukan Neve-like -->
     <div class="modal fade" id="notFoundModal" tabindex="-1" aria-labelledby="notFoundModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-warning">
-          <div class="modal-header bg-warning text-dark">
-            <h5 class="modal-title" id="notFoundModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Data Tidak Ditemukan</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+        <div class="modal-content">
           <div class="modal-body text-center">
+            <div class="modal-warning-icon">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <h4 class="modal-title modal-warning-title mb-2" id="notFoundModalLabel">Data Tidak Ditemukan</h4>
             <p class="mb-0">Invoice tidak ditemukan. Silakan cek kembali nama dan email Anda.</p>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning px-4" data-bs-dismiss="modal" style="border-radius:25px;">Tutup</button>
+            </div>
           </div>
         </div>
       </div>

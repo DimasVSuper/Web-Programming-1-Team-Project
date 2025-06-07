@@ -17,6 +17,9 @@ if (isset($_SESSION['status'])) {
 
 
 <style>
+  body {
+    background: #f8fafc;
+  }
   /* Styles untuk hero overlay */
   .hero-contact {
     position: relative;
@@ -72,62 +75,148 @@ if (isset($_SESSION['status'])) {
     z-index: 9999;
     min-width: 250px;
   }
+
+  .contact-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0,123,255,0.13), 0 2px 8px rgba(0,0,0,0.06);
+    padding: 2.5rem 2rem 2rem 2rem;
+    max-width: 520px;
+    margin: 2.5rem auto 0 auto;
+  }
+  .contact-card h2 {
+    color: #007bff;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .form-label {
+    font-weight: 600;
+    color: #222;
+  }
+  .form-control {
+    border-radius: 0.7rem;
+    border: 1.5px solid #eaeaea;
+    font-size: 1.05rem;
+    background: #f8fafc;
+  }
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.15rem rgba(0,123,255,0.08);
+    background: #fff;
+  }
+  .btn-primary {
+    background: #007bff;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 700;
+    padding: 0.6rem 2.2rem;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+    border: none;
+    transition: background 0.2s;
+    font-size: 1.08rem;
+  }
+  .btn-primary:hover {
+    background: #0056b3;
+    color: #fff;
+  }
+  .btn-outline-secondary {
+    border-radius: 25px;
+    font-weight: 600;
+    border: 1.5px solid #ced4da;
+    background: #fff;
+    color: #6c757d;
+    margin-top: 1.2rem;
+    width: 100%;
+    padding: 0.6rem 2.2rem;
+    font-size: 1.08rem;
+  }
+  .btn-outline-secondary:hover {
+    background: #f0f0f0;
+    color: #222;
+  }
+  /* Styles untuk modal notifikasi */
+  #notifModal .modal-content {
+    border-radius: 1.5rem;
+    box-shadow: 0 6px 32px rgba(0,123,255,0.09);
+    border: none;
+    background: #fff;
+  }
+  #notifModal .modal-body {
+    padding: 2.5rem 2rem 2rem 2rem;
+  }
+  #notifModal .notif-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6f7ee;
+    border-radius: 50%;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 12px rgba(40,167,69,0.08);
+  }
+  #notifModal .notif-icon.failed {
+    background: #fffbe6;
+    box-shadow: 0 2px 12px rgba(255,193,7,0.08);
+  }
+  #notifModal .notif-icon i {
+    font-size: 2.5rem;
+  }
+  #notifModal .notif-title {
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+    letter-spacing: 0.5px;
+  }
+  #notifModal .notif-title.success { color: #28a745; }
+  #notifModal .notif-title.failed { color: #dc3545; }
+  #notifModal .notif-msg {
+    color: #444;
+    font-size: 1.08rem;
+    margin-bottom: 0;
+  }
+  #notifModal .btn {
+    border-radius: 25px;
+    font-weight: 600;
+    padding: 0.5rem 2.2rem;
+    font-size: 1.08rem;
+    margin-top: 1.5rem;
+  }
 </style>
 
 <section id="contact-section" class="full-section mb-4">
   <div class="container">
-    <h2 class="h1-responsive font-weight-bold text-center my-4">Hubungi Kami</h2>
-
-    <!-- Hero Section -->
-    <div class="hero-contact mb-5">
-      <img src="https://plus.unsplash.com/premium_vector-1711987589978-171fa8d26254?q=80&w=1152&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-           alt="Contact Hero">
-      <div class="hero-contact-overlay">
-        <h1>Hubungi Kami</h1>
-        <p>Kami siap membantu Anda! Silakan isi form di bawah ini untuk menghubungi tim kami secara langsung.</p>
-      </div>
-    </div>
-
-    <!-- Form Kontak -->
     <div class="row">
       <div class="col-md-8 mb-md-0 mb-5 mx-auto">
-        <form id="contact-form" name="contact-form" action="/projek/contact" method="POST" novalidate>
-          <div class="row mb-3">
-            <div class="col-md-12">
+        <div class="contact-card">
+          <h2>Hubungi Kami</h2>
+          <form id="contact-form" name="contact-form" action="/projek/contact" method="POST" novalidate>
+            <div class="mb-3">
               <label for="name" class="form-label">Nama Anda</label>
               <input type="text" id="name" name="name" class="form-control" placeholder="Masukkan nama Anda" required>
             </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-12">
+            <div class="mb-3">
               <label for="email" class="form-label">Email Anda</label>
               <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email Anda" required>
             </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-12">
+            <div class="mb-3">
               <label for="subject" class="form-label">Subjek</label>
               <input type="text" id="subject" name="subject" class="form-control" placeholder="Masukkan subjek pesan Anda" required>
             </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-12">
+            <div class="mb-3">
               <label for="message" class="form-label">Pesan Anda</label>
               <textarea id="message" name="message" rows="4" class="form-control" placeholder="Tulis pesan Anda di sini..." required></textarea>
             </div>
-          </div>
-
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg">Kirim</button>
-          </div>
-
-          <div id="back-home-btn">
-            <a href="<?= $baseUrl ?>" class="btn btn-outline-secondary">Balik ke Beranda</a>
-          </div>
-        </form>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg w-100 mb-2">Kirim</button>
+              <a href="<?= $baseUrl ?>" class="btn btn-outline-secondary w-100">Balik ke Beranda</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -135,26 +224,27 @@ if (isset($_SESSION['status'])) {
 
 <div id="notif-alert"></div>
 
-<!-- Modal Notifikasi -->
+<!-- Modal Notifikasi Neve-like -->
 <div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-<?= $modalStatus === 'success' ? 'success' : 'danger' ?>">
-      <div class="modal-header bg-<?= $modalStatus === 'success' ? 'success' : 'danger' ?> text-white">
-        <h5 class="modal-title" id="notifModalLabel">
-          <?php if ($modalStatus === 'success'): ?>
-            <i class="bi bi-check-circle-fill me-2"></i>Pesan Terkirim!
-          <?php else: ?>
-            <i class="bi bi-x-circle-fill me-2"></i>Gagal Mengirim
-          <?php endif; ?>
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+    <div class="modal-content">
       <div class="modal-body text-center">
-        <?php if ($modalStatus === 'success'): ?>
-          Pesan Anda berhasil dikirim ke tim kami. Terima kasih!
-        <?php else: ?>
-          Gagal mengirim pesan. Silakan coba lagi.
-        <?php endif; ?>
+        <div class="notif-icon <?= $modalStatus === 'success' ? '' : 'failed' ?>">
+          <?php if ($modalStatus === 'success'): ?>
+            <i class="bi bi-check-circle-fill" style="color:#28a745"></i>
+          <?php else: ?>
+            <i class="bi bi-x-circle-fill" style="color:#dc3545"></i>
+          <?php endif; ?>
+        </div>
+        <div class="notif-title <?= $modalStatus === 'success' ? 'success' : 'failed' ?>">
+          <?= $modalStatus === 'success' ? 'Pesan Terkirim!' : 'Gagal Mengirim' ?>
+        </div>
+        <div class="notif-msg">
+          <?= $modalStatus === 'success'
+            ? 'Pesan Anda berhasil dikirim ke tim kami. Terima kasih!'
+            : 'Gagal mengirim pesan. Silakan coba lagi.' ?>
+        </div>
+        <button type="button" class="btn <?= $modalStatus === 'success' ? 'btn-success' : 'btn-danger' ?>" data-bs-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>

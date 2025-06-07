@@ -1,6 +1,5 @@
 <?php
 // Mendapatkan halaman aktif dari query string (untuk highlight menu navbar)
-$currentPage = $_GET['page'] ?? 'home';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -18,8 +17,61 @@ $currentPage = $_GET['page'] ?? 'home';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     /* =========================
-       HERO SECTION & IMAGE
+       NEVE-LIKE HEADER & NAVBAR
     ========================= */
+    #mainHeader {
+      background: #fff !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: box-shadow 0.2s;
+    }
+    .navbar-brand {
+      color: #007bff !important;
+      font-weight: bold;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    .navbar-nav .nav-link {
+      color: #333 !important;
+      font-weight: 500;
+      margin-right: 1rem;
+      transition: color 0.2s;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+    .navbar-nav .nav-link.active,
+    .navbar-nav .nav-link:hover {
+      color: #007bff !important;
+      background: #f0f8ff;
+    }
+    .btn-cta {
+      background: #007bff;
+      color: #fff;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 600;
+      margin-left: 1rem;
+      box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+      transition: background 0.2s;
+      border: none;
+    }
+    .btn-cta:hover {
+      background: #0056b3;
+      color: #fff;
+    }
+
+    /* =========================
+       HERO & IMAGE (TIDAK DIUBAH)
+    ========================= */
+    .full-section {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(120deg, #f8fafc 60%, #e3f0ff 100%);
+      border-bottom: 1px solid #eaeaea;
+    }
     .hero-image-container {
       position: absolute;
       top: 0; left: 0;
@@ -34,13 +86,39 @@ $currentPage = $_GET['page'] ?? 'home';
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.3;
+      opacity: 0.18;
       -webkit-filter: drop-shadow(10px 10px 10px #0008fa);
+    }
+    .full-section .col-md-6 {
+      position: relative;
+      z-index: 2;
+    }
+    .full-section h1, .full-section h3 {
+      color: #222;
+      text-shadow: none;
     }
 
     /* =========================
-       ICON SQUARE (3 layanan)
+       LAYANAN UTAMA & CARD NEVE
     ========================= */
+    .card-neve {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      background: #fff;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .card-neve:hover {
+      box-shadow: 0 4px 24px rgba(0,123,255,0.10)
+    }
+    .card-neve i {
+      font-size: 2.5rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+    }
     .icon-square {
       width: 3rem;
       height: 3rem;
@@ -49,44 +127,43 @@ $currentPage = $_GET['page'] ?? 'home';
       justify-content: center;
       border-radius: 0.5rem;
       background-color: #f8f9fa;
-      color: #212529;
-      box-shadow: 0 0 50px rgba(0, 17, 255, 0.5);
+      color: #007bff;
+      box-shadow: 0 0 24px rgba(0, 17, 255, 0.08);
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
+    .fs-2 { font-size: 1.3rem !important; }
+    .pb-2 { padding-bottom: 0.7rem !important; }
+    .border-bottom { border-bottom: 1px solid #eaeaea !important; }
 
     /* =========================
-       SECTION & LAYOUT
+       BUTTONS & LINK
     ========================= */
-    .position-relative {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .btn-primary, .btn-primary:focus {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+      transition: background 0.2s;
     }
-    .full-section {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .btn-primary:hover {
+      background: #0056b3;
+      color: #fff;
     }
-
-    /* =========================
-       FORM INPUT
-    ========================= */
-    input, textarea {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
-      width: 100%;
-      box-sizing: border-box;
+    .btn-outline-primary {
+      border-radius: 25px;
+      font-weight: 600;
+      border: 1.5px solid #007bff;
+      color: #007bff;
+      background: #fff;
+      transition: background 0.2s, color 0.2s;
     }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: #007bff;
+    .btn-outline-primary:hover {
+      background: #007bff;
+      color: #fff;
     }
 
     /* =========================
@@ -94,22 +171,21 @@ $currentPage = $_GET['page'] ?? 'home';
     ========================= */
     .carousel-caption {
       display: block !important;
-      /* background: rgba(0, 0, 0, 0.5); */
+      color: #222;
       padding: 0.5rem 1rem;
       border-radius: 10px;
       max-width: 90%;
       margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .carousel-caption h5 {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: bold;
+      color: black;
     }
     .carousel-caption p {
       font-size: 1rem;
-    }
-    @media (max-width: 576px) {
-      .carousel-caption h5 { font-size: 1rem; }
-      .carousel-caption p { font-size: 0.875rem; }
+      color: black;
     }
 
     /* =========================
@@ -135,41 +211,33 @@ $currentPage = $_GET['page'] ?? 'home';
     }
 
     /* =========================
-       NAVBAR & HEADER
+       FOOTER NEVE STYLE
     ========================= */
-    .gradient-text {
-      background: linear-gradient(90deg, #fff 0%, #00c6ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    footer {
+      background: #f8fafc !important;
+      color: #888;
+      font-size: 0.95rem;
+      padding: 2rem 0 1rem 0;
+      border-top: 1px solid #eaeaea;
+      margin-top: 3rem;
     }
-    .navbar-nav .nav-link {
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      transition: color 0.2s, background 0.2s;
-      border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
+    footer a {
+      color: #007bff !important;
+      margin: 0 0.5rem;
+      font-size: 1.5rem;
+      transition: color 0.2s;
     }
-    .navbar-nav .nav-link.active,
-    .navbar-nav .nav-link:hover {
-      background: rgba(255,255,255,0.15);
-      color: #fff !important;
+    footer a:hover {
+      color: #0056b3 !important;
     }
-    #mainHeader {
-      background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
-      transition: background 0.3s, backdrop-filter 0.3s;
-    }
-    #mainHeader.glass-header {
-      background: rgba(255,255,255,0.15) !important;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 4px 24px rgba(0,123,255,0.08);
-    }
+    .fw-bold { font-weight: 700 !important; }
+    .small { font-size: 0.95rem !important; }
 
     /* =========================
        GENERAL
     ========================= */
     html { scroll-behavior: smooth; }
+    body { background: #f8fafc; }
   </style>
 </head>
 <body>
@@ -195,7 +263,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link <?= $currentPage === 'home' ? 'active' : '' ?>" aria-current="page" href="?page=home">Beranda</a>
+          <a class="nav-link" href="/projek">Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#location-section">Lokasi</a>
