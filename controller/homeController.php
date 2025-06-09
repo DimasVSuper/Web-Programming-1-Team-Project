@@ -14,6 +14,6 @@ class HomeController
     {
         // Jika nanti butuh data dari DB, tinggal require DB.php di sini
         // require_once __DIR__ . '/../config/DB.php';
-        include __DIR__ . '/../view/src/home.view.php';
+        include __DIR__ . '/../view/home.view.php';
     }
 }

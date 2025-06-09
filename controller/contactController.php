@@ -15,7 +15,7 @@ class ContactController
      */
     public static function showForm()
     {
-        include __DIR__ . '/../view/src/contact.view.php';
+        include __DIR__ . '/../view/contact.view.php';
     }
 
     /**
@@ -35,13 +35,13 @@ class ContactController
         }
 
         // Ambil dan bersihkan data POST
-        $name    = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING) ?? '');
+        $name    = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
         $email   = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '');
-        $subject = trim(filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING) ?? '');
-        $message = trim(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING) ?? '');
+        $subject = trim(filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+        $message = trim(filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
 
-        // Validasi input
-        if (!validateContactInput($name, $email, $subject, $message)) {
+        // Validasi input menggunakan method di ContactProcessing
+        if (!ContactProcessing::validate($name, $email, $subject, $message)) {
             $_SESSION['status']  = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
             header('Location: /projek/contact');
@@ -49,10 +49,7 @@ class ContactController
         }
 
         // Simpan pesan ke database
-        $db   = new DB();
-        $conn = $db->getConnection();
-
-        if (saveContactMessage($conn, $name, $email, $subject, $message)) {
+        if (ContactProcessing::save($name, $email, $subject, $message)) {
             $_SESSION['status']  = 'success';
             $_SESSION['message'] = 'Pesan berhasil dikirim!';
         } else {

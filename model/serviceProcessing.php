@@ -2,43 +2,65 @@
 require_once __DIR__ . '/../config/DB.php';
 
 /**
- * Menyimpan data service request ke database.
- *
- * @param string $nama Nama pelanggan.
- * @param string $email Email pelanggan.
- * @param string $nama_hp Nama HP pelanggan.
- * @param string $kerusakan Deskripsi kerusakan HP.
- * @return string|false ID service request jika berhasil, false jika gagal
+ * Class ServiceProcessing
+ * Mengelola proses penyimpanan dan validasi data service request.
  */
-function saveServiceRequest($nama, $email, $nama_hp, $kerusakan)
+class ServiceProcessing
 {
-    $db = new DB();
-    $conn = $db->getConnection();
-    $sql = "INSERT INTO service_requests (nama, email, nama_hp, kerusakan) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+    /**
+     * Menyimpan data service request ke database.
+     *
+     * @param string $nama Nama pelanggan.
+     * @param string $email Email pelanggan.
+     * @param string $nama_hp Nama HP pelanggan.
+     * @param string $kerusakan Deskripsi kerusakan HP.
+     * @return string|false ID service request jika berhasil, false jika gagal
+     */
+    public static function save($nama, $email, $nama_hp, $kerusakan)
+    {
+        $db = new DB();
+        $pdo = $db->getConnection();
+        $sql = "INSERT INTO service_requests (nama, email, nama_hp, kerusakan) VALUES (?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
 
-    if (!$stmt) {
-        error_log("Gagal prepare statement: " . $conn->error);
-        return false;
+        if (!$stmt) {
+            error_log("Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            return false;
+        }
+
+        $result = $stmt->execute([$nama, $email, $nama_hp, $kerusakan]);
+
+        if (!$result) {
+            error_log("Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+            return false;
+        }
+
+        // Ambil ID UUID yang baru dibuat (karena pakai UUID, lastInsertId tidak bisa dipakai)
+        $query = $pdo->prepare("SELECT id FROM service_requests WHERE email = ? ORDER BY created_at DESC LIMIT 1");
+        $query->execute([$email]);
+        $row = $query->fetch();
+        $id = $row['id'] ?? false;
+
+        return $id;
     }
 
-    $stmt->bind_param("ssss", $nama, $email, $nama_hp, $kerusakan);
-    $result = $stmt->execute();
-
-    if (!$result) {
-        error_log("Gagal execute statement: " . $stmt->error);
-        $stmt->close();
-        $conn->close();
-        return false;
+    /**
+     * Validasi input form service.
+     *
+     * @param string $nama
+     * @param string $email
+     * @param string $nama_hp
+     * @param string $kerusakan
+     * @return bool
+     */
+    public static function validate($nama, $email, $nama_hp, $kerusakan)
+    {
+        if (empty($nama) || empty($email) || empty($nama_hp) || empty($kerusakan)) {
+            return false;
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
     }
-
-    // Ambil ID UUID yang baru dibuat (karena pakai UUID, insert_id tidak bisa dipakai)
-    $query = $conn->query("SELECT id FROM service_requests WHERE email='" . $conn->real_escape_string($email) . "' ORDER BY created_at DESC LIMIT 1");
-    $row = $query->fetch_assoc();
-    $id = $row['id'] ?? false;
-
-    $stmt->close();
-    $conn->close();
-
-    return $id;
 }

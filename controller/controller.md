@@ -14,15 +14,18 @@ Folder ini berisi file-file controller yang menangani logika aplikasi, menerima 
 -   Setiap controller bertanggung jawab untuk satu halaman atau fitur utama.
 -   Controller menerima request, memproses data menggunakan model, dan meng-include view untuk output ke user.
 -   Controller bertindak sebagai perantara antara model (data/database) dan view (tampilan).
+-   Controller juga bertugas melakukan validasi input sebelum memproses data.
 
 ## 🚀 Cara Menggunakan
 
 -   Router akan memanggil method pada controller sesuai route yang diakses user.
 -   Controller memanggil method pada model untuk operasi database.
 -   Controller meng-include file view untuk menampilkan hasil ke user.
+-   Untuk menambah fitur baru, buat file controller baru dan daftarkan routenya.
 
 ## 📝 Catatan
 
 -   Sebaiknya setiap file controller hanya bertanggung jawab untuk satu halaman atau fitur.
 -   Gunakan PHPDocs untuk mendokumentasikan setiap class dan method.
 -   Selalu validasi input dari user sebelum memproses data.
+-   Hindari logika bisnis yang kompleks di controller, delegasikan ke model jika memungkinkan.

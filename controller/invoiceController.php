@@ -12,9 +12,11 @@ class InvoiceController
     public static function showInvoice()
     {
         require_once __DIR__ . '/../model/invoiceProcessing.php';
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $id = $_GET['id'] ?? null;
         $invoice = null;
-        $not_found = false;
 
         // Jika user melakukan pencarian
         if (!$id && isset($_GET['nama'], $_GET['email'])) {
@@ -34,7 +36,7 @@ class InvoiceController
             $invoice['biaya_awal_ppn'] = $invoice['biaya_awal'] * 1.12;
         }
 
-        require __DIR__ . '/../view/src/invoice.view.php';
+        require __DIR__ . '/../view/invoice.view.php';
     }
 
     /**
@@ -43,7 +45,9 @@ class InvoiceController
      */
     public static function payInvoice()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $id = $_POST['id'] ?? null;
         if ($id) {
             require_once __DIR__ . '/../model/invoiceProcessing.php';
@@ -56,6 +60,8 @@ class InvoiceController
 
     /**
      * Simpan invoice baru ke database.
+     * @param string $service_request_id
+     * @param int $biaya_awal
      * @return void
      */
     public static function saveNewInvoice($service_request_id, $biaya_awal)

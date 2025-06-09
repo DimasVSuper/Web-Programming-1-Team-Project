@@ -1,20 +1,23 @@
 # ⚙️ Folder `config`
 
-Folder ini berisi file-file konfigurasi yang digunakan oleh aplikasi.
+Folder ini berisi file-file konfigurasi utama aplikasi.
 
 ## 📁 Struktur
 
--   **`DB.php`**: 🗄️ File yang berisi konfigurasi koneksi ke database MySQL.
+-   **`DB.php`**: 🗄️ Kelas untuk koneksi database MySQL menggunakan PDO dan environment variable.
 
 ## ℹ️ Penjelasan
 
--   `DB.php` berisi informasi tentang host, username, password, dan nama database yang digunakan oleh aplikasi.
+-   `DB.php` menggunakan variabel environment (`.env`) untuk host, username, password, dan nama database.
+-   Koneksi database dibuat dengan PDO agar lebih aman dan fleksibel.
 
 ## 🚀 Cara Menggunakan
 
--   File `DB.php` di-include di dalam file-file model untuk mendapatkan koneksi ke database.
+-   File `DB.php` di-include pada file model atau controller untuk mendapatkan koneksi database.
+-   Pastikan file `.env` sudah terisi dengan konfigurasi database yang benar.
 
 ## 📝 Catatan
 
--   Pastikan untuk mengubah konfigurasi database sesuai dengan pengaturan di server Anda.
--   Jangan menyimpan informasi sensitif (seperti password database) secara langsung di dalam file konfigurasi. Sebaiknya gunakan variabel environment.
+-   Jangan menyimpan informasi sensitif (seperti password database) langsung di file PHP. Gunakan file `.env`.
+-   Jangan commit file `.env` ke repository publik.
+-   Jika ada perubahan konfigurasi, restart server agar environment variable ter-load ulang.

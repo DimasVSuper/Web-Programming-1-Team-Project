@@ -257,7 +257,7 @@ if (isset($_SESSION['not_found']) && $_SESSION['not_found'] === true) {
                                         <?php if (isset($invoice['status']) && $invoice['status'] === 'paid'): ?>
                                             <span class="badge badge-status badge-paid"><i class="bi bi-check-circle-fill me-1"></i>Sudah Bayar</span>
                                             <?php if (!empty($invoice['paid_at'])): ?>
-                                                <span class="ms-2 text-muted" style="font-size:0.95rem;">(<?= htmlspecialchars($invoice['paid_at']) ?>)</span>
+                                                <span class="ms-2 text-muted" style="font-size:0.95rem;"><?= htmlspecialchars($invoice['paid_at']) ?></span>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             <span class="badge badge-status badge-unpaid"><i class="bi bi-clock-history me-1"></i>Belum Bayar</span>
