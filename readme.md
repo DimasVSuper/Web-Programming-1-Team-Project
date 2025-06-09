@@ -6,12 +6,13 @@
 [![XAMPP](https://img.shields.io/badge/XAMPP-Server-orange?logo=apache)](https://www.apachefriends.org/)
 [![Postman](https://img.shields.io/badge/Postman-API_Testing-orange?logo=postman)](https://www.postman.com/)
 
-Aplikasi web sederhana untuk layanan reparasi handphone di Jakarta Barat.  
-Dibangun dengan **PHP Native**, **Bootstrap 5**, dan **MySQL**.
+Aplikasi web modern untuk layanan reparasi handphone di Jakarta Barat.  
+Dibangun dengan **PHP Native**, **Bootstrap 5**, dan **MySQL**.  
+Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 
 ---
 
-## 👥 Anggota Kelompok
+## 👥 Tim Pengembang
 
 - **Dimas Bayu Nugroho** — Developer utama (coding, development, research)
 - **Alexa Cindy Safara Anasrullah** — Service Concept Designer & UI/UX
@@ -22,25 +23,25 @@ Dibangun dengan **PHP Native**, **Bootstrap 5**, dan **MySQL**.
 
 ## ✨ Fitur Utama
 
-- **Landing Page Modern** — Informasi layanan, carousel, lokasi, dan animasi header transparan (glass).
-- **Form Kontak** — Pengunjung dapat mengirim pesan, data tersimpan ke database, feedback dengan modal Bootstrap.
-- **Form Service Request** — Pelanggan mengisi permintaan service, data tersimpan, feedback modal animatif.
-- **Invoice System** — Pembuatan, pencarian, dan pembayaran invoice dengan status (pending/paid).
-- **Notifikasi Modal Interaktif** — Semua feedback sukses/gagal menggunakan modal Bootstrap, bukan alert biasa.
-- **Halaman 404** — Tampilan custom jika halaman tidak ditemukan.
-- **Desain UI/UX Modern & Responsif** — Bootstrap 5, custom CSS di setiap view, animasi smooth.
-- **Lokasi Google Maps** — Menampilkan lokasi toko/service center.
+- **Landing Page Modern** — Carousel, lokasi, animasi header transparan (glass).
+- **Form Kontak** — Kirim pesan ke database, feedback modal Bootstrap.
+- **Form Service Request** — Permintaan service, data tersimpan, feedback modal.
+- **Invoice System** — Pembuatan, pencarian, pembayaran invoice (pending/paid).
+- **Notifikasi Modal Interaktif** — Semua feedback sukses/gagal pakai modal Bootstrap.
+- **Halaman 404 Custom** — Tampilan error yang informatif.
+- **Desain UI/UX Modern & Responsif** — Bootstrap 5, custom CSS per view.
+- **Lokasi Google Maps** — Tampilkan lokasi toko/service center.
 - **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
-- **Struktur MVC Sederhana** — Pemisahan controller, model, dan view.
+- **Struktur MVC Sederhana** — Controller, model, view terpisah.
 - **Konfigurasi Aman** — Koneksi database via `.env` (phpdotenv).
-- **Query SQL Fleksibel** — Admin dapat cek, update, dan hapus data dengan query yang mudah.
+- **Query SQL Fleksibel** — Admin bisa cek, update, hapus data dengan query SQL.
 
 ---
 
 ## 🚀 Cara Menjalankan
 
 1. **Copy folder proyek** ke dalam `htdocs` XAMPP.
-2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari file `risscell.sql`.
+2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari [`SQL/risscell.sql`](SQL/risscell.sql).
 3. **Copy file `.env.example` ke `.env`** lalu sesuaikan konfigurasi database.
 4. **Jalankan XAMPP** dan akses melalui browser:  
    `http://localhost/projek/`
@@ -49,27 +50,27 @@ Dibangun dengan **PHP Native**, **Bootstrap 5**, dan **MySQL**.
 
 ## 🗄️ Struktur Database
 
-Tabel-tabel utama:
+Tabel utama:
 
 - `contact_messages`: Menyimpan pesan dari form kontak.
-- `service_requests`: Menyimpan data permintaan service dari pelanggan.
-- `invoice`: Menyimpan data invoice, terkait dengan service request.
+- `service_requests`: Menyimpan permintaan service pelanggan.
+- `invoice`: Menyimpan data invoice, terkait service request.
   - `id` (CHAR(36), PRIMARY KEY, UUID)
-  - `service_request_id` (CHAR(36), FOREIGN KEY references `service_requests`.`id`)
+  - `service_request_id` (CHAR(36), FOREIGN KEY)
   - `biaya_awal` (INT)
   - `created_at` (TIMESTAMP)
   - `status` (ENUM('pending', 'paid'))
   - `paid_at` (TIMESTAMP)
 
-> **Pastikan semua tabel sudah dibuat dan relasi foreign key terkonfigurasi dengan benar.**
+> **Pastikan semua tabel sudah dibuat dan relasi foreign key benar.**
 
 ---
 
 ## ⚙️ Konfigurasi
 
 - **`config/DB.php`**: Koneksi database MySQL, otomatis membaca variabel dari `.env`.
-- **`.env`**: File untuk menyimpan variabel environment (DB_HOST, DB_NAME, DB_USER, DB_PASS).
-- **`composer.json`**: Untuk dependency management (phpdotenv, dsb).
+- **`.env`**: File environment (DB_HOST, DB_NAME, DB_USER, DB_PASS).
+- **`composer.json`**: Dependency management (phpdotenv, dsb).
 
 ---
 
@@ -78,37 +79,37 @@ Tabel-tabel utama:
 - PHP >= 8.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
-- [Composer](https://getcomposer.org/) (untuk dependency management)
-- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) (untuk load .env)
+- [Composer](https://getcomposer.org/) (dependency management)
+- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) (load .env)
 - [Bootstrap 5](https://getbootstrap.com/) (CDN)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (CDN)
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## 🛠️ Teknologi
 
-- **PHP Native**: Backend logic dan routing sederhana (tanpa framework besar).
-- **Bootstrap 5**: Framework CSS untuk desain responsif dan modal interaktif.
+- **PHP Native**: Backend logic & routing sederhana (tanpa framework besar).
+- **Bootstrap 5**: Framework CSS responsif & modal interaktif.
 - **Bootstrap Icons**: Icon modern.
-- **MySQL**: Database penyimpanan data.
-- **JavaScript Custom**: Efek header kaca dan modal animasi.
-- **Bootstrap Modal & Animasi**: Untuk notifikasi interaktif dan feedback user.
-- **Composer & phpdotenv**: Untuk manajemen environment variable.
+- **MySQL**: Database utama.
+- **JavaScript Custom**: Efek header kaca & modal animasi.
+- **Bootstrap Modal**: Semua notifikasi & feedback user.
+- **Composer & phpdotenv**: Manajemen environment variable.
 
 ---
 
 ## 🗺️ Routing & Penambahan Halaman
 
-- **Routing menggunakan pretty URL:**  
+- **Pretty URL:**  
   Navigasi antar halaman cukup dengan path, misal:
   - `/projek` untuk halaman utama
-  - `/projek/contact` untuk halaman kontak
-  - `/projek/service` untuk form service request
-  - `/projek/invoice` untuk menampilkan invoice
-- Jika path tidak sesuai, akan diarahkan ke halaman 404.
+  - `/projek/contact` untuk kontak
+  - `/projek/service` untuk form service
+  - `/projek/invoice` untuk invoice
+- Jika path tidak sesuai, diarahkan ke halaman 404.
 - Untuk menambah halaman baru:
-  1. Tambahkan route baru menggunakan metode `get()` atau `post()` pada file `core/web.php`.
-  2. Buat file controller dan view-nya di folder `controller` dan `view`.
+  1. Tambahkan route baru di `core/web.php`.
+  2. Buat file controller dan view di folder `controller` dan `view`.
 
 ---
 
@@ -141,9 +142,9 @@ projek/
 │   ├── home.view.php
 │   ├── invoice.view.php
 │   └── service.view.php
-│
-├── image/          # Semua aset gambar (logo, ilustrasi, dsb)
-│   └── ...
+│   └── image/      # Semua aset gambar (logo, ilustrasi, dsb)
+│       ├── HP.png
+│       └── ReparasiHP.png
 │
 ├── .env            # Konfigurasi environment (jangan diupload ke repo publik)
 ├── composer.json   # Dependency management
