@@ -246,12 +246,20 @@
       max-width: 100vw;
       overflow-x: hidden;
     }
+    body {
+      background: #f8fafc;
+      font-size: 1rem;
+    }
     .full-section {
       width: 100vw;
       min-height: 60vh;
       height: auto;
       padding: 2rem 0;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .hero-image-container {
       position: absolute;
@@ -280,19 +288,24 @@
       text-shadow: none;
       font-size: 2.2rem;
     }
+    @media (max-width: 1199.98px) {
+      .full-section h1 { font-size: 2rem; }
+      .full-section h3 { font-size: 1.2rem; }
+    }
     @media (max-width: 991.98px) {
       .full-section {
         padding: 1.5rem 0;
         min-height: 40vh;
       }
       .hero-image {
-        max-height: 280px;
+        max-height: 220px;
+        min-height: 120px;
       }
-      .full-section h1 {
-        font-size: 1.7rem;
-      }
-      .full-section h3 {
-        font-size: 1.1rem;
+      .full-section h1 { font-size: 1.5rem; }
+      .full-section h3 { font-size: 1.1rem; }
+      .container, .col-xxl-8, .col-lg-6, .col-md-6 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
       }
     }
     @media (max-width: 767.98px) {
@@ -301,47 +314,14 @@
         min-height: 30vh;
       }
       .hero-image {
-        max-height: 180px;
-      }
-      .full-section h1 {
-        font-size: 1.2rem;
-      }
-      .full-section h3 {
-        font-size: 1rem;
-      }
-      .col-md-6.p-lg-5.mx-auto.my-5 {
-        padding: 1rem !important;
-        margin: 0.5rem auto !important;
-      }
-    }
-    @media (max-width: 575.98px) {
-      .full-section {
-        padding: 0.5rem 0;
-        min-height: 20vh;
-      }
-      .hero-image {
-        max-height: 100px;
+        max-height: 120px;
         min-height: 80px;
       }
-      .full-section h1 {
-        font-size: 1rem;
-      }
-      .full-section h3 {
-        font-size: 0.9rem;
-      }
-      .carousel-inner {
-        height: 180px !important;
-      }
-      .carousel-caption {
-        font-size: 0.85rem;
-        padding: 0.2rem 0.5rem;
-      }
-      .display-3, .display-5 {
-        font-size: 1.2rem !important;
-      }
-      .btn-lg, .btn-primary, .btn-outline-primary {
-        font-size: 0.95rem !important;
-        padding: 0.4rem 1rem !important;
+      .full-section h1 { font-size: 1.1rem; }
+      .full-section h3 { font-size: 0.95rem; }
+      .col-md-6.p-lg-5.mx-auto.my-5 {
+        padding: 0.5rem !important;
+        margin: 0.5rem auto !important;
       }
       .container, .col-xxl-8, .col-lg-6, .col-md-6 {
         padding-left: 0.5rem !important;
@@ -354,59 +334,80 @@
       .card-neve {
         padding: 1rem 0.5rem;
       }
-      .responsive-map {
-        padding-bottom: 90%;
-      }
-      .carousel-control-prev, .carousel-control-next {
-        width: 2rem;
-        height: 2rem;
-        top: 40%;
-      }
-      .carousel-control-prev-icon, .carousel-control-next-icon {
-        width: 1.5rem;
-        height: 1.5rem;
-      }
-    }
-    /* Carousel image always fit */
-    .carousel-inner img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-      min-height: 120px;
-      max-height: 350px;
-    }
-    @media (max-width: 991.98px) {
-      .carousel-inner {
-        height: 220px !important;
-      }
-      .carousel-inner img {
-        max-height: 220px;
-      }
     }
     @media (max-width: 575.98px) {
-      .carousel-inner {
-        height: 120px !important;
+      .full-section {
+        padding: 0.5rem 0;
+        min-height: 20vh;
       }
-      .carousel-inner img {
-        max-height: 120px;
+      .hero-image {
+        max-height: 80px;
+        min-height: 50px;
+      }
+      .full-section h1 { font-size: 0.95rem; }
+      .full-section h3 { font-size: 0.8rem; }
+      .container, .col-xxl-8, .col-lg-6, .col-md-6 {
+        padding-left: 0.3rem !important;
+        padding-right: 0.3rem !important;
+      }
+      .card-neve {
+        padding: 0.7rem 0.3rem;
+      }
+      .responsive-map { padding-bottom: 90%; }
+      .display-3, .display-5 { font-size: 1rem !important; }
+      .btn-lg, .btn-primary, .btn-outline-primary {
+        font-size: 0.9rem !important;
+        padding: 0.3rem 0.7rem !important;
       }
     }
-    /* Navbar collapse full width on mobile */
-    @media (max-width: 991.98px) {
-      .navbar-collapse {
-        background: #fff;
-        padding: 1rem 0.5rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      }
-      .navbar-nav .nav-link {
-        margin-right: 0;
-        margin-bottom: 0.5rem;
-        padding: 0.5rem 1rem;
-        text-align: left;
-      }
+    .card-neve {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      background: #fff;
+      text-align: center;
+      transition: box-shadow 0.2s;
     }
-    /* Footer responsive */
+    .card-neve:hover {
+      box-shadow: 0 4px 24px rgba(0,123,255,0.10)
+    }
+    .icon-square {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      background-color: #f8f9fa;
+      color: #007bff;
+      box-shadow: 0 0 24px rgba(0, 17, 255, 0.08);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .responsive-map {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+    .responsive-map iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0.5rem;
+    }
+    @media (max-width: 576px) {
+      .responsive-map { padding-bottom: 75%; }
+    }
+    footer .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
     @media (max-width: 767.98px) {
       footer .container {
         padding-left: 0.5rem;
@@ -417,6 +418,18 @@
       }
       footer .small {
         font-size: 0.85rem !important;
+      }
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+    }
+    @media (max-width: 575.98px) {
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+      .navbar-nav .nav-link {
+        font-size: 0.95rem;
+        padding: 0.3rem 0.7rem;
       }
     }
   </style>
@@ -603,9 +616,15 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
 <footer class="bg-primary text-white text-center py-4 mt-5" style="background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%); box-shadow: 0 -2px 24px rgba(0,123,255,0.08);">
   <div class="container">
     <div class="mb-2">
-      <a href="https://wa.me/6281234567890" class="text-white me-3" target="_blank" title="WhatsApp"><i class="bi bi-whatsapp" style="font-size:1.5rem;"></i></a>
-      <a href="https://instagram.com/ris_cell" class="text-white me-3" target="_blank" title="Instagram"><i class="bi bi-instagram" style="font-size:1.5rem;"></i></a>
-      <a href="mailto:info@riscell.com" class="text-white" title="Email"><i class="bi bi-envelope-fill" style="font-size:1.5rem;"></i></a>
+      <button type="button" class="btn btn-link text-white me-3 p-0" style="text-decoration:none;cursor:not-allowed;" title="WhatsApp (belum aktif)">
+        <i class="bi bi-whatsapp" style="font-size:1.5rem;"></i>
+      </button>
+      <button type="button" class="btn btn-link text-white me-3 p-0" style="text-decoration:none;cursor:not-allowed;" title="Instagram (belum aktif)">
+        <i class="bi bi-instagram" style="font-size:1.5rem;"></i>
+      </button>
+      <button type="button" class="btn btn-link text-white p-0" style="text-decoration:none;cursor:not-allowed;" title="Email (belum aktif)">
+        <i class="bi bi-envelope-fill" style="font-size:1.5rem;"></i>
+      </button>
     </div>
     <p class="mb-0 small">© 2025 <span class="fw-bold">Ris Cell</span>. Semua hak dilindungi.</p>
   </div>
@@ -613,22 +632,6 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
 
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var header = document.getElementById('mainHeader');
-  var scrollTimeout = null;
-
-  function setGlassHeader() {
-    header.classList.add('glass-header');
-    if (scrollTimeout) clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(function() {
-      header.classList.remove('glass-header');
-    }, 700); // 700ms setelah scroll berhenti, header kembali normal
-  }
-
-  window.addEventListener('scroll', setGlassHeader);
-});
-</script>
 </body>
 </html>
 
