@@ -11,11 +11,6 @@
  * @license   MIT
  */
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
-
 /**
  * Class DB
  *
@@ -29,10 +24,11 @@ class DB {
      * @throws PDOException Jika koneksi gagal.
      */
     public function getConnection() {
-        $host = $_ENV['DB_HOST'] ?? 'localhost';
-        $db   = $_ENV['DB_NAME'] ?? 'risscell';
-        $user = $_ENV['DB_USER'] ?? 'root';
-        $pass = $_ENV['DB_PASS'] ?? '';
+        // Konfigurasi database langsung di sini (tanpa .env)
+        $host = 'localhost';
+        $db   = 'risscell';
+        $user = 'root';
+        $pass = '';
         $charset = 'utf8mb4';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
