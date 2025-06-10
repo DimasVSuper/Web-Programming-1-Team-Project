@@ -21,7 +21,7 @@ class DB {
      * Membuka koneksi ke database MySQL dengan PDO.
      *
      * @return PDO Koneksi PDO yang sudah siap digunakan.
-     * @throws PDOException Jika koneksi gagal.
+     * @throws PDOException Jika koneksi gagal
      */
     public function getConnection() {
         // Konfigurasi database langsung di sini (tanpa .env)
