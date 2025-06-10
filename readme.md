@@ -4,7 +4,6 @@
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5-blueviolet?logo=bootstrap)](https://getbootstrap.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-Database-orange?logo=mysql)](https://www.mysql.com/)
 [![XAMPP](https://img.shields.io/badge/XAMPP-Server-orange?logo=apache)](https://www.apachefriends.org/)
-[![Postman](https://img.shields.io/badge/Postman-API_Testing-orange?logo=postman)](https://www.postman.com/)
 
 Aplikasi web modern untuk layanan reparasi handphone di Jakarta Barat.  
 Dibangun dengan **PHP Native**, **Bootstrap 5**, dan **MySQL**.  
@@ -33,7 +32,6 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 - **Lokasi Google Maps** — Tampilkan lokasi toko/service center.
 - **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
 - **Struktur MVC Sederhana** — Controller, model, view terpisah.
-- **Konfigurasi Aman** — Koneksi database via `.env` (phpdotenv).
 - **Query SQL Fleksibel** — Admin bisa cek, update, hapus data dengan query SQL.
 
 ---
@@ -42,8 +40,7 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 
 1. **Copy folder proyek** ke dalam `htdocs` XAMPP.
 2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari [`SQL/risscell.sql`](SQL/risscell.sql).
-3. **Copy file `.env.example` ke `.env`** lalu sesuaikan konfigurasi database.
-4. **Jalankan XAMPP** dan akses melalui browser:  
+3. **Jalankan XAMPP** dan akses melalui browser:  
    `http://localhost/projek/`
 
 ---
@@ -68,9 +65,9 @@ Tabel utama:
 
 ## ⚙️ Konfigurasi
 
-- **`config/DB.php`**: Koneksi database MySQL, otomatis membaca variabel dari `.env`.
-- **`.env`**: File environment (DB_HOST, DB_NAME, DB_USER, DB_PASS).
-- **`composer.json`**: Dependency management (phpdotenv, dsb).
+- **`config/DB.php`**: Koneksi database MySQL langsung di file (tanpa .env, tanpa composer).
+- Tidak ada lagi file `.env` atau dependency composer.
+- Semua konfigurasi database (`host`, `user`, `password`, `dbname`) bisa diubah langsung di file `DB.php`.
 
 ---
 
@@ -79,8 +76,6 @@ Tabel utama:
 - PHP >= 8.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
-- [Composer](https://getcomposer.org/) (dependency management)
-- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) (load .env)
 - [Bootstrap 5](https://getbootstrap.com/) (CDN)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (CDN)
 
@@ -88,13 +83,12 @@ Tabel utama:
 
 ## 🛠️ Teknologi
 
-- **PHP Native**: Backend logic & routing sederhana (tanpa framework besar).
+- **PHP Native**: Backend logic & routing sederhana (tanpa framework).
 - **Bootstrap 5**: Framework CSS responsif & modal interaktif.
 - **Bootstrap Icons**: Icon modern.
 - **MySQL**: Database utama.
 - **JavaScript Custom**: Efek header kaca & modal animasi.
 - **Bootstrap Modal**: Semua notifikasi & feedback user.
-- **Composer & phpdotenv**: Manajemen environment variable.
 
 ---
 
@@ -146,8 +140,6 @@ projek/
 │       ├── HP.png
 │       └── ReparasiHP.png
 │
-├── .env            # Konfigurasi environment (jangan diupload ke repo publik)
-├── composer.json   # Dependency management
 ├── risscell.sql    # Struktur database MySQL
 └── readme.md       # Dokumentasi proyek
 ```
@@ -156,12 +148,11 @@ projek/
 
 ## 📚 Best Practice & Catatan
 
-- **Jangan upload file `.env` ke repository publik.**
+- **Jangan upload file konfigurasi sensitif ke repository publik.**
 - Semua notifikasi dan feedback user menggunakan modal Bootstrap, bukan alert biasa.
 - Semua style custom langsung di masing-masing file view, tidak ada lagi `components.css`.
 - Hindari logika PHP kompleks di file view; letakkan di controller atau model.
 - Untuk menambah fitur baru, cukup tambahkan controller, model, view, dan route-nya.
-- File `.gitignore` sudah disiapkan untuk menghindari file sensitif dan folder yang tidak perlu diupload ke repository.
 - **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
 
 ---
