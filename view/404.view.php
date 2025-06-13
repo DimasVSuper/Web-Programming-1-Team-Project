@@ -73,12 +73,21 @@ $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
             border: none;
             box-shadow: 0 2px 8px rgba(0,123,255,0.08);
             transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
         }
         .btn-home:hover {
             background: #0056b3;
             color: #fff;
         }
+        .btn-home i {
+            font-size: 1.3rem;
+        }
     </style>
+    <!-- Bootstrap Icons untuk ikon rumah -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div class="error-card">
@@ -87,7 +96,10 @@ $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
         <div class="error-detail">Halaman berikut tidak tersedia:</div>
         <div class="mb-2"><code><?= $requestUri ?></code></div>
         <div class="error-detail">Mungkin halaman telah dihapus atau alamat URL salah.</div>
-        <a href="<?= $baseUrl ?>" class="btn btn-home">Kembali ke Beranda</a>
+        <a href="<?= $baseUrl ?>" class="btn btn-home">
+            <i class="bi bi-house-door-fill"></i>
+            <span>Kembali ke Beranda</span>
+        </a>
     </div>
 </body>
 </html>

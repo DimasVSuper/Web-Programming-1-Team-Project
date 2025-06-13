@@ -7,141 +7,132 @@ Silakan sesuaikan query dan struktur tabel sesuai kebutuhan aplikasi Anda.
 
 ## Daftar Isi
 
-- [Tabel `contact_messages`](#tabel-contact_messages)
-- [Tabel `service_requests`](#tabel-service_requests)
-- [Tabel `invoice`](#tabel-invoice)
-- [Relasi & Query Join](#relasi--query-join)
+- [Reset & Hapus Data](#reset--hapus-data)
+- [Membuat Tabel](#membuat-tabel)
+  - [Tabel `service_requests`](#tabel-service_requests)
+  - [Tabel `invoice`](#tabel-invoice)
+  - [Tabel `contact_messages`](#tabel-contact_messages)
+- [Query Pengecekan Data](#query-pengecekan-data)
+- [Query Join](#query-join)
 - [Query Update & Delete](#query-update--delete)
 - [Penjelasan](#penjelasan)
 
 ---
 
-## Tabel `contact_messages`
+## Reset & Hapus Data
 
-### Membuat Tabel
-
-```sql
-CREATE TABLE contact_messages (
-    id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    subject VARCHAR(255) NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-```
-
-### Insert Data
+> **Urutan penghapusan:** invoice → service_requests → contact_messages
 
 ```sql
-INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?);
-```
+-- Hapus tabel jika ada (urutan: invoice → service_requests → contact_messages)
+DROP TABLE IF EXISTS invoice;
+DROP TABLE IF EXISTS service_requests;
+DROP TABLE IF EXISTS contact_messages;
 
-### Select Data
+-- Cek tabel yang ada
+SHOW TABLES;
 
-```sql
-SELECT * FROM contact_messages WHERE email = ?;
+-- Hapus semua data (untuk testing, jika tidak ingin drop tabel)
+DELETE FROM contact_messages;
+DELETE FROM invoice;
+DELETE FROM service_requests;
 ```
 
 ---
 
-## Tabel `service_requests`
+## Membuat Tabel
 
-### Membuat Tabel
+### Tabel `service_requests`
 
 ```sql
 CREATE TABLE service_requests (
-    id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
-    nama VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    nama_hp VARCHAR(100) NOT NULL,
-    kerusakan TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  nama VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  nama_hp VARCHAR(100) NOT NULL,
+  kerusakan TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 
-### Insert Data
-
-```sql
-INSERT INTO service_requests (nama, email, nama_hp, kerusakan) VALUES (?, ?, ?, ?);
-```
-
-### Select Data
-
-```sql
-SELECT * FROM service_requests WHERE nama = ? AND email = ?;
-```
-
----
-
-## Tabel `invoice`
-
-### Membuat Tabel
+### Tabel `invoice`
 
 ```sql
 CREATE TABLE invoice (
-    id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
-    service_request_id CHAR(36) NOT NULL,
-    biaya_awal INT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('pending', 'paid') NOT NULL DEFAULT 'pending',
-    paid_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
+  id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  service_request_id CHAR(36) NOT NULL,
+  biaya_awal INT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('pending', 'paid') NOT NULL DEFAULT 'pending',
+  paid_at TIMESTAMP NULL DEFAULT NULL,
+  FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 
-### Insert Data
+### Tabel `contact_messages`
 
 ```sql
-INSERT INTO invoice (service_request_id, biaya_awal) VALUES (?, ?);
-```
-
-### Update Status Pembayaran
-
-```sql
-UPDATE invoice SET status = 'paid', paid_at = NOW() WHERE id = ?;
-```
-
-### Update Biaya Awal Berdasarkan Nama & Email
-
-```sql
-UPDATE invoice
-JOIN service_requests ON invoice.service_request_id = service_requests.id
-SET invoice.biaya_awal = ?
-WHERE service_requests.nama = ? AND service_requests.email = ?;
-```
-
-### Select Data
-
-```sql
-SELECT * FROM invoice WHERE id = ?;
+CREATE TABLE contact_messages (
+  id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  subject VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 
 ---
 
-## Relasi & Query Join
-
-### Join Invoice dengan Service Requests
+## Query Pengecekan Data
 
 ```sql
+-- Cek semua data service_requests
+SELECT * FROM service_requests;
+
+-- Cek semua data invoice
+SELECT * FROM invoice;
+
+-- Cek semua data contact_messages
+SELECT * FROM contact_messages;
+```
+
+---
+
+## Query Join
+
+```sql
+-- Cek invoice beserta data customer (tanpa singkatan)
 SELECT
     invoice.id AS invoice_id,
-    service_requests.nama,
-    service_requests.email,
-    service_requests.nama_hp,
-    service_requests.kerusakan,
-    invoice.biaya_awal,
+    service_requests.nama AS customer_name,
+    service_requests.email AS customer_email,
+    service_requests.nama_hp AS phone_name,
+    service_requests.kerusakan AS damage,
+    invoice.biaya_awal AS initial_cost,
+    invoice.status,
+    invoice.paid_at,
+    invoice.created_at AS invoice_created_at
+FROM invoice
+JOIN service_requests ON invoice.service_request_id = service_requests.id;
+
+-- Cek invoice berdasarkan nama dan email customer
+SELECT
+    invoice.id AS invoice_id,
+    service_requests.nama AS customer_name,
+    service_requests.email AS customer_email,
+    service_requests.nama_hp AS phone_name,
+    service_requests.kerusakan AS damage,
+    invoice.biaya_awal AS initial_cost,
     invoice.status,
     invoice.paid_at,
     invoice.created_at AS invoice_created_at
 FROM invoice
 JOIN service_requests ON invoice.service_request_id = service_requests.id
-WHERE service_requests.nama = ? AND service_requests.email = ?;
-```
+WHERE service_requests.nama = 'dimas'
+  AND service_requests.email = 'dimas@gmail.com';
 
-### Join Semua Service Requests dengan Invoice (LEFT JOIN)
-
-```sql
+-- Cek semua service_requests beserta invoice (LEFT JOIN)
 SELECT
     service_requests.id AS service_request_id,
     service_requests.nama,
@@ -160,34 +151,33 @@ LEFT JOIN invoice ON invoice.service_request_id = service_requests.id;
 
 ## Query Update & Delete
 
-### Update Status Invoice Menjadi Paid
-
 ```sql
+-- Update status invoice menjadi paid
 UPDATE invoice
 SET status = 'paid', paid_at = NOW()
-WHERE id = ?;
-```
+WHERE id = 'INVOICE_ID';
 
-### Hapus Invoice Berdasarkan Nama & Email Customer
+-- Update biaya_awal berdasarkan nama dan email customer
+UPDATE invoice
+JOIN service_requests ON invoice.service_request_id = service_requests.id
+SET invoice.biaya_awal = 200000
+WHERE service_requests.nama = 'dimasdimas'
+  AND service_requests.email = 'dumasdumas@gmail.com';
 
-```sql
+-- Hapus invoice berdasarkan nama dan email customer
 DELETE invoice FROM invoice
 JOIN service_requests ON invoice.service_request_id = service_requests.id
-WHERE service_requests.nama = ? AND service_requests.email = ?;
-```
+WHERE service_requests.nama = 'dimasdimas'
+  AND service_requests.email = 'dimasdimas@gmail.com';
 
-### Hapus Service Request Berdasarkan Nama & Email
-
-```sql
+-- Hapus service_request berdasarkan nama dan email
 DELETE FROM service_requests
-WHERE nama = ? AND email = ?;
-```
+WHERE nama = 'dimasdimas'
+  AND email = 'dimasdimas@gmail.com';
 
-### Hapus Contact Message Berdasarkan Email
-
-```sql
+-- Hapus contact_message berdasarkan email
 DELETE FROM contact_messages
-WHERE email = ?;
+WHERE email = 'dimasdimas@gmail.com';
 ```
 
 ---

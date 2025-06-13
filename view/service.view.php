@@ -1,10 +1,7 @@
-<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
 <?php
-$showSuccess = false;
-if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
-    $showSuccess = true;
-    unset($_SESSION['status']);
-}
+if (session_status() === PHP_SESSION_NONE) session_start();
+$showSuccess = isset($_SESSION['status']) && $_SESSION['status'] === 'success';
+if ($showSuccess) unset($_SESSION['status']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -14,9 +11,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body {
-            background: #f8fafc;
-        }
+        body { background: #f8fafc; }
         .card {
             border: none;
             border-radius: 1.2rem;
@@ -34,10 +29,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-        .form-label {
-            font-weight: 500;
-            color: #222;
-        }
+        .form-label { font-weight: 500; color: #222; }
         .form-control {
             border-radius: 0.7rem;
             border: 1.5px solid #eaeaea;
@@ -55,41 +47,17 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
             border: none;
             transition: background 0.2s, color 0.2s;
         }
-        .btn-primary {
-            background: #007bff;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: #0056b3;
-            color: #fff;
-        }
-        .btn-success {
-            background: #28a745;
-            color: #fff;
-        }
-        .btn-success:hover {
-            background: #218838;
-            color: #fff;
-        }
+        .btn-primary { background: #007bff; color: #fff; }
+        .btn-primary:hover { background: #0056b3; color: #fff; }
+        .btn-success { background: #28a745; color: #fff; }
+        .btn-success:hover { background: #218838; color: #fff; }
         .btn-outline-secondary {
-            background: #fff;
-            color: #6c757d;
-            border: 1.5px solid #ced4da;
+            background: #fff; color: #6c757d; border: 1.5px solid #ced4da;
         }
-        .btn-outline-secondary:hover {
-            background: #f0f0f0;
-            color: #222;
-        }
-        .modal-content {
-            border-radius: 1rem;
-        }
-        .modal-header {
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-        }
-        .modal-title {
-            font-weight: 600;
-        }
+        .btn-outline-secondary:hover { background: #f0f0f0; color: #222; }
+        .modal-content { border-radius: 1rem; }
+        .modal-header { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+        .modal-title { font-weight: 600; }
         @media (max-width: 576px) {
             .card-header h3 { font-size: 1.3rem; }
             .btn { font-size: 0.95rem; }
@@ -97,85 +65,81 @@ if (isset($_SESSION['status']) && $_SESSION['status'] === 'success') {
     </style>
 </head>
 <body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-6">
-                <div class="card shadow">
-                    <div class="card-header text-center">
-                        <h3 class="mb-0"><i class="bi bi-tools me-2"></i>Form Service HP</h3>
-                        <p class="text-muted mb-0" style="font-size:1rem;">Isi data service HP Anda dengan benar.</p>
-                    </div>
-                    <div class="card-body">
-                        <form action="/projek/service" method="POST">
-                            <!-- Input Nama -->
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama:</label>
-                                <input type="text" id="nama" name="nama" class="form-control" required>
-                            </div>
-                            <!-- Input Email -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email:</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
-                            </div>
-                            <!-- Input Nama HP -->
-                            <div class="mb-3">
-                                <label for="nama_hp" class="form-label">Nama HP:</label>
-                                <input type="text" id="nama_hp" name="nama_hp" class="form-control" required>
-                            </div>
-                            <!-- Input Kerusakan -->
-                            <div class="mb-3">
-                                <label for="kerusakan" class="form-label">Kerusakan pada HP:</label>
-                                <textarea id="kerusakan" name="kerusakan" rows="4" class="form-control" required></textarea>
-                            </div>
-                            <!-- Tombol Navigasi -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="/projek" class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-left"></i> Beranda
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    Kirim
-                                </button>
-                                <a href="/projek/invoice" class="btn btn-success">
-                                    <i class="bi bi-receipt"></i> Invoice
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h3 class="mb-0"><i class="bi bi-tools me-2"></i>Form Service HP</h3>
+                    <p class="text-muted mb-0" style="font-size:1rem;">Isi data service HP Anda dengan benar.</p>
+                </div>
+                <div class="card-body">
+                    <form action="/projek/service" method="POST">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama:</label>
+                            <input type="text" id="nama" name="nama" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_hp" class="form-label">Nama HP:</label>
+                            <input type="text" id="nama_hp" name="nama_hp" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kerusakan" class="form-label">Kerusakan pada HP:</label>
+                            <textarea id="kerusakan" name="kerusakan" rows="4" class="form-control" required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/projek" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Beranda
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Kirim
+                            </button>
+                            <a href="/projek/invoice" class="btn btn-success">
+                                <i class="bi bi-receipt"></i> Invoice
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal Sukses Neve-like -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+<!-- Modal Sukses -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" data-show="<?= $showSuccess ? '1' : '0' ?>">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0" style="border-radius:1.2rem; box-shadow:0 4px 32px rgba(0,123,255,0.08);">
-          <div class="modal-body text-center py-5">
-            <div class="mb-3">
-              <span style="display:inline-block; background:#e6f7ee; border-radius:50%; padding:1.2rem;">
-                <i class="bi bi-check-circle-fill" style="font-size:2.5rem; color:#28a745;"></i>
-              </span>
+            <div class="modal-body text-center py-5">
+                <div class="mb-3">
+                    <span style="display:inline-block; background:#e6f7ee; border-radius:50%; padding:1.2rem;">
+                        <i class="bi bi-check-circle-fill" style="font-size:2.5rem; color:#28a745;"></i>
+                    </span>
+                </div>
+                <h4 class="mb-2" style="color:#28a745; font-weight:700;">Data Terkirim!</h4>
+                <p class="mb-0" style="color:#444;">Data service Anda sudah berhasil dikirim.<br>Terima kasih!</p>
+                <button type="button" class="btn btn-success mt-4 px-4" data-bs-dismiss="modal" style="border-radius:25px;">Tutup</button>
             </div>
-            <h4 class="mb-2" style="color:#28a745; font-weight:700;">Data Terkirim!</h4>
-            <p class="mb-0" style="color:#444;">Data service Anda sudah berhasil dikirim.<br>Terima kasih!</p>
-            <button type="button" class="btn btn-success mt-4 px-4" data-bs-dismiss="modal" style="border-radius:25px;">Tutup</button>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <?php if ($showSuccess): ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Tampilkan modal sukses dengan animasi
-    var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-    window.addEventListener('DOMContentLoaded', function() {
-        successModal.show();
+document.addEventListener('DOMContentLoaded', function() {
+    var successModal = document.getElementById('successModal');
+    if (successModal && successModal.dataset.show === "1") {
+        var modal = new bootstrap.Modal(successModal);
+        modal.show();
         setTimeout(function() {
-            successModal.hide();
+            modal.hide();
+            document.activeElement.blur();
         }, 2500);
-    });
+    }
+});
 </script>
-<?php endif; ?>
 </body>
 </html>

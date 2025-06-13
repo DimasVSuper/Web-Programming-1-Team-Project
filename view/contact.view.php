@@ -200,7 +200,7 @@ if (isset($_SESSION['status'])) {
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email Anda</label>
-              <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email Anda" required>
+              <input type="email" id="email" name="email" class="form-control" pattern="[a-z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Masukkan email Anda" required>
             </div>
             <div class="mb-3">
               <label for="subject" class="form-label">Subjek</label>
@@ -224,7 +224,7 @@ if (isset($_SESSION['status'])) {
 <div id="notif-alert"></div>
 
 <!-- Modal Notifikasi Neve-like -->
-<div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
+<div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true" data-show="<?= $showModal ? '1' : '0' ?>">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -252,12 +252,37 @@ if (isset($_SESSION['status'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  <?php if ($showModal): ?>
-    var notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
-    notifModal.show();
+  var notifModal = document.getElementById('notifModal');
+  if (notifModal && notifModal.dataset.show === "1") {
+    var modal = new bootstrap.Modal(notifModal);
+    modal.show();
     setTimeout(function() {
-      notifModal.hide();
+      modal.hide();
+      document.activeElement.blur();
     }, 2500);
-  <?php endif; ?>
+  }
+
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    var emailInput = document.getElementById('email');
+    var email = emailInput.value.trim().toLowerCase();
+    // Hanya izinkan huruf kecil, angka, @, ., _, -
+    var sanitized = email.replace(/[^a-z0-9@._-]/g, '');
+    if (email !== sanitized) {
+      alert('Email hanya boleh huruf kecil, angka, titik, strip, underscore, dan @');
+      emailInput.value = sanitized;
+      emailInput.focus();
+      e.preventDefault();
+      return false;
+    }
+    // Validasi format email sederhana
+    var pattern = /^[a-z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    if (!pattern.test(sanitized)) {
+      alert('Format email tidak valid!');
+      emailInput.focus();
+      e.preventDefault();
+      return false;
+    }
+    emailInput.value = sanitized; // set hasil sanitasi ke input
+  });
 });
 </script>

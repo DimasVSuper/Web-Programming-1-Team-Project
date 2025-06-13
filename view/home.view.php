@@ -432,6 +432,12 @@
         padding: 0.3rem 0.7rem;
       }
     }
+
+    /* =========================
+       ANIMASI CARD NEVE
+    ========================= */
+    .card-neve { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+    .card-neve.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
@@ -626,7 +632,7 @@ echo "<!-- Request URI: " . htmlspecialchars($_SERVER['REQUEST_URI']) . " -->";
         <i class="bi bi-envelope-fill" style="font-size:1.5rem;"></i>
       </button>
     </div>
-    <p class="mb-0 small">© 2025 <span class="fw-bold">Ris Cell</span>. Semua hak dilindungi.</p>
+    <p class="mb-0 small">© 2025 <span class="fw-bold">Ris Cell</span>. Semua hak dilindungi</p>
   </div>
 </footer>
 

@@ -6,15 +6,19 @@ require_once __DIR__ . '/../model/invoiceProcessing.php';
 
 /**
  * Class ServiceController
- * Mengelola operasi CRUD dan form untuk layanan service.
+ *
+ * Controller untuk mengelola operasi CRUD dan form layanan service HP.
+ *
+ * @package projek\controller
  */
 class ServiceController
 {
     /**
-     * Ambil semua data service.
-     * @return array
+     * Mengambil semua data service dari database.
+     *
+     * @return array Daftar seluruh service.
      */
-    public static function getAllServices()
+    public static function getAllServices(): array
     {
         $db = new DB();
         $pdo = $db->getConnection();
@@ -25,11 +29,12 @@ class ServiceController
     }
 
     /**
-     * Ambil data service berdasarkan ID.
-     * @param int $id
-     * @return array|null
+     * Mengambil data service berdasarkan ID.
+     *
+     * @param int $id ID service.
+     * @return array|null Data service jika ditemukan, null jika tidak.
      */
-    public static function getServiceById($id)
+    public static function getServiceById(int $id): ?array
     {
         $db = new DB();
         $pdo = $db->getConnection();
@@ -41,13 +46,14 @@ class ServiceController
     }
 
     /**
-     * Tambah data service baru.
-     * @param string $name
-     * @param string $description
-     * @param float $price
-     * @return bool
+     * Menambahkan data service baru ke database.
+     *
+     * @param string $name        Nama service.
+     * @param string $description Deskripsi service.
+     * @param float  $price       Harga service.
+     * @return bool  True jika berhasil, false jika gagal.
      */
-    public static function addService($name, $description, $price)
+    public static function addService(string $name, string $description, float $price): bool
     {
         $db = new DB();
         $pdo = $db->getConnection();
@@ -57,14 +63,15 @@ class ServiceController
     }
 
     /**
-     * Update data service.
-     * @param int $id
-     * @param string $name
-     * @param string $description
-     * @param float $price
-     * @return bool
+     * Memperbarui data service berdasarkan ID.
+     *
+     * @param int    $id          ID service.
+     * @param string $name        Nama service.
+     * @param string $description Deskripsi service.
+     * @param float  $price       Harga service.
+     * @return bool  True jika berhasil, false jika gagal.
      */
-    public static function updateService($id, $name, $description, $price)
+    public static function updateService(int $id, string $name, string $description, float $price): bool
     {
         $db = new DB();
         $pdo = $db->getConnection();
@@ -74,11 +81,12 @@ class ServiceController
     }
 
     /**
-     * Hapus data service.
-     * @param int $id
-     * @return bool
+     * Menghapus data service berdasarkan ID.
+     *
+     * @param int $id ID service.
+     * @return bool   True jika berhasil, false jika gagal.
      */
-    public static function deleteService($id)
+    public static function deleteService(int $id): bool
     {
         $db = new DB();
         $pdo = $db->getConnection();
@@ -88,29 +96,42 @@ class ServiceController
     }
 
     /**
-     * Tampilkan halaman form service.
+     * Menampilkan halaman form service.
+     *
      * @return void
      */
-    public static function showForm()
+    public static function showForm(): void
     {
         include __DIR__ . '/../view/service.view.php';
     }
 
     /**
-     * Proses submit form service.
+     * Memproses submit form service dari user.
+     * Melakukan validasi, menyimpan data, dan membuat invoice.
+     * Redirect ke halaman form dengan notifikasi status.
+     *
      * @return void
      */
-    public static function submit()
+    public static function submit(): void
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
-        // Ambil data POST dan bersihkan
-        $nama      = trim($_POST['nama'] ?? '');
-        $email     = trim($_POST['email'] ?? '');
-        $nama_hp   = trim($_POST['nama_hp'] ?? '');
-        $kerusakan = trim($_POST['kerusakan'] ?? '');
+        // Ambil dan sanitasi data POST
+        $nama      = trim(filter_input(INPUT_POST, 'nama', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+        $email     = trim(strtolower($_POST['email'] ?? ''));
+        $email     = preg_replace('/[^a-z0-9@._-]/', '', $email); // hanya karakter email valid
+        $nama_hp   = trim(filter_input(INPUT_POST, 'nama_hp', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
+        $kerusakan = trim(filter_input(INPUT_POST, 'kerusakan', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
 
-        // Validasi input
+        // Validasi email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['status'] = 'error';
+            $_SESSION['message'] = 'Email tidak valid atau mengandung karakter terlarang.';
+            header('Location: /projek/service');
+            exit();
+        }
+
+        // Validasi input lain
         if (!ServiceProcessing::validate($nama, $email, $nama_hp, $kerusakan)) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
@@ -122,7 +143,7 @@ class ServiceController
         $service_request_id = ServiceProcessing::save($nama, $email, $nama_hp, $kerusakan);
 
         if ($service_request_id) {
-            // Buat invoice (misal biaya_awal = 0)
+            // Buat invoice (biaya_awal = 0)
             $biaya_awal = 0;
             InvoiceProcessing::saveInvoice($service_request_id, $biaya_awal);
             $_SESSION['status'] = 'success';
