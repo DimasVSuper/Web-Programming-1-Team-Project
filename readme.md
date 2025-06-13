@@ -22,17 +22,15 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 
 ## ✨ Fitur Utama
 
-- **Landing Page Modern** — Carousel, lokasi, animasi header transparan (glass).
-- **Form Kontak** — Kirim pesan ke database, feedback modal Bootstrap.
-- **Form Service Request** — Permintaan service, data tersimpan, feedback modal.
-- **Invoice System** — Pembuatan, pencarian, pembayaran invoice (pending/paid).
-- **Notifikasi Modal Interaktif** — Semua feedback sukses/gagal pakai modal Bootstrap.
-- **Halaman 404 Custom** — Tampilan error yang informatif.
-- **Desain UI/UX Modern & Responsif** — Bootstrap 5, custom CSS per view.
-- **Lokasi Google Maps** — Tampilkan lokasi toko/service center.
-- **Routing Sederhana** — Navigasi antar halaman dengan pretty URL.
-- **Struktur MVC Sederhana** — Controller, model, view terpisah.
-- **Query SQL Fleksibel** — Admin bisa cek, update, hapus data dengan query SQL.
+- Landing page modern & responsif (carousel, lokasi, animasi header transparan).
+- Form kontak & service request dengan feedback modal Bootstrap.
+- Sistem invoice: pembuatan, pencarian, pembayaran (pending/paid).
+- Notifikasi interaktif (modal Bootstrap).
+- Halaman 404 custom.
+- Google Maps lokasi toko.
+- Routing sederhana (pretty URL).
+- Struktur MVC sederhana (controller, model, view terpisah).
+- Query SQL fleksibel untuk admin.
 
 ---
 
@@ -47,26 +45,17 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 
 ## 🗄️ Struktur Database
 
-Tabel utama:
-
 - `contact_messages`: Menyimpan pesan dari form kontak.
 - `service_requests`: Menyimpan permintaan service pelanggan.
 - `invoice`: Menyimpan data invoice, terkait service request.
-  - `id` (CHAR(36), PRIMARY KEY, UUID)
-  - `service_request_id` (CHAR(36), FOREIGN KEY)
-  - `biaya_awal` (INT)
-  - `created_at` (TIMESTAMP)
-  - `status` (ENUM('pending', 'paid'))
-  - `paid_at` (TIMESTAMP)
 
-> **Pastikan semua tabel sudah dibuat dan relasi foreign key benar.**
+> Pastikan semua tabel sudah dibuat dan relasi foreign key benar.
 
 ---
 
 ## ⚙️ Konfigurasi
 
-- **`config/DB.php`**: Koneksi database MySQL langsung di file (tanpa .env, tanpa composer).
-- Tidak ada lagi file `.env` atau dependency composer.
+- **`config/DB.php`**: Koneksi database MySQL langsung di file ini (tanpa .env, tanpa composer).
 - Semua konfigurasi database (`host`, `user`, `password`, `dbname`) bisa diubah langsung di file `DB.php`.
 
 ---
@@ -76,31 +65,28 @@ Tabel utama:
 - PHP >= 8.x
 - MySQL/MariaDB
 - XAMPP (untuk pengembangan lokal)
-- [Bootstrap 5](https://getbootstrap.com/) (CDN)
-- [Bootstrap Icons](https://icons.getbootstrap.com/) (CDN)
+- Bootstrap 5 (CDN)
+- Bootstrap Icons (CDN)
 
 ---
 
 ## 🛠️ Teknologi
 
-- **PHP Native**: Backend logic & routing sederhana (tanpa framework).
-- **Bootstrap 5**: Framework CSS responsif & modal interaktif.
-- **Bootstrap Icons**: Icon modern.
-- **MySQL**: Database utama.
-- **JavaScript Custom**: Efek header kaca & modal animasi.
-- **Bootstrap Modal**: Semua notifikasi & feedback user.
+- PHP Native: Backend logic & routing sederhana (tanpa framework).
+- Bootstrap 5: Framework CSS responsif & modal interaktif.
+- Bootstrap Icons: Icon modern.
+- MySQL: Database utama.
+- JavaScript Custom: Efek header kaca & modal animasi.
 
 ---
 
 ## 🗺️ Routing & Penambahan Halaman
 
-- **Pretty URL:**  
-  Navigasi antar halaman cukup dengan path, misal:
+- Pretty URL:  
   - `/projek` untuk halaman utama
   - `/projek/contact` untuk kontak
   - `/projek/service` untuk form service
   - `/projek/invoice` untuk invoice
-- Jika path tidak sesuai, diarahkan ke halaman 404.
 - Untuk menambah halaman baru:
   1. Tambahkan route baru di `core/web.php`.
   2. Buat file controller dan view di folder `controller` dan `view`.
@@ -148,11 +134,20 @@ projek/
 
 ## 📚 Best Practice & Catatan
 
-- **Jangan upload file konfigurasi sensitif ke repository publik.**
-- Semua notifikasi dan feedback user menggunakan modal Bootstrap, bukan alert biasa.
+- Jangan upload file konfigurasi sensitif ke repository publik.
+- Semua notifikasi dan feedback user menggunakan modal Bootstrap.
 - Semua style custom langsung di masing-masing file view, tidak ada lagi `components.css`.
 - Hindari logika PHP kompleks di file view; letakkan di controller atau model.
 - Untuk menambah fitur baru, cukup tambahkan controller, model, view, dan route-nya.
 - **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
+
+---
+
+## 🌐 Remote Repository
+
+> **Repository ini dikelola secara remote di GitHub:**  
+> [https://github.com/DimasVSuper/Web-Programming-1-Team-Project](https://github.com/DimasVSuper/Web-Programming-1-Team-Project)
+>
+> Silakan lakukan clone, pull, atau push perubahan ke repository tersebut untuk kolaborasi dan backup.
 
 ---

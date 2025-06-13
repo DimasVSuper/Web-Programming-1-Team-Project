@@ -3,19 +3,19 @@ require_once __DIR__ . '/../config/DB.php';
 
 /**
  * Class InvoiceProcessing
- * Mengelola operasi terkait invoice.
+ *
+ * Mengelola operasi terkait invoice service HP.
  */
 class InvoiceProcessing
 {
     /**
-     * Simpan invoice baru.
+     * Simpan invoice baru ke database.
      *
      * @param string $service_request_id ID dari service request.
-     * @param int    $biaya             Biaya invoice.
-     *
-     * @return string|false ID invoice jika berhasil, false jika gagal.
+     * @param int    $biaya              Biaya awal invoice.
+     * @return string|false              ID invoice (UUID) jika berhasil, false jika gagal.
      */
-    public static function saveInvoice($service_request_id, $biaya)
+    public static function saveInvoice(string $service_request_id, int $biaya)
     {
         $db   = new DB();
         $pdo  = $db->getConnection();
@@ -23,34 +23,30 @@ class InvoiceProcessing
         $stmt = $pdo->prepare($sql);
 
         if (!$stmt) {
-            error_log("Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
             return false;
         }
 
         $result = $stmt->execute([$service_request_id, $biaya]);
-
         if (!$result) {
-            error_log("Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+            error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
             return false;
         }
 
-        // Ambil ID UUID yang baru dibuat
+        // Ambil ID UUID yang baru dibuat (karena pakai UUID, lastInsertId tidak bisa dipakai)
         $query = $pdo->prepare("SELECT id FROM invoice WHERE service_request_id = ? ORDER BY created_at DESC LIMIT 1");
         $query->execute([$service_request_id]);
         $row = $query->fetch();
-        $id = $row['id'] ?? false;
-
-        return $id;
+        return $row['id'] ?? false;
     }
 
     /**
-     * Ambil invoice berdasarkan ID.
+     * Ambil data invoice berdasarkan ID invoice.
      *
      * @param string $id ID invoice.
-     *
      * @return array|null Data invoice jika ditemukan, null jika tidak.
      */
-    public static function getInvoiceById($id)
+    public static function getInvoiceById(string $id): ?array
     {
         $db   = new DB();
         $pdo  = $db->getConnection();
@@ -61,7 +57,7 @@ class InvoiceProcessing
         $stmt = $pdo->prepare($sql);
 
         if (!$stmt) {
-            error_log("Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
             return null;
         }
 
@@ -72,14 +68,13 @@ class InvoiceProcessing
     }
 
     /**
-     * Cari invoice berdasarkan nama dan email.
+     * Cari invoice berdasarkan nama dan email pelanggan.
      *
-     * @param string $nama  Nama.
-     * @param string $email Email.
-     *
-     * @return array|null Data invoice jika ditemukan, null jika tidak.
+     * @param string $nama  Nama pelanggan.
+     * @param string $email Email pelanggan.
+     * @return array|null   Data invoice jika ditemukan, null jika tidak.
      */
-    public static function findInvoiceByNamaEmail($nama, $email)
+    public static function findInvoiceByNamaEmail(string $nama, string $email): ?array
     {
         $db   = new DB();
         $pdo  = $db->getConnection();
@@ -91,7 +86,7 @@ class InvoiceProcessing
         $stmt = $pdo->prepare($sql);
 
         if (!$stmt) {
-            error_log("Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
             return null;
         }
 
@@ -102,18 +97,24 @@ class InvoiceProcessing
     }
 
     /**
-     * Set status pembayaran menjadi "paid".
+     * Set status pembayaran invoice menjadi "paid".
      *
-     * @param string $invoice_id
-     * @return bool
+     * @param string $invoice_id ID invoice.
+     * @return bool              True jika berhasil, false jika gagal.
      */
-    public static function setPaid($invoice_id)
+    public static function setPaid(string $invoice_id): bool
     {
         $db = new DB();
         $pdo = $db->getConnection();
         $stmt = $pdo->prepare("UPDATE invoice SET status = 'paid', paid_at = NOW() WHERE id = ?");
-        if (!$stmt) return false;
+        if (!$stmt) {
+            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            return false;
+        }
         $result = $stmt->execute([$invoice_id]);
+        if (!$result) {
+            error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+        }
         return $result;
     }
 }

@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS service_requests;
 DROP TABLE IF EXISTS contact_messages;
 
+show tables;
 -- Hapus semua data (untuk testing)
 DELETE FROM contact_messages;
 DELETE FROM invoice;
@@ -108,9 +109,9 @@ WHERE id = 'INVOICE_ID';
 -- Update biaya_awal berdasarkan nama dan email customer
 UPDATE invoice
 JOIN service_requests ON invoice.service_request_id = service_requests.id
-SET invoice.biaya_awal = 20000
+SET invoice.biaya_awal = 200000
 WHERE service_requests.nama = 'dimasdimas'
-  AND service_requests.email = 'dimasjosjos@gmail.com';
+  AND service_requests.email = 'dumasdumas@gmail.com';
 
 -- Hapus invoice berdasarkan nama dan email customer
 DELETE invoice FROM invoice

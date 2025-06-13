@@ -432,6 +432,12 @@
         padding: 0.3rem 0.7rem;
       }
     }
+
+    /* =========================
+       ANIMASI CARD NEVE
+    ========================= */
+    .card-neve { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+    .card-neve.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
