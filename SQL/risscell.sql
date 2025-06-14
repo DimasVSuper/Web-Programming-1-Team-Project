@@ -1,13 +1,7 @@
--- Hapus tabel yang ada (urutan: invoice → service_requests → contact_messages)
+-- Hapus tabel jika sudah ada (urutan: invoice → service_requests → contact_messages → users)
 DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS service_requests;
 DROP TABLE IF EXISTS contact_messages;
-
-show tables;
--- Hapus semua data (untuk testing)
-DELETE FROM contact_messages;
-DELETE FROM invoice;
-DELETE FROM service_requests;
 
 -- Membuat tabel service_requests
 CREATE TABLE service_requests (
@@ -40,6 +34,7 @@ CREATE TABLE contact_messages (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 -- =========================
 -- QUERY PENGECEKAN DATA
 -- =========================
@@ -52,6 +47,9 @@ SELECT * FROM invoice;
 
 -- Cek semua data contact_messages
 SELECT * FROM contact_messages;
+
+-- Cek semua data users
+SELECT * FROM users;
 
 -- Cek invoice beserta data customer (tanpa singkatan)
 SELECT
@@ -127,3 +125,4 @@ WHERE nama = 'dimasdimas'
 -- Hapus contact_message berdasarkan email
 DELETE FROM contact_messages
 WHERE email = 'dimasdimas@gmail.com';
+

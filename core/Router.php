@@ -63,7 +63,7 @@ class Router {
      */
     private function render404() {
         http_response_code(404);
-        include __DIR__ . '/../view/src/404.view.php';
+        include __DIR__ . '/../view/404.view.php';
     }
 
     /**
@@ -76,9 +76,12 @@ class Router {
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        // Potong base path (misalnya '/projek')
-        $basePath = '/projek'; // GANTI jika nama folder kamu berbeda
-        if (strpos($uri, $basePath) === 0) {
+        // Base path dinamis
+        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        $basePath = rtrim($scriptName, '/\\');
+        if ($basePath === '' || $basePath === '\\') $basePath = '';
+
+        if ($basePath && strpos($uri, $basePath) === 0) {
             $uri = substr($uri, strlen($basePath));
         }
 

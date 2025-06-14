@@ -21,7 +21,8 @@
  * POST /invoice  → InvoiceController::payInvoice   (Proses pembayaran invoice)
  */
 
-$router->get('/',        [HomeController::class, 'index']);
+// ...route utama...
+$router->get('/', [HomeController::class, 'index']);
 $router->get('/home',    [HomeController::class, 'index']);
 $router->get('/contact', [ContactController::class, 'showForm']);
 $router->post('/contact', [ContactController::class, 'submit']);
