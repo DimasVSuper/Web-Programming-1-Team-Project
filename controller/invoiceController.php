@@ -3,20 +3,11 @@
  * Class InvoiceController
  *
  * Controller untuk mengelola tampilan dan aksi pembayaran invoice service HP.
- *
- * @package projek\controller
  */
 class InvoiceController
 {
     /**
      * Menampilkan halaman invoice berdasarkan ID atau pencarian nama & email.
-     *
-     * - Jika parameter GET 'id' tersedia, ambil invoice berdasarkan ID.
-     * - Jika parameter GET 'nama' dan 'email' tersedia, cari invoice berdasarkan nama dan email.
-     * - Jika invoice ditemukan, hitung biaya + PPN 12% (jika biaya_awal sudah ada).
-     * - Jika tidak ditemukan, set session 'not_found' untuk notifikasi.
-     *
-     * @return void
      */
     public static function showInvoice(): void
     {
@@ -24,6 +15,16 @@ class InvoiceController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        // Base URL dinamis
+        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
+        // CSRF token untuk form pembayaran
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        $csrf_token = $_SESSION['csrf_token'];
+
         // Sanitasi input GET
         $id    = isset($_GET['id'])    ? trim(filter_var($_GET['id'], FILTER_SANITIZE_STRING)) : null;
         $nama  = isset($_GET['nama'])  ? trim(filter_var($_GET['nama'], FILTER_SANITIZE_SPECIAL_CHARS)) : null;
@@ -58,35 +59,38 @@ class InvoiceController
 
     /**
      * Memproses pembayaran invoice dan menampilkan notifikasi.
-     *
-     * - Jika POST 'id' tersedia, set status invoice menjadi 'paid'.
-     * - Set session 'success' untuk notifikasi pembayaran berhasil.
-     * - Redirect ke halaman invoice dengan ID terkait.
-     *
-     * @return void
      */
     public static function payInvoice(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        // Base URL dinamis
+        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
+        // Validasi CSRF token
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+            $_SESSION['success'] = 'CSRF token tidak valid!';
+            header("Location: $baseUrl/invoice");
+            exit();
+        }
+
         // Sanitasi input POST
         $id = isset($_POST['id']) ? trim(filter_var($_POST['id'], FILTER_SANITIZE_STRING)) : null;
         if ($id) {
             require_once __DIR__ . '/../model/invoiceProcessing.php';
             InvoiceProcessing::setPaid($id);
             $_SESSION['success'] = 'Pembayaran berhasil!';
+            // (Opsional) Regenerasi CSRF token setelah submit
+            unset($_SESSION['csrf_token']);
         }
-        header("Location: /projek/invoice?id=" . urlencode($id));
+        header("Location: $baseUrl/invoice?id=" . urlencode($id));
         exit();
     }
 
     /**
      * Menyimpan invoice baru ke database.
-     *
-     * @param string $service_request_id ID dari service request.
-     * @param int    $biaya_awal        Biaya awal invoice.
-     * @return void
      */
     public static function saveNewInvoice(string $service_request_id, int $biaya_awal): void
     {

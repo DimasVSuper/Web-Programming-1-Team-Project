@@ -7,114 +7,52 @@ require_once __DIR__ . '/../model/invoiceProcessing.php';
 /**
  * Class ServiceController
  *
- * Controller untuk mengelola operasi CRUD dan form layanan service HP.
- *
- * @package projek\controller
+ * Controller untuk form layanan service HP.
  */
 class ServiceController
 {
     /**
-     * Mengambil semua data service dari database.
-     *
-     * @return array Daftar seluruh service.
-     */
-    public static function getAllServices(): array
-    {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "SELECT * FROM services ORDER BY id ASC";
-        $stmt = $pdo->query($sql);
-        $services = $stmt->fetchAll();
-        return $services;
-    }
-
-    /**
-     * Mengambil data service berdasarkan ID.
-     *
-     * @param int $id ID service.
-     * @return array|null Data service jika ditemukan, null jika tidak.
-     */
-    public static function getServiceById(int $id): ?array
-    {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "SELECT * FROM services WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
-        $service = $stmt->fetch();
-        return $service ?: null;
-    }
-
-    /**
-     * Menambahkan data service baru ke database.
-     *
-     * @param string $name        Nama service.
-     * @param string $description Deskripsi service.
-     * @param float  $price       Harga service.
-     * @return bool  True jika berhasil, false jika gagal.
-     */
-    public static function addService(string $name, string $description, float $price): bool
-    {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "INSERT INTO services (name, description, price) VALUES (?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$name, $description, $price]);
-    }
-
-    /**
-     * Memperbarui data service berdasarkan ID.
-     *
-     * @param int    $id          ID service.
-     * @param string $name        Nama service.
-     * @param string $description Deskripsi service.
-     * @param float  $price       Harga service.
-     * @return bool  True jika berhasil, false jika gagal.
-     */
-    public static function updateService(int $id, string $name, string $description, float $price): bool
-    {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "UPDATE services SET name = ?, description = ?, price = ? WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$name, $description, $price, $id]);
-    }
-
-    /**
-     * Menghapus data service berdasarkan ID.
-     *
-     * @param int $id ID service.
-     * @return bool   True jika berhasil, false jika gagal.
-     */
-    public static function deleteService(int $id): bool
-    {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "DELETE FROM services WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$id]);
-    }
-
-    /**
      * Menampilkan halaman form service.
-     *
-     * @return void
      */
     public static function showForm(): void
     {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        // CSRF token selalu digenerate baru setiap kali form dibuka
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        $csrf_token = $_SESSION['csrf_token'];
+
+        // Base URL dinamis
+        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
         include __DIR__ . '/../view/service.view.php';
     }
 
     /**
      * Memproses submit form service dari user.
      * Melakukan validasi, menyimpan data, dan membuat invoice.
-     * Redirect ke halaman form dengan notifikasi status.
-     *
-     * @return void
      */
     public static function submit(): void
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
+
+        // Base URL dinamis
+        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
+        // Validasi CSRF token
+        if (
+            !isset($_POST['csrf_token']) ||
+            !isset($_SESSION['csrf_token']) ||
+            $_POST['csrf_token'] !== $_SESSION['csrf_token']
+        ) {
+            $_SESSION['status'] = 'error';
+            $_SESSION['message'] = 'CSRF token tidak valid!';
+            header('Location: ' . $baseUrl . '/service');
+            exit();
+        }
+        // Setelah submit, hapus token agar tidak reuse
+        unset($_SESSION['csrf_token']);
 
         // Ambil dan sanitasi data POST
         $nama      = trim(filter_input(INPUT_POST, 'nama', FILTER_SANITIZE_SPECIAL_CHARS) ?? '');
@@ -127,7 +65,7 @@ class ServiceController
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Email tidak valid atau mengandung karakter terlarang.';
-            header('Location: /projek/service');
+            header('Location: ' . $baseUrl . '/service');
             exit();
         }
 
@@ -135,7 +73,7 @@ class ServiceController
         if (!ServiceProcessing::validate($nama, $email, $nama_hp, $kerusakan)) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
-            header('Location: /projek/service');
+            header('Location: ' . $baseUrl . '/service');
             exit();
         }
 
@@ -152,7 +90,7 @@ class ServiceController
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Terjadi kesalahan saat mengirim data service.';
         }
-        header('Location: /projek/service');
+        header('Location: ' . $baseUrl . '/service');
         exit();
     }
 }

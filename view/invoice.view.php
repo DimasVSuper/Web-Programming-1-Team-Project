@@ -8,6 +8,13 @@ if ($showSuccess) unset($_SESSION['success']);
 
 $showNotFound = isset($_SESSION['not_found']) && $_SESSION['not_found'] === true;
 if ($showNotFound) unset($_SESSION['not_found']);
+
+// Base URL dinamis
+$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
+// CSRF token dari controller
+$csrf_token = $_SESSION['csrf_token'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -236,8 +243,9 @@ if ($showNotFound) unset($_SESSION['not_found']);
                             </div>
                         <?php elseif (!$biaya_belum_input): ?>
                             <!-- Form bayar jika belum bayar -->
-                            <form method="POST" action="/projek/invoice" class="mt-3">
+                            <form method="POST" action="<?= $baseUrl ?>/invoice" class="mt-3">
                                 <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id'] ?? '') ?>">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-cash-coin"></i> Bayar Sekarang
                                 </button>
@@ -249,7 +257,7 @@ if ($showNotFound) unset($_SESSION['not_found']);
                             <i class="bi bi-search" style="font-size:2.5rem;color:#007bff;"></i>
                             <h5 class="mt-2 mb-3" style="color:#007bff;font-weight:600;">Cari Invoice Service HP Anda</h5>
                         </div>
-                        <form method="GET" action="/projek/invoice" class="mx-auto" style="max-width:400px;">
+                        <form method="GET" action="<?= $baseUrl ?>/invoice" class="mx-auto" style="max-width:400px;">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama:</label>
                                 <input type="text" class="form-control" id="nama" name="nama" required>
@@ -265,7 +273,7 @@ if ($showNotFound) unset($_SESSION['not_found']);
                     <?php endif; ?>
                     <!-- Tombol kembali ke form service -->
                     <div class="mt-4 d-flex justify-content-end">
-                        <a href="/projek/service" class="btn btn-outline-primary">
+                        <a href="<?= $baseUrl ?>/service" class="btn btn-outline-primary">
                             <i class="bi bi-arrow-left"></i> Kembali ke Form Service
                         </a>
                     </div>
@@ -319,7 +327,7 @@ if ($showNotFound) unset($_SESSION['not_found']);
         successModal.show();
         setTimeout(function() {
             successModal.hide();
-            window.location.href = '/projek/service';
+            window.location.href = '/risscell/service';
         }, 2500);
     });
 </script>

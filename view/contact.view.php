@@ -1,9 +1,13 @@
 <?php
+// Mulai session jika belum aktif
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 // Mendapatkan base URL untuk tombol "Balik ke Beranda"
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-if ($baseUrl === '') {
-    $baseUrl = '/';
-}
+if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '/';
+
+// CSRF token dari controller
+$csrf_token = $_SESSION['csrf_token'] ?? '';
 
 // Cek apakah perlu menampilkan modal notifikasi (sukses/gagal)
 $showModal = false;
@@ -193,7 +197,8 @@ if (isset($_SESSION['status'])) {
       <div class="col-md-8 mb-md-0 mb-5 mx-auto">
         <div class="contact-card">
           <h2>Hubungi Kami</h2>
-          <form id="contact-form" name="contact-form" action="/projek/contact" method="POST" novalidate>
+          <form id="contact-form" name="contact-form" action="<?= $baseUrl ?>/contact" method="POST" novalidate>
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
             <div class="mb-3">
               <label for="name" class="form-label">Nama Anda</label>
               <input type="text" id="name" name="name" class="form-control" placeholder="Masukkan nama Anda" required>

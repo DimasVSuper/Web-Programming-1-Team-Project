@@ -2,6 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 $showSuccess = isset($_SESSION['status']) && $_SESSION['status'] === 'success';
 if ($showSuccess) unset($_SESSION['status']);
+
+// Base URL dinamis
+$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
+
+// CSRF token dari controller
+$csrf_token = $_SESSION['csrf_token'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -74,7 +81,8 @@ if ($showSuccess) unset($_SESSION['status']);
                     <p class="text-muted mb-0" style="font-size:1rem;">Isi data service HP Anda dengan benar.</p>
                 </div>
                 <div class="card-body">
-                    <form action="/projek/service" method="POST">
+                    <form action="<?= $baseUrl ?>/service" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama:</label>
                             <input type="text" id="nama" name="nama" class="form-control" required>
@@ -92,13 +100,13 @@ if ($showSuccess) unset($_SESSION['status']);
                             <textarea id="kerusakan" name="kerusakan" rows="4" class="form-control" required></textarea>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="/projek" class="btn btn-outline-secondary">
+                            <a href="<?= $baseUrl ?>" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Beranda
                             </a>
                             <button type="submit" class="btn btn-primary">
                                 Kirim
                             </button>
-                            <a href="/projek/invoice" class="btn btn-success">
+                            <a href="<?= $baseUrl ?>/invoice" class="btn btn-success">
                                 <i class="bi bi-receipt"></i> Invoice
                             </a>
                         </div>
