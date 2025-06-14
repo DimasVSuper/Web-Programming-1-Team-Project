@@ -28,18 +28,20 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 - Notifikasi interaktif (modal Bootstrap).
 - Halaman 404 custom.
 - Google Maps lokasi toko.
-- Routing sederhana (pretty URL).
+- Routing sederhana (pretty URL) dengan base path **dinamis** (otomatis menyesuaikan folder/project).
 - Struktur MVC sederhana (controller, model, view terpisah).
 - Query SQL fleksibel untuk admin.
+- **Keamanan:** Validasi input, CSRF token pada semua form POST, prepared statement untuk semua query.
 
 ---
 
 ## 🚀 Cara Menjalankan
 
 1. **Copy folder proyek** ke dalam `htdocs` XAMPP.
-2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari [`SQL/risscell.sql`](SQL/risscell.sql).
+2. **Buat database** MySQL dengan nama `risscell` dan import struktur tabel dari [`risscell.sql`](risscell.sql).
 3. **Jalankan XAMPP** dan akses melalui browser:  
-   `http://localhost/projek/`
+   `http://localhost/risscell/`  
+   (atau sesuaikan dengan nama folder project Anda)
 
 ---
 
@@ -83,10 +85,10 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 ## 🗺️ Routing & Penambahan Halaman
 
 - Pretty URL:  
-  - `/projek` untuk halaman utama
-  - `/projek/contact` untuk kontak
-  - `/projek/service` untuk form service
-  - `/projek/invoice` untuk invoice
+  - `/risscell` untuk halaman utama  
+  - `/risscell/contact` untuk kontak  
+  - `/risscell/service` untuk form service  
+  - `/risscell/invoice` untuk invoice  
 - Untuk menambah halaman baru:
   1. Tambahkan route baru di `core/web.php`.
   2. Buat file controller dan view di folder `controller` dan `view`.
@@ -96,7 +98,7 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 ## 📁 Struktur Folder
 
 ```
-projek/
+risscell/
 │
 ├── config/         # Konfigurasi aplikasi & koneksi database
 │   └── DB.php
@@ -139,6 +141,10 @@ projek/
 - Semua style custom langsung di masing-masing file view, tidak ada lagi `components.css`.
 - Hindari logika PHP kompleks di file view; letakkan di controller atau model.
 - Untuk menambah fitur baru, cukup tambahkan controller, model, view, dan route-nya.
+- **Keamanan:**  
+  - Semua form POST sudah menggunakan CSRF token.  
+  - Semua query database menggunakan prepared statement.  
+  - Validasi input dilakukan di controller dan model.
 - **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
 
 ---

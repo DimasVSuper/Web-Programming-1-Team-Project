@@ -1,22 +1,27 @@
 # ⚙️ Folder `core`
 
-Folder ini berisi file-file inti (**core**) yang mendukung jalannya aplikasi dan menjadi fondasi utama arsitektur projek.
+Folder ini berisi file-file inti (**core**) yang mendukung jalannya aplikasi dan menjadi fondasi utama arsitektur proyek.
 
 ---
 
 ## 📁 Struktur
 
 - **`Router.php`**  
-  Class `Router` untuk menangani routing (pengaturan rute) aplikasi, menghubungkan URL ke controller yang sesuai.
+  Class `Router` untuk menangani routing (pengaturan rute) aplikasi, menghubungkan URL ke controller yang sesuai.  
+  Sudah mendukung base path dinamis, sehingga aplikasi dapat berjalan baik di lokal maupun saat deploy.
 - **`DB.php`**  
-  Class `DB` untuk koneksi ke database MySQL menggunakan PDO, dengan konfigurasi database yang diatur langsung di file `config/DB.php`.
+  Class `DB` untuk koneksi ke database MySQL menggunakan PDO, dengan konfigurasi database yang diatur di file `config/DB.php`.
+- **`web.php`**  
+  File untuk mendefinisikan semua route aplikasi (baik user maupun admin), agar routing terpusat dan mudah di-maintain.
 
 ---
 
 ## ℹ️ Penjelasan
 
-- `Router.php` bertanggung jawab mengatur rute (URL) dan memetakan ke controller serta method yang sesuai.
+- `Router.php` bertanggung jawab mengatur rute (URL) dan memetakan ke controller serta method yang sesuai.  
+  Sudah mendukung base path dinamis, sehingga tidak perlu mengubah kode saat pindah folder/project.
 - `DB.php` menyediakan koneksi ke database MySQL yang digunakan oleh model, dengan konfigurasi database yang diambil dari file `config/DB.php`.
+- `web.php` adalah tempat utama untuk mendefinisikan semua route aplikasi.
 
 ---
 
@@ -25,6 +30,7 @@ Folder ini berisi file-file inti (**core**) yang mendukung jalannya aplikasi dan
 1. **Routing**  
    - Daftarkan rute di file `web.php` menggunakan instance `Router`.
    - Jalankan `$router->dispatch()` di `index.php` untuk memproses request user.
+   - Tidak perlu mengubah base path secara manual, sudah otomatis.
 
 2. **Database**  
    - Gunakan `DB.php` di file model atau controller untuk mendapatkan koneksi PDO ke database.
@@ -38,6 +44,7 @@ Folder ini berisi file-file inti (**core**) yang mendukung jalannya aplikasi dan
 - Hindari mengubah file di dalam folder ini kecuali benar-benar diperlukan.
 - Konfigurasi database diatur di dalam file `config/DB.php` dan digunakan oleh `DB.php`.
 - Pastikan konfigurasi database sudah benar sebelum menjalankan aplikasi.
+- Untuk keamanan, jangan commit file konfigurasi database ke repository publik.
 
 ---
 
