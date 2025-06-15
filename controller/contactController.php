@@ -33,13 +33,9 @@ class ContactController
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
-        // Base URL dinamis
-        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
-
         // Pastikan request adalah POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . $baseUrl . '/contact');
+            header('Location: contact');
             exit;
         }
 
@@ -47,7 +43,7 @@ class ContactController
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
             $_SESSION['status']  = 'error';
             $_SESSION['message'] = 'CSRF token tidak valid!';
-            header('Location: ' . $baseUrl . '/contact');
+            header('Location: contact');
             exit;
         }
 
@@ -67,7 +63,7 @@ class ContactController
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['status']  = 'error';
             $_SESSION['message'] = 'Email tidak valid atau mengandung karakter terlarang.';
-            header('Location: ' . $baseUrl . '/contact');
+            header('Location: contact');
             exit;
         }
 
@@ -75,7 +71,7 @@ class ContactController
         if (!ContactProcessing::validate($name, $email, $subject, $message)) {
             $_SESSION['status']  = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
-            header('Location: ' . $baseUrl . '/contact');
+            header('Location: contact');
             exit;
         }
 
@@ -90,7 +86,7 @@ class ContactController
             $_SESSION['message'] = 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi nanti.';
         }
 
-        header('Location: ' . $baseUrl . '/contact');
+        header('Location: contact');
         exit;
     }
 }

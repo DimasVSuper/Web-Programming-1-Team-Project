@@ -9,18 +9,48 @@ if ($showSuccess) unset($_SESSION['success']);
 $showNotFound = isset($_SESSION['not_found']) && $_SESSION['not_found'] === true;
 if ($showNotFound) unset($_SESSION['not_found']);
 
-// Base URL dinamis
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
-
 // CSRF token dari controller
 $csrf_token = $_SESSION['csrf_token'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Invoice Service HP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Service HP | Riss Cell</title>
+    <meta name="description" content="Cek status pembayaran dan detail invoice service HP Anda di Riss Cell." />
+    <meta name="keywords" content="invoice, service hp, pembayaran, riss cell, reparasi handphone, Jakarta Barat" />
+    <meta name="author" content="Riss Cell" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#007bff" />
+    <meta name="language" content="id" />
+    <meta name="copyright" content="Riss Cell" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="geo.region" content="ID-JK" />
+    <meta name="geo.placename" content="Jakarta Barat" />
+    <meta name="geo.position" content="-6.109610;106.710319" />
+    <meta name="ICBM" content="-6.109610, 106.710319" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Invoice Service HP | Riss Cell" />
+    <meta property="og:description" content="Cek status pembayaran dan detail invoice service HP Anda di Riss Cell." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://risscell.rf.gd/view/image/HP.png" />
+    <meta property="og:url" content="https://risscell.rf.gd/invoice" />
+    <meta property="og:site_name" content="Riss Cell" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Invoice Service HP | Riss Cell" />
+    <meta name="twitter:description" content="Cek status pembayaran dan detail invoice service HP Anda di Riss Cell." />
+    <meta name="twitter:image" content="https://risscell.rf.gd/view/image/HP.png" />
+    <meta name="twitter:site" content="@risscell" />
+    <meta name="twitter:creator" content="@risscell" />
+
+    <link rel="icon" href="view/image/HP.png" type="image/png" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -243,7 +273,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                             </div>
                         <?php elseif (!$biaya_belum_input): ?>
                             <!-- Form bayar jika belum bayar -->
-                            <form method="POST" action="<?= $baseUrl ?>/invoice" class="mt-3">
+                            <form method="POST" action="invoice" class="mt-3">
                                 <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id'] ?? '') ?>">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                                 <button type="submit" class="btn btn-primary">
@@ -257,7 +287,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                             <i class="bi bi-search" style="font-size:2.5rem;color:#007bff;"></i>
                             <h5 class="mt-2 mb-3" style="color:#007bff;font-weight:600;">Cari Invoice Service HP Anda</h5>
                         </div>
-                        <form method="GET" action="<?= $baseUrl ?>/invoice" class="mx-auto" style="max-width:400px;">
+                        <form method="GET" action="invoice" class="mx-auto" style="max-width:400px;">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama:</label>
                                 <input type="text" class="form-control" id="nama" name="nama" required>
@@ -273,7 +303,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                     <?php endif; ?>
                     <!-- Tombol kembali ke form service -->
                     <div class="mt-4 d-flex justify-content-end">
-                        <a href="<?= $baseUrl ?>/service" class="btn btn-outline-primary">
+                        <a href="service" class="btn btn-outline-primary">
                             <i class="bi bi-arrow-left"></i> Kembali ke Form Service
                         </a>
                     </div>
@@ -327,7 +357,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
         successModal.show();
         setTimeout(function() {
             successModal.hide();
-            window.location.href = '/risscell/service';
+            window.location.href = 'service';
         }, 2500);
     });
 </script>

@@ -1,11 +1,7 @@
 <?php
 // 404.view.php
 
-// Mendapatkan base URL secara dinamis dari lokasi script
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-if ($baseUrl === '') {
-    $baseUrl = '/';
-}
+// Tidak perlu baseUrl dinamis, gunakan relative path saja agar aman di InfinityFree & lokal
 
 // Mengamankan dan menampilkan URI yang diminta user
 $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
@@ -16,8 +12,42 @@ $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>404 - Halaman Tidak Ditemukan</title>
+    <meta name="description" content="Halaman yang Anda cari tidak ditemukan di Riss Cell. Mungkin sudah dihapus atau alamat URL salah." />
+    <meta name="keywords" content="404, halaman tidak ditemukan, error, riss cell, service hp, reparasi handphone" />
+    <meta name="author" content="Riss Cell" />
     <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#007bff" />
+    <meta name="language" content="id" />
+    <meta name="copyright" content="Riss Cell" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="geo.region" content="ID-JK" />
+    <meta name="geo.placename" content="Jakarta Barat" />
+    <meta name="geo.position" content="-6.109610;106.710319" />
+    <meta name="ICBM" content="-6.109610, 106.710319" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="404 - Halaman Tidak Ditemukan | Riss Cell" />
+    <meta property="og:description" content="Halaman yang Anda cari tidak ditemukan di Riss Cell. Mungkin sudah dihapus atau alamat URL salah." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://risscell.rf.gd/view/image/HP.png" />
+    <meta property="og:url" content="https://risscell.rf.gd<?= $requestUri ?>" />
+    <meta property="og:site_name" content="Riss Cell" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="404 - Halaman Tidak Ditemukan | Riss Cell" />
+    <meta name="twitter:description" content="Halaman yang Anda cari tidak ditemukan di Riss Cell. Mungkin sudah dihapus atau alamat URL salah." />
+    <meta name="twitter:image" content="https://risscell.rf.gd/view/image/HP.png" />
+    <meta name="twitter:site" content="@risscell" />
+    <meta name="twitter:creator" content="@risscell" />
+
+    <link rel="icon" href="view/image/HP.png" type="image/png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             background: #f8fafc;
@@ -86,8 +116,6 @@ $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
             font-size: 1.3rem;
         }
     </style>
-    <!-- Bootstrap Icons untuk ikon rumah -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div class="error-card">
@@ -96,7 +124,7 @@ $requestUri = htmlspecialchars($_SERVER['REQUEST_URI']);
         <div class="error-detail">Halaman berikut tidak tersedia:</div>
         <div class="mb-2"><code><?= $requestUri ?></code></div>
         <div class="error-detail">Mungkin halaman telah dihapus atau alamat URL salah.</div>
-        <a href="<?= $baseUrl ?>" class="btn btn-home">
+        <a href="./" class="btn btn-home">
             <i class="bi bi-house-door-fill"></i>
             <span>Kembali ke Beranda</span>
         </a>

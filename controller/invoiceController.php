@@ -15,9 +15,6 @@ class InvoiceController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        // Base URL dinamis
-        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
 
         // CSRF token untuk form pembayaran
         if (empty($_SESSION['csrf_token'])) {
@@ -65,14 +62,11 @@ class InvoiceController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        // Base URL dinamis
-        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
 
         // Validasi CSRF token
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
             $_SESSION['success'] = 'CSRF token tidak valid!';
-            header("Location: $baseUrl/invoice");
+            header("Location: invoice");
             exit();
         }
 
@@ -85,7 +79,7 @@ class InvoiceController
             // (Opsional) Regenerasi CSRF token setelah submit
             unset($_SESSION['csrf_token']);
         }
-        header("Location: $baseUrl/invoice?id=" . urlencode($id));
+        header("Location: invoice?id=" . urlencode($id));
         exit();
     }
 

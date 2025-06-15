@@ -21,10 +21,6 @@ class ServiceController
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         $csrf_token = $_SESSION['csrf_token'];
 
-        // Base URL dinamis
-        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
-
         include __DIR__ . '/../view/service.view.php';
     }
 
@@ -36,10 +32,6 @@ class ServiceController
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
 
-        // Base URL dinamis
-        $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-        if ($baseUrl === '' || $baseUrl === '\\') $baseUrl = '';
-
         // Validasi CSRF token
         if (
             !isset($_POST['csrf_token']) ||
@@ -48,7 +40,7 @@ class ServiceController
         ) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'CSRF token tidak valid!';
-            header('Location: ' . $baseUrl . '/service');
+            header('Location: service');
             exit();
         }
         // Setelah submit, hapus token agar tidak reuse
@@ -65,7 +57,7 @@ class ServiceController
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Email tidak valid atau mengandung karakter terlarang.';
-            header('Location: ' . $baseUrl . '/service');
+            header('Location: service');
             exit();
         }
 
@@ -73,7 +65,7 @@ class ServiceController
         if (!ServiceProcessing::validate($nama, $email, $nama_hp, $kerusakan)) {
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Mohon isi semua kolom dengan benar.';
-            header('Location: ' . $baseUrl . '/service');
+            header('Location: service');
             exit();
         }
 
@@ -90,7 +82,7 @@ class ServiceController
             $_SESSION['status'] = 'error';
             $_SESSION['message'] = 'Terjadi kesalahan saat mengirim data service.';
         }
-        header('Location: ' . $baseUrl . '/service');
+        header('Location: service');
         exit();
     }
 }
