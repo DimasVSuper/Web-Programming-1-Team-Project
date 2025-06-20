@@ -7,24 +7,25 @@ Folder ini berisi semua file sumber (**view**) yang terkait dengan tampilan apli
 ## 📁 Struktur
 
 - **`404.view.php`**  
-  Halaman error 404 (halaman tidak ditemukan).
+  Halaman error 404 (halaman tidak ditemukan), tampil responsif dan informatif.
 - **`contact.view.php`**  
-  Form kontak, notifikasi menggunakan modal Bootstrap, sudah dilengkapi CSRF token.
+  Form kontak, notifikasi menggunakan modal Bootstrap, sudah dilengkapi CSRF token dan AJAX.
 - **`home.view.php`**  
-  Halaman home/beranda, header transparan, animasi, dan base URL dinamis.
+  Halaman home/beranda, header transparan, animasi, carousel, dan tampilan responsif.
 - **`invoice.view.php`**  
-  Detail invoice, pencarian invoice, form pembayaran dengan CSRF token, dan modal notifikasi pembayaran.
+  Detail invoice, pencarian invoice, form pembayaran dengan CSRF token, AJAX, dan modal notifikasi pembayaran.
 - **`service.view.php`**  
-  Form service request, dengan modal feedback sukses, sudah dilengkapi CSRF token.
+  Form service request, dengan modal feedback sukses, AJAX, dan sudah dilengkapi CSRF token.
 
 ---
 
 ## ℹ️ Penjelasan
 
 - Setiap file `.view.php` adalah template HTML+PHP yang menampilkan data dari controller.
-- Semua style dan animasi menggunakan Bootstrap 5 dan custom CSS langsung di masing-masing file view.
+- Semua style dan animasi menggunakan Bootstrap 5, Bootstrap Icons, dan custom CSS langsung di masing-masing file view.
 - **Tidak menggunakan file CSS eksternal seperti `components.css`**; semua kebutuhan styling langsung di dalam file view terkait.
-- Form penting (kontak, service, pembayaran invoice) sudah menggunakan CSRF token untuk keamanan.
+- Semua form penting (kontak, service, pembayaran invoice) sudah menggunakan CSRF token untuk keamanan dan AJAX untuk pengalaman pengguna yang lebih baik.
+- Modal Bootstrap digunakan untuk notifikasi sukses/gagal, bukan alert biasa.
 
 ---
 
@@ -34,6 +35,7 @@ Folder ini berisi semua file sumber (**view**) yang terkait dengan tampilan apli
 - Notifikasi sukses/gagal pada form menggunakan modal Bootstrap, bukan alert biasa.
 - Untuk menambah tampilan baru, buat file `.view.php` di folder ini dan tambahkan custom CSS jika diperlukan.
 - Pastikan setiap form POST menyertakan CSRF token dari controller.
+- Jika menambah form baru, gunakan AJAX dan modal Bootstrap untuk feedback user.
 
 ---
 
@@ -44,3 +46,4 @@ Folder ini berisi semua file sumber (**view**) yang terkait dengan tampilan apli
 - Hindari logika PHP kompleks di file view; letakkan di controller atau model.
 - Semua kebutuhan tampilan kini terpusat di folder ini, tanpa dependensi CSS eksternal selain Bootstrap.
 - Untuk keamanan, selalu validasi CSRF token di controller saat menerima request.
+- Jika menggunakan AJAX, reload halaman setelah submit sukses agar CSRF token baru diambil.

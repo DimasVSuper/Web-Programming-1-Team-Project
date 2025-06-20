@@ -32,6 +32,7 @@ Struktur MVC sederhana, responsif, dan mudah dikembangkan.
 - Struktur MVC sederhana (controller, model, view terpisah).
 - Query SQL fleksibel untuk admin.
 - **Keamanan:** Validasi input, CSRF token pada semua form POST, prepared statement untuk semua query.
+- Semua form POST menggunakan AJAX dan reload halaman setelah submit sukses untuk keamanan CSRF.
 
 ---
 
@@ -145,7 +146,8 @@ risscell/
   - Semua form POST sudah menggunakan CSRF token.  
   - Semua query database menggunakan prepared statement.  
   - Validasi input dilakukan di controller dan model.
-- **Lisensi:** Bebas digunakan untuk pembelajaran dan pengembangan lebih lanjut.
+  - Setelah submit sukses (via AJAX), halaman akan reload agar CSRF token baru di-generate.
+
 
 ---
 

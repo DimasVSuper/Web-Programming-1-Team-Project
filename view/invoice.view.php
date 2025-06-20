@@ -273,7 +273,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                             </div>
                         <?php elseif (!$biaya_belum_input): ?>
                             <!-- Form bayar jika belum bayar -->
-                            <form method="POST" action="invoice" class="mt-3">
+                            <form method="POST" action="invoice" class="mt-3" id="bayar-form">
                                 <input type="hidden" name="id" value="<?= htmlspecialchars($invoice['id'] ?? '') ?>">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                                 <button type="submit" class="btn btn-primary">
@@ -370,5 +370,47 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
     });
 </script>
 <?php endif; ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var bayarForm = document.getElementById('bayar-form');
+  if (bayarForm) {
+    bayarForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formData = new FormData(bayarForm);
+      var btn = bayarForm.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
+
+      fetch('invoice', {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-cash-coin"></i> Bayar Sekarang';
+        if (data.status === 'success') {
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+          document.querySelector('#successModal .modal-title').textContent = 'Berhasil!';
+          document.querySelector('#successModal p').textContent = data.message || 'Transaksi berhasil.';
+          successModal.show();
+          setTimeout(function() {
+            successModal.hide();
+            window.location.reload();
+          }, 2000);
+        } else {
+          alert(data.message || 'Gagal memproses pembayaran.');
+        }
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-cash-coin"></i> Bayar Sekarang';
+        alert('Terjadi kesalahan jaringan.');
+      });
+    });
+  }
+});
+</script>
 </body>
 </html>

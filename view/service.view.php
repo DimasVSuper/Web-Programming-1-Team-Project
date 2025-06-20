@@ -109,7 +109,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                         <p class="text-muted mb-0" style="font-size:1rem;">Isi data service HP Anda dengan benar.</p>
                     </div>
                     <div class="card-body">
-                        <form action="service" method="POST" autocomplete="off">
+                        <form action="service" method="POST" autocomplete="off" id="service-form">
                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama:</label>
@@ -166,6 +166,7 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Modal sukses dari session (jika ada)
         var successModal = document.getElementById('successModal');
         if (successModal && successModal.dataset.show === "1") {
             var modal = new bootstrap.Modal(successModal);
@@ -174,6 +175,45 @@ $csrf_token = $_SESSION['csrf_token'] ?? '';
                 modal.hide();
                 document.activeElement.blur();
             }, 2500);
+        }
+
+        // AJAX untuk form service
+        var form = document.getElementById('service-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(form);
+                var btn = form.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mengirim...';
+
+                fetch('service', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Kirim';
+                    if (data.status === 'success') {
+                        var modal = new bootstrap.Modal(successModal);
+                        modal.show();
+                        setTimeout(function() {
+                            modal.hide();
+                            document.activeElement.blur();
+                            window.location.reload(); // Tambahkan baris ini
+                        }, 2500);
+                    } else {
+                        alert(data.message || 'Gagal mengirim data. Silakan coba lagi.');
+                    }
+                })
+                .catch(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Kirim';
+                    alert('Terjadi kesalahan jaringan.');
+                });
+            });
         }
     });
     </script>

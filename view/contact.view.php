@@ -244,30 +244,77 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
       modal.hide();
       document.activeElement.blur();
+      if (data.status === 'success') window.location.reload();
     }, 2500);
   }
 
+  // Ganti submit form menjadi AJAX
   document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var form = this;
+    var formData = new FormData(form);
+
+    // Validasi email sederhana (bisa disesuaikan)
     var emailInput = document.getElementById('email');
     var email = emailInput.value.trim().toLowerCase();
-    // Hanya izinkan huruf kecil, angka, @, ., _, -
     var sanitized = email.replace(/[^a-z0-9@._-]/g, '');
     if (email !== sanitized) {
       alert('Email hanya boleh huruf kecil, angka, titik, strip, underscore, dan @');
       emailInput.value = sanitized;
       emailInput.focus();
-      e.preventDefault();
       return false;
     }
-    // Validasi format email sederhana
     var pattern = /^[a-z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     if (!pattern.test(sanitized)) {
       alert('Format email tidak valid!');
       emailInput.focus();
-      e.preventDefault();
       return false;
     }
-    emailInput.value = sanitized; // set hasil sanitasi ke input
+    emailInput.value = sanitized;
+
+    // Kirim AJAX ke controller/contact
+    fetch('contact', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Tampilkan modal notifikasi sesuai response
+      var notifIcon = notifModal.querySelector('.notif-icon');
+      var notifTitle = notifModal.querySelector('.notif-title');
+      var notifMsg = notifModal.querySelector('.notif-msg');
+      var notifBtn = notifModal.querySelector('.btn');
+
+      if (data.status === 'success') {
+        notifIcon.classList.remove('failed');
+        notifIcon.innerHTML = '<i class="bi bi-check-circle-fill" style="color:#28a745"></i>';
+        notifTitle.className = 'notif-title success';
+        notifTitle.textContent = 'Pesan Terkirim!';
+        notifMsg.textContent = data.message || 'Pesan Anda berhasil dikirim ke tim kami. Terima kasih!';
+        notifBtn.className = 'btn btn-success';
+      } else {
+        notifIcon.classList.add('failed');
+        notifIcon.innerHTML = '<i class="bi bi-x-circle-fill" style="color:#dc3545"></i>';
+        notifTitle.className = 'notif-title failed';
+        notifTitle.textContent = 'Gagal Mengirim';
+        notifMsg.textContent = data.message || 'Gagal mengirim pesan. Silakan coba lagi.';
+        notifBtn.className = 'btn btn-danger';
+      }
+      var modal = new bootstrap.Modal(notifModal);
+      modal.show();
+      setTimeout(function() {
+        modal.hide();
+        document.activeElement.blur();
+        if (data.status === 'success') window.location.reload();
+      }, 2500);
+    })
+    .catch(() => {
+      alert('Terjadi kesalahan jaringan. Silakan coba lagi.');
+    });
   });
 });
 </script>

@@ -56,6 +56,7 @@ class InvoiceController
 
     /**
      * Memproses pembayaran invoice dan menampilkan notifikasi.
+     * Mendukung AJAX (JSON response) dan non-AJAX (redirect).
      */
     public static function payInvoice(): void
     {
@@ -63,11 +64,11 @@ class InvoiceController
             session_start();
         }
 
+        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+
         // Validasi CSRF token
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
-            $_SESSION['success'] = 'CSRF token tidak valid!';
-            header("Location: invoice");
-            exit();
+            self::handleResponse($isAjax, 'error', 'CSRF token tidak valid!', 'invoice');
         }
 
         // Sanitasi input POST
@@ -75,12 +76,26 @@ class InvoiceController
         if ($id) {
             require_once __DIR__ . '/../model/invoiceProcessing.php';
             InvoiceProcessing::setPaid($id);
-            $_SESSION['success'] = 'Pembayaran berhasil!';
-            // (Opsional) Regenerasi CSRF token setelah submit
             unset($_SESSION['csrf_token']);
+            self::handleResponse($isAjax, 'success', 'Pembayaran berhasil!', 'invoice?id=' . urlencode($id));
         }
-        header("Location: invoice?id=" . urlencode($id));
-        exit();
+        self::handleResponse($isAjax, 'error', 'ID invoice tidak ditemukan.', 'invoice');
+    }
+
+    /**
+     * Helper untuk response JSON (AJAX) atau session+redirect (non-AJAX).
+     */
+    private static function handleResponse(bool $isAjax, string $status, string $message, string $redirect)
+    {
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => $status, 'message' => $message]);
+            exit;
+        } else {
+            $_SESSION['success'] = $message;
+            header('Location: ' . $redirect);
+            exit();
+        }
     }
 
     /**

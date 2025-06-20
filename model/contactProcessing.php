@@ -19,24 +19,24 @@ class ContactProcessing
      */
     public static function save(string $name, string $email, string $subject, string $message): bool
     {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
-
-        if (!$stmt) {
-            error_log("[ContactProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+        try {
+            $db = new DB();
+            $pdo = $db->getConnection();
+            $sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            if (!$stmt) {
+                error_log("[ContactProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+                return false;
+            }
+            $result = $stmt->execute([$name, $email, $subject, $message]);
+            if (!$result) {
+                error_log("[ContactProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+            }
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("[ContactProcessing] PDOException: " . $e->getMessage());
             return false;
         }
-
-        $result = $stmt->execute([$name, $email, $subject, $message]);
-
-        if (!$result) {
-            error_log("[ContactProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
-            return false;
-        }
-
-        return $result;
     }
 
     /**
@@ -51,14 +51,18 @@ class ContactProcessing
     public static function validate(string $name, string $email, string $subject, string $message): bool
     {
         if (
-            empty(trim($name)) ||
-            empty(trim($email)) ||
-            empty(trim($subject)) ||
-            empty(trim($message))
+            !trim($name) ||
+            !trim($email) ||
+            !trim($subject) ||
+            !trim($message)
         ) {
             return false;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        // Optional: Batasi panjang field
+        if (strlen($name) > 100 || strlen($email) > 100 || strlen($subject) > 150 || strlen($message) > 1000) {
             return false;
         }
         return true;

@@ -78,8 +78,8 @@ SELECT
     invoice.created_at AS invoice_created_at
 FROM invoice
 JOIN service_requests ON invoice.service_request_id = service_requests.id
-WHERE service_requests.nama = 'dimas'
-  AND service_requests.email = 'dimas@gmail.com';
+WHERE service_requests.nama = 'papulo'
+  AND service_requests.email = 'papulo@gmail.com';
 
 -- Cek semua service_requests beserta invoice (LEFT JOIN)
 SELECT
@@ -107,9 +107,9 @@ WHERE id = 'INVOICE_ID';
 -- Update biaya_awal berdasarkan nama dan email customer
 UPDATE invoice
 JOIN service_requests ON invoice.service_request_id = service_requests.id
-SET invoice.biaya_awal = 200000
-WHERE service_requests.nama = 'dimasdimas'
-  AND service_requests.email = 'dumasdumas@gmail.com';
+SET invoice.biaya_awal = 50000
+WHERE service_requests.nama = 'papulo'
+  AND service_requests.email = 'papulo@gmail.com';
 
 -- Hapus invoice berdasarkan nama dan email customer
 DELETE invoice FROM invoice

@@ -2,24 +2,25 @@
 /**
  * Router.php
  *
- * Router sederhana untuk menangani route GET dan POST pada aplikasi MVC.
+ * Router sederhana untuk menangani route GET, POST, PUT, DELETE pada aplikasi MVC.
  *
  * @package   projek\core
  * @author    Dimas Bayu Nugroho
  * @copyright (c) 2025
  * @license   MIT
  */
-
-/**
- * Class Router
- *
- * Mengelola pendaftaran dan eksekusi route (GET, POST) serta menampilkan halaman 404 jika route tidak ditemukan.
- */
-class Router {
+class Router
+{
     /**
      * @var array $routes Menyimpan semua route yang terdaftar, dikelompokkan berdasarkan method HTTP.
      */
-    private $routes = [];
+    private $routes = [
+        'GET'    => [],
+        'POST'   => [],
+        'PUT'    => [],
+        'PATCH'  => [],
+        'DELETE' => [],
+    ];
 
     /**
      * Daftarkan route baru.
@@ -29,75 +30,104 @@ class Router {
      * @param callable $handler Fungsi/callback yang akan dijalankan jika route cocok
      * @return void
      */
-    public function add(string $method, string $path, $handler) {
+    public function add(string $method, string $path, $handler)
+    {
         $method = strtoupper($method);
+        $path = $this->normalizePath($path);
         $this->routes[$method][$path] = $handler;
     }
 
     /**
      * Shortcut untuk mendaftarkan route GET.
-     *
-     * @param string   $path    Path/URI yang akan di-handle
-     * @param callable $handler Fungsi/callback yang akan dijalankan jika route cocok
-     * @return void
      */
-    public function get(string $path, $handler) {
+    public function get(string $path, $handler)
+    {
         $this->add('GET', $path, $handler);
     }
 
     /**
      * Shortcut untuk mendaftarkan route POST.
-     *
-     * @param string   $path    Path/URI yang akan di-handle
-     * @param callable $handler Fungsi/callback yang akan dijalankan jika route cocok
-     * @return void
      */
-    public function post(string $path, $handler) {
+    public function post(string $path, $handler)
+    {
         $this->add('POST', $path, $handler);
     }
 
     /**
-     * Render halaman 404 jika route tidak ditemukan.
-     *
-     * @return void
+     * Shortcut untuk mendaftarkan route PUT.
      */
-    private function render404() {
+    public function put(string $path, $handler)
+    {
+        $this->add('PUT', $path, $handler);
+    }
+
+    /**
+     * Shortcut untuk mendaftarkan route PATCH.
+     */
+    public function patch(string $path, $handler)
+    {
+        $this->add('PATCH', $path, $handler);
+    }
+
+    /**
+     * Shortcut untuk mendaftarkan route DELETE.
+     */
+    public function delete(string $path, $handler)
+    {
+        $this->add('DELETE', $path, $handler);
+    }
+
+    /**
+     * Normalisasi path agar konsisten.
+     */
+    private function normalizePath($path)
+    {
+        $path = trim($path);
+        if ($path === '' || $path === false) {
+            return '/';
+        }
+        if ($path[0] !== '/') {
+            $path = '/' . $path;
+        }
+        return rtrim($path, '/');
+    }
+
+    /**
+     * Render halaman 404 jika route tidak ditemukan.
+     */
+    private function render404()
+    {
         http_response_code(404);
-        include __DIR__ . '/../view/404.view.php';
+        $view404 = __DIR__ . '/../view/404.view.php';
+        if (file_exists($view404)) {
+            include $view404;
+        } else {
+            echo "404 Not Found";
+        }
     }
 
     /**
      * Jalankan router: cocokkan path & method, lalu panggil handler yang sesuai.
      * Jika tidak ada yang cocok, tampilkan halaman 404.
-     *
-     * @return void
      */
-    public function dispatch() {
-        $method = $_SERVER['REQUEST_METHOD'];
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-        // Base path dinamis
+    public function dispatch()
+    {
+        $uri = $_SERVER['REQUEST_URI'];
         $scriptName = dirname($_SERVER['SCRIPT_NAME']);
-        $basePath = rtrim($scriptName, '/\\');
-        if ($basePath === '' || $basePath === '\\') $basePath = '';
-
-        if ($basePath && strpos($uri, $basePath) === 0) {
-            $uri = substr($uri, strlen($basePath));
+        if ($scriptName !== '/' && strpos($uri, $scriptName) === 0) {
+            $uri = substr($uri, strlen($scriptName));
         }
+        $uri = strtok($uri, '?');
+        $uri = $this->normalizePath($uri); // Gunakan normalisasi yang sama
 
-        // Normalisasi path
-        if ($uri === '' || $uri === false) {
-            $uri = '/';
-        } elseif ($uri[0] !== '/') {
-            $uri = '/' . $uri;
-        }
+        $method = $_SERVER['REQUEST_METHOD'];
 
         if (isset($this->routes[$method][$uri])) {
             call_user_func($this->routes[$method][$uri]);
         } else {
+            error_log("404: method=$method, uri=$uri");
             $this->render404();
         }
     }
 }
-
 

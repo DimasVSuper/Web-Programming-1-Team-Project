@@ -17,27 +17,32 @@ class InvoiceProcessing
      */
     public static function saveInvoice(string $service_request_id, int $biaya)
     {
-        $db   = new DB();
-        $pdo  = $db->getConnection();
-        $sql  = "INSERT INTO invoice (service_request_id, biaya_awal) VALUES (?, ?)";
-        $stmt = $pdo->prepare($sql);
+        try {
+            $db   = new DB();
+            $pdo  = $db->getConnection();
+            $sql  = "INSERT INTO invoice (service_request_id, biaya_awal) VALUES (?, ?)";
+            $stmt = $pdo->prepare($sql);
 
-        if (!$stmt) {
-            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            if (!$stmt) {
+                error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+                return false;
+            }
+
+            $result = $stmt->execute([$service_request_id, $biaya]);
+            if (!$result) {
+                error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+                return false;
+            }
+
+            // Ambil ID UUID yang baru dibuat (karena pakai UUID, lastInsertId tidak bisa dipakai)
+            $query = $pdo->prepare("SELECT id FROM invoice WHERE service_request_id = ? ORDER BY created_at DESC LIMIT 1");
+            $query->execute([$service_request_id]);
+            $row = $query->fetch();
+            return $row['id'] ?? false;
+        } catch (\PDOException $e) {
+            error_log("[InvoiceProcessing] PDOException: " . $e->getMessage());
             return false;
         }
-
-        $result = $stmt->execute([$service_request_id, $biaya]);
-        if (!$result) {
-            error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
-            return false;
-        }
-
-        // Ambil ID UUID yang baru dibuat (karena pakai UUID, lastInsertId tidak bisa dipakai)
-        $query = $pdo->prepare("SELECT id FROM invoice WHERE service_request_id = ? ORDER BY created_at DESC LIMIT 1");
-        $query->execute([$service_request_id]);
-        $row = $query->fetch();
-        return $row['id'] ?? false;
     }
 
     /**
@@ -48,23 +53,28 @@ class InvoiceProcessing
      */
     public static function getInvoiceById(string $id): ?array
     {
-        $db   = new DB();
-        $pdo  = $db->getConnection();
-        $sql  = "SELECT invoice.*, sr.nama, sr.email, sr.nama_hp, sr.kerusakan
-                FROM invoice
-                JOIN service_requests sr ON invoice.service_request_id = sr.id
-                WHERE invoice.id = ?";
-        $stmt = $pdo->prepare($sql);
+        try {
+            $db   = new DB();
+            $pdo  = $db->getConnection();
+            $sql  = "SELECT invoice.*, sr.nama, sr.email, sr.nama_hp, sr.kerusakan
+                    FROM invoice
+                    JOIN service_requests sr ON invoice.service_request_id = sr.id
+                    WHERE invoice.id = ?";
+            $stmt = $pdo->prepare($sql);
 
-        if (!$stmt) {
-            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            if (!$stmt) {
+                error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+                return null;
+            }
+
+            $stmt->execute([$id]);
+            $invoice = $stmt->fetch();
+
+            return $invoice ?: null;
+        } catch (\PDOException $e) {
+            error_log("[InvoiceProcessing] PDOException: " . $e->getMessage());
             return null;
         }
-
-        $stmt->execute([$id]);
-        $invoice = $stmt->fetch();
-
-        return $invoice ?: null;
     }
 
     /**
@@ -76,24 +86,29 @@ class InvoiceProcessing
      */
     public static function findInvoiceByNamaEmail(string $nama, string $email): ?array
     {
-        $db   = new DB();
-        $pdo  = $db->getConnection();
-        $sql  = "SELECT invoice.*, sr.nama, sr.email, sr.nama_hp, sr.kerusakan
-                FROM invoice
-                JOIN service_requests sr ON invoice.service_request_id = sr.id
-                WHERE sr.nama = ? AND sr.email = ?
-                ORDER BY invoice.created_at DESC LIMIT 1";
-        $stmt = $pdo->prepare($sql);
+        try {
+            $db   = new DB();
+            $pdo  = $db->getConnection();
+            $sql  = "SELECT invoice.*, sr.nama, sr.email, sr.nama_hp, sr.kerusakan
+                    FROM invoice
+                    JOIN service_requests sr ON invoice.service_request_id = sr.id
+                    WHERE sr.nama = ? AND sr.email = ?
+                    ORDER BY invoice.created_at DESC LIMIT 1";
+            $stmt = $pdo->prepare($sql);
 
-        if (!$stmt) {
-            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+            if (!$stmt) {
+                error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+                return null;
+            }
+
+            $stmt->execute([$nama, $email]);
+            $invoice = $stmt->fetch();
+
+            return $invoice ?: null;
+        } catch (\PDOException $e) {
+            error_log("[InvoiceProcessing] PDOException: " . $e->getMessage());
             return null;
         }
-
-        $stmt->execute([$nama, $email]);
-        $invoice = $stmt->fetch();
-
-        return $invoice ?: null;
     }
 
     /**
@@ -104,17 +119,22 @@ class InvoiceProcessing
      */
     public static function setPaid(string $invoice_id): bool
     {
-        $db = new DB();
-        $pdo = $db->getConnection();
-        $stmt = $pdo->prepare("UPDATE invoice SET status = 'paid', paid_at = NOW() WHERE id = ?");
-        if (!$stmt) {
-            error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+        try {
+            $db = new DB();
+            $pdo = $db->getConnection();
+            $stmt = $pdo->prepare("UPDATE invoice SET status = 'paid', paid_at = NOW() WHERE id = ?");
+            if (!$stmt) {
+                error_log("[InvoiceProcessing] Gagal prepare statement: " . implode(" | ", $pdo->errorInfo()));
+                return false;
+            }
+            $result = $stmt->execute([$invoice_id]);
+            if (!$result) {
+                error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
+            }
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("[InvoiceProcessing] PDOException: " . $e->getMessage());
             return false;
         }
-        $result = $stmt->execute([$invoice_id]);
-        if (!$result) {
-            error_log("[InvoiceProcessing] Gagal execute statement: " . implode(" | ", $stmt->errorInfo()));
-        }
-        return $result;
     }
 }
