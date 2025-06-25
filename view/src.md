@@ -66,4 +66,4 @@ Pada aplikasi RISSCELL, setiap halaman view sudah dilengkapi meta tag SEO yang p
 - 🤖 **Meta Robots:** Mengatur apakah halaman boleh diindeks oleh mesin pencari.
 - 📍 **Meta Geo & Author:** Memberikan informasi lokasi dan penulis, membantu branding dan relevansi lokal.
 
-Dengan penerapan meta tag SEO yang konsisten dan relevan di setiap halaman, website akan lebih mudah ditemukan oleh calon pelanggan dan tampil lebih profesional saat dibagikan di
+Dengan penerapan meta tag SEO yang konsisten dan relevan di setiap halaman, website akan lebih mudah ditemukan oleh calon pelanggan dan tampil lebih profesional saat dibagikan di media sosial.
