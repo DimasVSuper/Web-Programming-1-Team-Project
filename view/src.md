@@ -47,3 +47,23 @@ Folder ini berisi semua file sumber (**view**) yang terkait dengan tampilan apli
 - Semua kebutuhan tampilan kini terpusat di folder ini, tanpa dependensi CSS eksternal selain Bootstrap.
 - Untuk keamanan, selalu validasi CSRF token di controller saat menerima request.
 - Jika menggunakan AJAX, reload halaman setelah submit sukses agar CSRF token baru diambil.
+
+## META TAG SEO
+
+- ✅ Setiap file view sudah dilengkapi meta tag SEO yang lengkap, seperti `<title>`, `<meta name="description">`, dan `<meta name="keywords">` untuk membantu mesin pencari memahami isi halaman.
+- 🌐 Terdapat juga meta tag Open Graph (og:...) dan Twitter Card untuk optimasi tampilan saat link dibagikan ke media sosial seperti WhatsApp, Facebook, dan X (Twitter).
+- 🏷️ Pastikan setiap halaman memiliki judul (`<title>`) dan deskripsi (`<meta name="description">`) yang unik dan relevan agar hasil pencarian lebih optimal.
+- 🚀 Penggunaan meta tag SEO ini membantu meningkatkan visibilitas website di mesin pencari dan membuat tampilan link lebih menarik saat dibagikan di media sosial.
+
+## Penjelasan SEO
+
+SEO (**Search Engine Optimization**) adalah serangkaian teknik untuk meningkatkan visibilitas dan peringkat website di hasil pencarian mesin pencari seperti Google.  
+Pada aplikasi RISSCELL, setiap halaman view sudah dilengkapi meta tag SEO yang penting, seperti:
+
+- 📝 **Title dan Description:** Membantu mesin pencari memahami isi dan tujuan halaman, serta meningkatkan kemungkinan halaman muncul di hasil pencarian yang relevan.
+- 🔑 **Meta Keywords:** Memberikan kata kunci tambahan, meskipun saat ini tidak terlalu berpengaruh untuk Google.
+- 📲 **Open Graph & Twitter Card:** Membuat tampilan link lebih menarik dan informatif saat dibagikan di media sosial seperti WhatsApp, Facebook, dan X (Twitter).
+- 🤖 **Meta Robots:** Mengatur apakah halaman boleh diindeks oleh mesin pencari.
+- 📍 **Meta Geo & Author:** Memberikan informasi lokasi dan penulis, membantu branding dan relevansi lokal.
+
+Dengan penerapan meta tag SEO yang konsisten dan relevan di setiap halaman, website akan lebih mudah ditemukan oleh calon pelanggan dan tampil lebih profesional saat dibagikan di
